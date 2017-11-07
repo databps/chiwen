@@ -13,6 +13,7 @@
 
     <module>chiwen-core</module>
     <module>hdfs-agent</module>
+    <module>hbase-plugin</module>
     <module>plugins-common</module>
   </modules>
 
@@ -374,6 +375,14 @@
           </exclusion>
         </exclusions>
       </dependency>
+      <dependency>
+        <groupId>org.apache.hbase</groupId>
+        <artifactId>hbase-server</artifactId>
+        <version>${hbase.version}</version>
+        <type>test-jar</type>
+        <scope>test</scope>
+      </dependency>
+
       <dependency>
         <groupId>org.apache.hbase</groupId>
         <artifactId>hbase-server</artifactId>
