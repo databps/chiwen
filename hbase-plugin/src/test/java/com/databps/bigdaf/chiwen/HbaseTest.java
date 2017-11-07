@@ -42,7 +42,7 @@ public class HbaseTest {
   final private static String USER_NAME = "hbase";
   final private static String[] GROUP_NAMES = {"hadoop"};
   private String table1 = "user";
-  private String table2 = "emp";
+  private String table2 = "emp2";
   private String cf1 = "info";
   private String cf2 = "pwd2";
 
@@ -74,7 +74,7 @@ public class HbaseTest {
    */
   @Test
   public void createTable() throws Exception {
-    TableName tableName = TableName.valueOf("user001");
+    TableName tableName = TableName.valueOf(table2);
     HTableDescriptor tableDesc = new HTableDescriptor(tableName);
     HColumnDescriptor columnDesc = new HColumnDescriptor("info");
     tableDesc.addFamily(columnDesc);
@@ -223,9 +223,9 @@ public class HbaseTest {
    */
   @Test
   public void put() throws IOException {
-    TableName tableName = TableName.valueOf(table1);
+    TableName tableName = TableName.valueOf(table2);
     Table table = connection.getTable(tableName);
-    Put put = new Put(Bytes.toBytes("1"));
+    Put put = new Put(Bytes.toBytes("2"));
     put.addColumn(Bytes.toBytes(cf1), Bytes.toBytes("fn"), Bytes.toBytes("三"));
     put.addColumn(Bytes.toBytes(cf1), Bytes.toBytes("ln"), Bytes.toBytes("张"));
     put.addColumn(Bytes.toBytes(cf2), Bytes.toBytes("pw"), Bytes.toBytes("222"));
