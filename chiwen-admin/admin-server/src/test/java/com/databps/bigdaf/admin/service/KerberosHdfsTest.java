@@ -90,7 +90,6 @@ public class KerberosHdfsTest {
         // FileSystem fs = FileSystem.get(URI.create(HADOOP_URL), conf);
         fs = FileSystem.get(conf);
         long start = new Date().getTime();
-        System.out.println(fs.toString());
     }
 
     @Test

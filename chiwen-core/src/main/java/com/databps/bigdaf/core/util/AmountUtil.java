@@ -64,6 +64,5 @@ public class AmountUtil {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(Dollar2Cent("1.20"));
 	}
 }

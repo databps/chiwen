@@ -40,7 +40,6 @@ public class ChiWenPolicyEngineTest {
   public void test(){
     //ChiWenPolicyEngineImpl policyEngine = new ChiWenPolicyEngineImpl();
     //boolean match =  policyEngine.checkTable(roleList,map,groups,user,accessType);
-    //System.out.println(match);
 
   }
 }

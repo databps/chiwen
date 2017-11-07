@@ -60,7 +60,6 @@ public class ChiWenAdminRESTClient implements ChiWenAdminClient {
     UserGroupInformation user = MiscUtil.getUGILoginUser();
     boolean isSecureMode = user != null && UserGroupInformation.isSecurityEnabled();
     String ht=restClient.toJson(request);
-    System.out.println("revokeAccess="+ht);
 //    WebResource webResource = createWebResource(REST_URL_SECURE_SERVICE_REVOKE_ACCESS + serviceId)
 //        .queryParam(RangerRESTUtils.REST_PARAM_PLUGIN_ID, pluginId);
 //    response = webResource.accept("application/json").type("application/json").post(ClientResponse.class, restClient.toJson(request));
@@ -202,7 +201,6 @@ public class ChiWenAdminRESTClient implements ChiWenAdminClient {
 
   @Override
   public void grantAccess(GrantRevokeRequest request) throws Exception {
-    System.out.println("grantAccess");
   }
 
   //  private WebResource createWebResource(String url) {

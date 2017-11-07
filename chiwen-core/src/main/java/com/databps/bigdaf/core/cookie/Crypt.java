@@ -77,7 +77,6 @@ public class Crypt {
             // if (n < b.length - 1)
             // hs = hs + ":";
         }
-        // System.out.println("hs="+hs);
         return hs.toUpperCase();
     }
     // 将16进制字符串转换成字节码

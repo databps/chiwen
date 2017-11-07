@@ -18,7 +18,6 @@ public class FileSystemThread implements Runnable {
 
     try {
       while (true) {
-        System.out.println(Thread.currentThread().getName()+"run");
         sleep(1000L);
       }
     } catch (InterruptedException e) {

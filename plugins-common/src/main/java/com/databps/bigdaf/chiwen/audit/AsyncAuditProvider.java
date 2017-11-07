@@ -38,7 +38,6 @@ public class AsyncAuditProvider extends MultiDestAuditProvider implements Runnab
 
   public AsyncAuditProvider(String name, int maxQueueSize, int maxFlushInterval) {
     LOG.info("AsyncAuditProvider(" + name + "): creating..");
-    System.out.print("AsyncAuditProvider: creating..getDefaultProvider");
 
     if (maxQueueSize < 1) {
       LOG.warn("AsyncAuditProvider(" + name + "): invalid maxQueueSize=" + maxQueueSize

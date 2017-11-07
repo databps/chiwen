@@ -87,7 +87,7 @@ public class HbaseTest {
 
     HTableDescriptor[] tableDescriptor = admin.listTables();
     for (int i = 0; i < tableDescriptor.length; i++) {
-      System.out.println(tableDescriptor[i].getNameAsString());
+      tableDescriptor[i].getNameAsString();
     }
   }
 
@@ -105,7 +105,7 @@ public class HbaseTest {
   @Test
   public void isTableDisabled() throws Exception {
     TableName tableName = TableName.valueOf("user");
-    System.out.println(admin.isTableDisabled(tableName));
+    admin.isTableDisabled(tableName);
 
   }
 
@@ -132,7 +132,7 @@ public class HbaseTest {
     TableName tableName = TableName.valueOf("user");
     HTableDescriptor tableDescripto = admin.getTableDescriptor(tableName);
 
-    System.out.println(tableDescripto.toString());
+    tableDescripto.toString();
 
   }
 
@@ -206,7 +206,6 @@ public class HbaseTest {
   @Test
   public void tableExists() throws IOException {
     boolean bool = hBaseAdmin.tableExists(table1);
-    System.out.println(bool);
 
   }
 
@@ -482,7 +481,7 @@ public class HbaseTest {
       Scan scan = new Scan();
       ResultScanner scanner = table.getScanner(scan);
 
-      System.out.println( scanner.next().size());
+      scanner.next().size();
 
     } catch (IOException e) {
       e.printStackTrace();

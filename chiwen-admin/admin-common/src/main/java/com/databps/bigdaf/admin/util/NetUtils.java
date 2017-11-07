@@ -38,10 +38,8 @@ public class NetUtils {
 
 	public static void main(String args[]) throws IOException {
 		boolean bool = NetUtils.ping("sbx4");
-		System.out.println(bool);
 
 		String hostName = NetUtils.getHostNameForLiunx();
-		System.out.println(hostName);
 	}
 
 }
