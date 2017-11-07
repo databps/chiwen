@@ -1168,7 +1168,7 @@ public class ChiWenAuthorizationCoprocessor extends ChiWenAuthorizationCoprocess
 
     boolean isSuccess = false;
 
-    if(true) {
+    if(UpdatChiWenPoliciesOnGrantRevoke) {
       GrantRevokeRequest grData = null;
 
       try {
@@ -1312,7 +1312,7 @@ public class ChiWenAuthorizationCoprocessor extends ChiWenAuthorizationCoprocess
   @Override
   public void revoke(RpcController controller, AccessControlProtos.RevokeRequest request, RpcCallback<AccessControlProtos.RevokeResponse> done) {
     boolean isSuccess = false;
-    if(true) {
+    if(UpdatChiWenPoliciesOnGrantRevoke) {
       GrantRevokeRequest grData = null;
 
       try {

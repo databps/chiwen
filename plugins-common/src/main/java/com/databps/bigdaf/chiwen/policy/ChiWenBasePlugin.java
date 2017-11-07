@@ -28,7 +28,7 @@ public class ChiWenBasePlugin {
 
 
 
-
+  private ChiWenAccessResultProcessor resultProcessor;
   private String appId;
   private String PolicyName;
   private String serviceName;
@@ -47,6 +47,9 @@ public class ChiWenBasePlugin {
     this.PolicyName = PolicyName;//此plugin中的值为hbase
   }
 
+  public void setResultProcessor(ChiWenAccessResultProcessor resultProcessor) {
+    this.resultProcessor = resultProcessor;
+  }
 
   public String getServiceType() {
     return serviceType;
@@ -60,6 +63,10 @@ public class ChiWenBasePlugin {
     return policyEngine;
   }
 
+
+  public ChiWenAccessResult isAccessAllowed(ChiWenAccessRequest request) {
+    return isAccessAllowed(request, resultProcessor);
+  }
 
   public Collection<ChiWenAccessResult> isAccessAllowed(Collection<ChiWenAccessRequest> requests,
       ChiWenAccessResultProcessor resultProcessor) {

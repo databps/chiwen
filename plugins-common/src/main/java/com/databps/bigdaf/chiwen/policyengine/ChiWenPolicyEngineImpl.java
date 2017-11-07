@@ -78,18 +78,22 @@ public class ChiWenPolicyEngineImpl implements ChiWenPolicyEngine {
     }
   }
 
-
+  private ChiWenAccessResult switchResult(ChiWenAccessRequest request){
+    ChiWenAccessResult ret =null;
+    if(serviceType.equals("hdfs")){//需要一个公共方法来判断是否是hdfs或者hbase请求
+      ret=isAccessAllowedNoAudit(request);
+    }else if (serviceType.equals("hbase")|| serviceType.equals("hive")){
+      ret=isHbaseAccessAllowedNoAudit(request);
+    }
+    return ret;
+  }
   @Override
   public ChiWenAccessResult isAccessAllowed(ChiWenAccessRequest request, ChiWenAccessResultProcessor resultProcessor) {
     if (LOG.isDebugEnabled()) {
       LOG.debug("==> ChiWenPolicyEngineImpl.isAccessAllowed(" + request + ")");
     }
-    ChiWenAccessResult ret =null;
-    if(serviceType.equals("hdfs")){//需要一个公共方法来判断是否是hdfs或者hbase请求
-      ret=isAccessAllowedNoAudit(request);
-    }else if (serviceType.equals("hbase")){
-      ret=isHbaseAccessAllowedNoAudit(request);
-    }
+    ChiWenAccessResult ret =switchResult(request);
+
 
 
     updatePolicyUsageCounts(request, ret);
