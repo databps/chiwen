@@ -1,0 +1,98 @@
+[#include "/include/header_index.html"]
+</head>
+<body style='height: 100%;'>
+[#include "/include/navbar.html"]
+<div class="app-main">
+  <!-- 内容 -->
+  <div class="yHdfsBody clearfix">
+    <div class="yMain clearfix">
+      <div class="fl">
+        <p class="yMainTitle">审计日志</p>
+        <ul class="nav nav-pills nav-stacked yPlugNav">
+          <li class="active"><a  href="/api/list?type=hdfs">HDFS日志</a></li>
+          <li><a  href="/api/list?type=admin">Admin操作日志</a></li>
+        </ul>
+      </div>
+      <div class="fr">
+        <form action="list" method="get" class="gs_table_form" id="queryPage">
+          <input type="hidden" name="page" id="currentPage" value="${page.number}"/>
+          <input type="hidden" name="type" id="logtype" value="hdfs"/>
+          <!--<div class="searcch">-->
+            <!--<div class="input-group">-->
+              <!--<input type="text" class="form-control">-->
+              <!--<span class="input-group-btn">-->
+                      <!--<button class="btn btn-default" type="button">查询</button>-->
+                  <!--</span>-->
+            <!--</div>-->
+          <!--</div>-->
+        </form>
+        <p class="frtitle">Admin操作日志</p>
+        <div class="frbody">
+          <div class="topoperation clearfix">
+            <p><span>用户名称</span><input type="text"></p>
+            <p>
+              <span>日期</span>
+              <input size="16" placeholder="选择开始时间" type="text" id="datetimeStart" readonly class="form_datetime"> 至
+              <input size="16" placeholder="选择结束时间" type="text" id="datetimeEnd" readonly class="form_datetime">
+            </p>
+            <p>
+              <select>
+                <option>成功</option>
+                <option>失败</option>
+              </select>
+              <select>
+                <option>认证</option>
+                <option>未认证</option>
+              </select>
+              <a href="#" class="btn">查询</a>
+            </p>
+          </div>
+          <div class="tablesBox">
+            <p class="checkbox">
+              <label>
+                <input type="checkbox"> 全选
+              </label>
+              <a href="#">清空</a>
+              <a href="#">导出</a>
+            </p>
+            <div class="tableBox">
+              <table class="table table-hover">
+                <thead>
+                <tr>
+                  <th>用户名</th>
+                  <th>IP</th>
+                  <th>操作</th>
+                  <th>资源</th>
+                  <th>访问类型</th>
+                  <th>时间</th>
+                  <th>授权结果</th>
+                </tr>
+                </thead>
+                <tbody>
+                [#list page.content as log]
+                <tr>
+                  <td>${log.user}</td>
+                  <td>${log.clientIPAddress}</td>
+                  <td>${log.action}</td>
+                  <td>${log.path}</td>
+                  <td>${log.accessType}</td>
+                  <td>[@p.formatDate value="${log.accessTime}"/]</td>
+                  <td>${log.isAllowed}</td>
+                </tr>
+                [/#list]
+                </tbody>
+              </table>
+            </div>
+            [@p.mongo_page value=page form="queryPage"/]
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+[#include "/include/footer_index.html"]
+</body>
+</html>
+

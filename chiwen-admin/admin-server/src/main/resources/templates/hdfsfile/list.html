@@ -1,0 +1,120 @@
+[#include "/layout/layout_top.html"]
+<div class="modal" id="file-info" tabindex="-1" role="dialog"
+	style="display: none; top: 50px" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="file-info-title">File information</h4>
+			</div>
+			<div class="modal-body" id="file-info-body">
+				<!-- <a id="file-info-download"  style="display:none">下载</a>
+				<a id="file-info-preview" style="cursor:pointer">Tail the file (last 32K)</a>
+				<hr /> -->
+				<div class="panel panel-primary"style="color:#212960;border-color:#212960;" id="file-info-blockinfo-panel">
+					<div class="panel-heading">
+						块信息 -- <select class="btn btn-default"
+							id="file-info-blockinfo-list">
+						</select>
+					</div>
+					<div class="panel-body" id="file-info-blockinfo-body"></div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="col-xs-10 mainCont">
+	<div class="section main21">
+			<h2>HDFS文件列表</h2>
+<br/>
+			<div class="row">
+				<div class="col-xs-3 col-sm-10">
+					<form onsubmit="return false;">
+						<div class="input-group">
+							<input type="text" class="form-control" id="directory" /> <span
+								class="input-group-btn"><button class="btn btn-default"
+									type="submit" id="btn-nav-directory">查询</button></span>
+						</div>
+					</form>
+				</div>
+
+			</div>
+			<div class="alert alert-danger" id="alert-panel"
+				style="display: none" role="alert">
+				<button type="button" class="close"
+					onclick="$('#alert-panel').hide();">&times;</button>
+				<div class="alert-body" id="alert-panel-body">请求hadoop集群失败,请检查hadoop配置的address是否正确.</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<h5><a id="root_dir" style="cursor:pointer">根目录</a> <a id="last_dir" style="cursor:pointer" class="last_dir">上级目录</a></h5>
+				</div>
+			</div>
+			<div class="table-responsive">
+				<div id="panel"></div>
+			</div>
+		</div>
+	</div>
+
+
+[#include "/layout/layout_bottom.html"]
+<script type="text/x-dust-template" id="tmpl-explorer">
+      <table class="table table-hover table-blue table22">
+        <thead>
+          <tr>
+            <th >权限</th>
+            <th >所属用户</th>
+            <th >所属组</th>
+            <th >文件大小</th>
+            <th >副本个数</th>
+            <th >块大小</th>
+            <th >名称</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#FileStatus}
+          <tr class="active">
+            <td class="active">{type|helper_to_directory}{permission|helper_to_permission}{aclBit|helper_to_acl_bit}</td>
+            <td class="active">{owner}</td>
+            <td class="active">{group}</td>
+            <td class="active">{length|fmt_bytes}</td>
+            <td class="active">{replication}</td>
+            <td class="active">{blockSize|fmt_bytes}</td>
+            <td class="active"><a style="cursor:pointer" inode-type="{type}" class="explorer-browse-links" inode-path="{pathSuffix}">{pathSuffix}</a></td>
+          </tr>
+          {/FileStatus}
+        </tbody>
+      </table>
+    </script>
+<script type="text/x-dust-template" id="tmpl-block-info">
+      {#block}
+      <p>Block ID: {blockId}</p>
+      <p>Block Pool ID: {blockPoolId}</p>
+      <p>Generation Stamp: {generationStamp}</p>
+      <p>Size: {numBytes}</p>
+      {/block}
+      <p>Availability:
+        <ul>
+          {#locations}
+          <li>{hostName}</li>
+          {/locations}
+        </ul>
+      </p>
+    </script>
+<script type="text/javascript"
+	src="${base}/js/dust/dust-full-2.0.0.min.js">
+	
+</script>
+<script type="text/javascript" src="${base}/js/dust/dust-helpers.min.js">
+	
+</script>
+<script type="text/javascript" src="${base}/js/hdfs/dfs-dust.js">
+	
+</script>
+<script type="text/javascript" src="${base}/js/hdfs/explorer.js">
+	
+</script>

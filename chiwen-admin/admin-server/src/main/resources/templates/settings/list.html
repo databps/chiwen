@@ -1,0 +1,58 @@
+[#include "/include/header_index.html"]
+<body style='height: 100%;'>
+[#include "/include/navbar.html"]
+
+<div class="app-main">
+  <!-- 内容 -->
+  <ol class="breadcrumb">
+    <li ><a class="grey9" href="#">安全管理</a></li>
+    <li class="active grey3">管理设置</li>
+  </ol>
+  <form action="/security/settings/edit" method="POST" >
+  <div class="panel panel-default mar15">
+    <div class="mar15">
+      <h5 class="h5_pad">测试模式</h5>
+      <!--<div class="switch"><b class="on"></b>开启-->
+      <!--</div>-->
+      <div class="switch" tabindex="0" data-on="success">
+        <!--[if testMode ??]-->
+        <!--[#/if]-->
+        [#if vo.testMode == "false"]
+        <input id="notification2" type="checkbox" name ="testMode" checked />
+        [#else]
+        <input id="notification2" type="checkbox" name ="testMode" />
+        [/#if]
+      </div>
+    </div>
+      <div class="line1"></div>
+    <div class="panel-body">
+      <h5 class="h5_pad martopbottom25">登陆设置</h5>
+      <div class="input-group pad-bot25">
+        <div class="font14 grey3">最大错误次数</div>
+        <input type="text" class="input_query mar-top10" placeholder="请输入数字" name="loginMaxNumber" aria-describedby="basic-addon2" value="${vo.loginMaxNumber}" >
+        <p class="instructions_p grey9"></p>
+      </div>
+      <div class="input-group  pad-bot25">
+        <div class="font14 grey3">最大错误数清零时间</div>
+        <input type="text" class="input_query mar-top10" name="loginIntervalTime" placeholder="请输入数字" aria-describedby="basic-addon2" value="${vo.loginIntervalTime}" >
+        <p class="instructions_p grey9">单位分钟</p>
+      </div>
+      <div class="form-group clearfix subscribe">
+      <button type="submit">保存</button>
+      </div>
+    </div>
+  </div>
+
+  </form>
+</div>
+
+
+[#include "/include/footer_index.html"]
+<script type="text/javascript">
+  $(function () {
+    $('#notification2').bootstrapSwitch('setActive',false);
+  });
+
+</script>
+</body>
+</html>

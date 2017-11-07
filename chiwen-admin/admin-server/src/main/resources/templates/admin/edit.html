@@ -1,0 +1,35 @@
+[#include "/include/header_index.html"]
+<body style='height: 100%;'>
+[#include "/include/navbar.html"]
+<div class="app-main">
+  <!-- 内容 -->
+  <ol class="breadcrumb">
+    <li class="active grey3">系统管理员</li>
+  </ol>
+  <div class="panel panel-default mar15">
+    <div class="panel-body">
+      <form method="post" id="gsForm" autocomplete="off" action="${base}/admin/edit">
+        <input type="hidden" name="id" value="${admin.id}" />
+        <input type="hidden" name="firstName" vallacehold.it/50x50" />
+      <div class="input-group mar15 pad-bot10">
+        <div class="font14 grey3">用户名</div>
+        <input type="text"  value="${admin.login}" class="input_query mar-top10" aria-describedby="basic-addon2" name="login" data-rule="required; loginName;remote[${base}/admin/checkLogin, id];" data-rule-loginName="[/^[_'.@A-Za-z0-9-]*$/, '请输入有效的用户名']">
+      </div>
+
+      <div class="input-group mar15 pad-bot10">
+        <div class="font14 grey3 pad-bot10">邮箱</div>
+        <input type="email" value="${admin.email}" class="input_query mar-top10" aria-describedby="basic-addon2" name="email" data-rule="required;email;">
+      </div>
+
+      <div class="input-group mar15 pad-bot10">
+        <button type="submit" class="btn btn-default mar15 saves">保存</button>
+
+        <a href="${base}/admin/list" class="btn btn-default mar15 cancel">返回</a>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+[#include "/include/footer_index.html"]
+</body>
+</html>

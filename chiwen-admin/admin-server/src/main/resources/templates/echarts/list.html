@@ -1,0 +1,479 @@
+[#include "/layout/layout_top.html"]
+<style>
+.font-style {
+	font-family: 黑体;
+	font-size: 30px;
+	font-weight: 900;
+	color: #CCCC66;
+	text-align: center;
+}
+
+.panel-div {
+	margin: 20px 50px 50px 30px;
+	width: 180px;
+	height: 150px;
+	/* box-shadow: inset 1px -1px 1px #999999, inset -1px 1px 1px #999999; */
+	border: 1px solid #999999;
+	padding: 1px 0 0 5px;
+	position: relative;
+	float: left;
+}
+
+.divleft {
+	/* display: table;
+	margin-left: 0; */
+	padding-right: 1px;
+	padding-left: 1px;
+}
+
+.divright {
+	/* display: table;
+	margin-right: 0; */
+	padding-right: 1px;
+	padding-left: 1px;
+}
+
+.one-line-echarts {
+	height: 500px;
+	width: 500px;
+}
+</style>
+<div class="col-xs-10 mainCont">
+	<div class="section">
+		<h2>资源访问(24小时内)</h2>
+		<div class="row">
+			<div class="col-lg-6">
+				<div id="userDom"
+					class="center-block col-xs-6 one-line-echarts divleft"></div>
+			</div>
+			<div class="col-lg-6">
+				<div id="roleDom"
+					class="center-block col-xs-6 one-line-echarts divright"></div>
+			</div>
+		</div>
+		<br />
+		<div class="row">
+			<div class="col-lg-6">
+				<div id="ipDom" class="one-line-echarts divleft"></div>
+			</div>
+			<div class="col-lg-6">
+				<div id="insideDom" class="one-line-echarts divright"></div>
+			</div>
+		</div>
+		<br />
+		<div class="row">
+			<div class="col-lg-6">
+				<div id="sankeyDom" class="col-xs-6 one-line-echarts"></div>
+			</div>
+			<div class="col-lg-6">
+				<div id="pieDom" class="col-xs-6 one-line-echarts"></div>
+			</div>
+		</div>
+
+	</div>
+</div>
+[#include "/layout/layout_bottom.html"]
+<script src="${base}/js/echarts.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$.ajax({ //获取datanode数量
+			type : "get",
+			async : true,
+			url : "${base}/clusterm/data",
+			data : {
+				type : "dataNodeInfo"
+			},
+			dataType : "json",//返回数据形式为json  
+			success : function(result) {
+				$("#liveDataNode").html(result.liveDataNodes);
+				$("#allDataNode").html(result.allDataNodes);
+			},
+			error : function(errorMsg) {
+				showAlert();
+			}
+		});
+		$.ajax({ //获取namenode运行时间
+			type : "get",
+			async : true,
+			url : "${base}/clusterm/data",
+			data : {
+				type : "Uptime"
+			},
+			dataType : "json",//返回数据形式为json  
+			success : function(result) {
+				$("#uptime").html(result.Uptime + "s");
+			},
+			error : function(errorMsg) {
+				showAlert();
+			}
+		});
+		$.ajax({ //获取namenode内存使用情况
+			type : "get",
+			async : true,
+			url : "${base}/clusterm/data",
+			data : {
+				type : "memory"
+			},
+			dataType : "json",//返回数据形式为json  
+			success : function(result) {
+				$("#used").html(result.used);
+				$("#max").html(result.max);
+			},
+			error : function(errorMsg) {
+				showAlert();
+			}
+		});
+		//获取文件类型饼状图数据
+		$.get('${base}/visite/pie', function(datas) {
+			pieEcharts(datas);
+		}, "json");
+		//获取文件时间折线图
+		$.get('${base}/visite/inside', function(datas) {
+			insideEcharts(datas);
+		}, "json");
+		//获取文件热点桑基图
+		$.get('${base}/visite/sankey', function(datas) {
+			sankeyEcharts(datas);
+		}, "json");
+	})
+</script>
+<script type="text/javascript">
+	function getChartData(myCharts, intype) {
+		//获得图表的options对象  
+		var options = myCharts.getOption();
+		//通过Ajax获取数据  
+		$.ajax({
+			type : "get",
+			async : false,//同步执行  
+			url : "${base}/visite/data",
+			data : {
+				type : intype
+			},
+			dataType : "json",//返回数据形式为json  
+			success : function(result) {
+				if (result) {
+					options.yAxis[0].data = result.categoryData;
+					options.series[0].data = result.seriesData;
+					myChart.hideLoading();
+					myChart.setOption(options);
+				}
+			},
+			error : function(errorMsg) {
+				alert("异常,图表请求数据失败!" + errorMsg);
+				myChart.hideLoading();
+			}
+		});
+	}
+	function getInitedOption(title, name, ydata, sdata, colors) {
+
+		var option = {
+			title : {
+				text : title
+			},
+			legend : {
+				data : [ name ]
+			},
+			color : [ colors ],
+			tooltip : {
+				trigger : 'axis',
+				axisPointer : { // 坐标轴指示器，坐标轴触发有效
+					type : 'shadow' // 默认为直线，可选为：'line' | 'shadow'|'cross'十字形
+				}
+			},
+			grid : {
+				left : '90',
+				right : '10',
+				bottom : '50',
+				containLabel : false
+			},
+			xAxis : [ {
+				type : 'value',
+				min:1,
+				minInterval : 1
+			}
+
+			],
+
+			yAxis : [ {
+				type : 'category',
+				data : ydata,
+				axisTick : {
+					alignWithLabel : true
+				},
+				axisLine : {
+					show : true
+				},
+				axisLabel : {
+					interval : 1
+				}
+			}
+
+			],
+			series : [ {
+				barMinHeight : 0,
+				name : name,
+				type : 'bar',
+				barWidth : '70%',
+				data : sdata
+			} ]
+		};
+
+		return option;
+	}
+</script>
+<script type="text/javascript">
+	// 基于准备好的dom，初始化echarts实例
+	var myChart = echarts.init(document.getElementById('userDom'));
+	var title = "用户前10";
+	var name = "访问次数";
+	// 指定图表的配置项和数据
+	var option = getInitedOption(title, name, [], [], '#00CED1');
+	myChart.setOption(option);
+	getChartData(myChart, "user");
+	// 使用刚指定的配置项和数据显示图表。
+</script>
+<script type="text/javascript">
+	var myChart = echarts.init(document.getElementById('roleDom'));
+	var title = "角色前10";
+	var name = "访问次数";
+	// 指定图表的配置项和数据
+	var option = getInitedOption(title, name, [], [], '#9ACD32');
+	// 使用刚指定的配置项和数据显示图表。
+	myChart.setOption(option);
+	getChartData(myChart, "role");
+</script>
+
+<script type="text/javascript">
+	var myChart = echarts.init(document.getElementById('ipDom'));
+	var title = "IP前10";
+	var name = "访问次数";
+	// 指定图表的配置项和数据
+	var option = getInitedOption(title, name, [], [], '#FFD700');
+	// 使用刚指定的配置项和数据显示图表。
+	myChart.setOption(option);
+	getChartData(myChart, "ip");
+</script>
+<script type="text/javascript">
+	function showAlert() {
+		$('#alertText').html("请求hadoop集群失败,请检查hadoop配置的address是否正确.");
+		$('#myAlert').show();
+		/* $("#myAlert").fadeTo(2000, 1).slideUp(800, function(){
+			$("#myAlert").hide();
+		}); */
+	}
+</script>
+
+<script type="text/javascript">
+	function pieEcharts(indata) {
+		var myChartPie = echarts.init(document.getElementById('pieDom'));
+		var data = [ {
+			value : 0,
+			name : '创建文件'
+		}, {
+			value : 0,
+			name : '创建文件夹'
+		}, {
+			value : 0,
+			name : '追加'
+		}, {
+			value : 0,
+			name : '删除'
+		}, {
+			value : 0,
+			name : '查看列表'
+		}, {
+			value : 0,
+			name : '下载'
+		}, {
+			value : 0,
+			name : '重命名'
+		} ];
+		if (indata.length > 0)
+			data = indata;
+
+		option = {
+			title : {
+				text : '访问类型',
+				x : 'left'
+			},
+			tooltip : {
+				trigger : 'item',
+				formatter : "{a} <br/>{b}: {c} ({d}%)"
+			},
+			legend : {
+				y : 'top',
+				x : 'right',
+				top : 5,
+				itemWidth : 10,
+				itemHeight : 10,
+				data : data
+			},
+			color : [ '#546570', '#EB6E78', '#33BACF', '#212960', '#33CF9C',
+					'#FFD57B', '#ca8622', '#bda29a', '##FFD57B', '#c4ccd3' ],
+			series : [ {
+				name : '访问类型  ',
+				type : 'pie',
+				radius : [ '20%', '60%' ],
+				avoidLabelOverlap : false,
+				label : {
+					normal : {
+						show : true,
+					// position: 'center'
+					},
+					emphasis : {
+						show : true,
+						textStyle : {
+							fontSize : '25',
+							fontWeight : 'bold'
+						}
+					}
+				},
+				labelLine : {
+					normal : {
+						show : true
+					},
+					emphasis : {
+						show : true
+					}
+				},
+				itemStyle : {
+					normal : {
+
+					}
+				},
+				data : data
+			} ]
+		};
+		myChartPie.setOption(option);
+	}
+	function sankeyEcharts(indata) {
+		var data = indata;
+		var mySankeyEcharts = echarts
+				.init(document.getElementById('sankeyDom'));
+		var option = {
+			title : {
+				text : '文件访问热点',
+				left : '35px',
+				top : '-5px'
+
+			},
+			tooltip : {
+				trigger : 'item',
+				triggerOn : 'mousemove'
+			},
+			color : [ '#546570', '#EB6E78', '#33BACF', '#212960', '#33CF9C',
+					'#FFD57B', '#ca8622', '#bda29a', '##FFD57B', '#c4ccd3' ],
+			series : [ {
+				type : 'sankey',
+				layout : 'none',
+				data : data.nodes,
+				links : data.links,
+				itemStyle : {
+					normal : {
+						borderWidth : 1,
+						borderColor : '#aaa'
+					}
+				},
+				lineStyle : {
+					normal : {
+						curveness : 0.5
+					}
+				}
+			} ]
+		};
+		mySankeyEcharts.setOption(option);
+	}
+
+	function insideEcharts(data) {
+		var myInsideEcharts = echarts
+				.init(document.getElementById('insideDom'));
+
+		var option = {
+			tooltip : {
+				trigger : 'axis',
+				position : function(pt) {
+					return [ pt[0], '10%' ];
+				}
+			},
+			title : {
+				left : 'center',
+				text : '访问时间',
+			},
+			legend : {
+				top : 'bottom',
+				data : [ '' ]
+			},
+			color : [ '#546570', '#EB6E78', '#33BACF', '#212960', '#33CF9C',
+					'#FFD57B', '#ca8622', '#bda29a', '##FFD57B', '#c4ccd3' ],
+		/* 	toolbox : {
+				feature : {
+					restore : {
+						title : "刷新"
+					},
+					saveAsImage : {}
+				}
+			}, */
+			grid : {
+				left : '90',
+				right : '10',
+				containLabel : false
+			},
+			xAxis : {
+				type : 'category',
+				boundaryGap : false,
+				data : data.date
+			},
+			yAxis : {
+				type : 'value',
+				minInterval : 1,
+				min:0,
+				boundaryGap : [ 1, '100%' ]
+			},
+			dataZoom : [
+					{
+						type : 'inside',
+						start : 0,
+						end : 10
+					},
+					{
+						start : 0,
+						end : 10,
+						handleIcon : 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+						handleSize : '80%',
+						handleStyle : {
+							color : '#fff',
+							shadowBlur : 3,
+							shadowColor : 'rgba(0, 0, 0, 0.6)',
+							shadowOffsetX : 2,
+							shadowOffsetY : 2
+						}
+					} ],
+			series : [ {
+				name : '访问量',
+				type : 'line',
+				smooth : true,
+				symbol : 'none',
+				sampling : 'average',
+				itemStyle : {
+					normal : {
+						color : 'rgb(255, 70, 131)'
+					}
+				},
+				areaStyle : {
+					normal : {
+						color : new echarts.graphic.LinearGradient(0, 0, 0, 1,
+								[ {
+									offset : 0,
+									color : 'rgb(255, 158, 68)'
+								}, {
+									offset : 1,
+									color : 'rgb(255, 70, 131)'
+								} ])
+					}
+				},
+				data : data.data
+			} ]
+		};
+		myInsideEcharts.setOption(option);
+	}
+</script>

@@ -1,0 +1,60 @@
+[#include "/layout/layout_top.html"]
+<div class="col-xs-10 mainCont">
+	<div class="section main21">
+			<h2>MAC人员管理</h2>
+		<form action="${base}/tmac/saveRrelMac" id="gsForm" method="post"
+			class="form" autocomplete="off">
+			<div class="row">
+				<div class="row col-md-5 gs-min-width form-item">
+					<label class="col-md-4 gs_table_label text-right">标记名称:</label>
+					<div class="col-sm-5">
+						<div class="col-sm-8 gs_info_value">${macEntity.flag}</div>
+					</div>
+				</div>
+				<div class="row col-md-5 gs-min-width form-item">
+					<label class="col-md-4 gs_table_label text-right">级别:</label>
+					<div class="col-sm-5">
+					<div class="col-sm-8 gs_info_value">${macEntity.level}</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		<div class="table-responsive m-top15">
+			<div class="clearfix gs_table_box">
+				<div class="text-right">
+					<a class="a-btn" href="${base}/tmac/addkuserMac?flag=${macEntity.flag}&level=${macEntity.level}"><img alt="" src="${base}/images/i-add.png"><span class="v-mid">添加人员</span></a>
+				</div>
+				<div class="text-right m-top25"> </div>
+				<table class="table table-hover table-blue table22">
+					<thead>
+						<tr>
+							<th>用户名称</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						[#list macUserList as user]
+
+						<tr>
+							<td>${user.uname}</td>
+							<td><a type="button" href="#"
+								onclick="deleteRes('${user.uname}','${user._id}')"
+								class="btn btn-danger">删除</a></td>
+						</tr>
+						[/#list]
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="gs_blank_gap"></div>
+</div>
+[#include "/layout/layout_bottom.html"]
+
+<script type="text/javascript">
+	function deleteRes(uname, id) {
+		if (confirm("确定删除吗？\n" + uname)) {
+			window.location.href = "${base}/tmac/delRelMac?flag=${macEntity.flag}&level=${macEntity.level}&userId=" + id;
+		}
+	}
+</script>

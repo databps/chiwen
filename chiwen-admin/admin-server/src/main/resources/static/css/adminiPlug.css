@@ -1,0 +1,232 @@
+@charset "UTF-8";
+/* CSS Document */
+/*插件导航 开始*/
+.yHdfsBody{background-color: #f2f6f9;box-sizing: border-box}
+.yHeader{width:100%;height:76px;background-color: #fff;box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.04); border: solid 1px #dbdbdb;}
+.yHeader>input{margin:20px 30px;padding:10px;font-size:16px;width: 180px;  height: 36px;  border-radius: 4px;  background-color: #fbfbfb;  border: solid 1px #cccccc;font-family: PingFangSC;  font-weight: 500;  line-height: 1;  text-align: left;  color: #474c71;}
+.yHeadropdown{
+	margin-top: 19px;
+	margin-left: 30px;
+}
+.yHeadropdown button{
+	width: 160px;
+	border: 1px solid #ddd;
+	color: #34353f;
+}
+.yHeadropdown button i{
+	float: right;
+	margin-top: 2px;
+}
+.yHeadropdown li>a{
+	line-height: 35px;
+	color: #34353f;
+}
+.btn-default:hover{
+	background: none;
+	border: 1px solid #ddd;
+	outline:none;
+}
+.btn-default.active.focus, .btn-default.active:focus, .btn-default.active:hover, .btn-default:active.focus, .btn-default:active:focus, .btn-default:active:hover, .open>.dropdown-toggle.btn-default.focus, .open>.dropdown-toggle.btn-default:focus, .open>.dropdown-toggle.btn-default:hover{
+	background: none;
+	border: 1px solid #ddd;
+	outline:none;
+}
+.yMain{padding: 0 30px;margin:30px 0}
+.yMain>div:first-child{width:20%}
+.yMain>div:last-child{width:78%}
+/*********nav********/
+.yPlugNav>li{margin-top:0 !important;}
+.yPlugNav>li a{background-color: #fff;border-left: solid 1px #d7e0e5;border-right: solid 1px #d7e0e5;font-family:PingFangSC;  font-size: 14px;  line-height: 1;  text-align: left;  color: #34353f;border-radius: 0;border-bottom: solid 0.5px #d7e0e5;border-top: solid 0.5px #d7e0e5;position: relative;padding-left: 30px;}
+.yPlugNav li.active a{border: solid 1px #a3cdff !important;background-color: #f2f6f9 !important;color: #34353f !important;}
+.yPlugNav>li a i{display:inline-block;width: 15px;height: 15px;margin-right:5px;background: url(../img/hdfs.png)no-repeat;background-size: 100%; position: absolute;
+	top: 9px;left: 10px;}
+.yPlugNav>li a i.hb{background-image: url(../img/hbase.png) }
+.yPlugNav>li a i.hi{background-image: url(../img/hive.png) }
+.yPlugNav>li a i.ga{background-image: url(../img/Gateway.png) }
+.yPlugNav>li a b{display:inline-block;width: 15px;height: 15px;background-image: url(../img/going.png);background-size: 100%;position: absolute;right:10px; top: 10px;}
+.yStop a b{background-image: url(../img/stop.png) !important;}
+/*右侧内容区*/
+.yHdsfDetBox{  background-color: #ffffff;margin-bottom:20px;  border: solid 1px #d7e0e5;}
+.yState{padding:20px 30px}
+.yState>ul{margin-top:10px}
+.yState>ul>li{width:30%;background-color: #fbfbfb;  border: solid 1px #cccccc;padding:10px;font-size: 14px;margin:10px 3% 10px 0}
+.yState>ul>li>div{
+	color: #34353f;
+	font-weight: bold;
+}
+.yState>ul>li>div>span{
+	font-weight: normal;
+}
+.yState>ul>li p{ color: #34353f;line-height: 25px;}
+.yRed{color:#f74646}
+.yBule{color:#6593ff}
+.yGray{color:#34353f}
+.yTabNav>li{height: 48px;line-height: 50px;margin-left:60px;cursor: pointer;text-align: center;}
+.yTabNav>li.active{border:none;background-color: #ffffff;}
+.yTabNav>li a{display: inline; font-family: PingFangSC;padding: 9px 0px;  font-size: 16px; font-weight:normal;text-align: center;  color: #9b9eb0;}
+.yTabNav>li a:focus,.yTabNav>li a:hover,.yTabNav>li.active a:focus,.yTabNav>.active a:hover{
+	/*border: none;*/
+	color: #474c71;
+	border-bottom:4px solid #474c71;
+	background-color: transparent;
+}
+.nav-tabs>li>a{
+	border: none;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
+	border: none;
+	border-bottom:4px solid #474c71;
+}
+/********表单部分*********/
+.yHdfsFor label{text-align: left !important;}
+.yPulgBox{padding:30px 0}
+.btnPre{width: 80px;  height: 36px; background-color: #6593ff;color:#fff;font-size: 14px;margin-left:30px;border:none}
+
+.form-control {
+	height: 36px;background-color: #fbfbfb;  box-shadow: inset 0 1px 1px 0 rgba(0, 0, 0, 0.1), inset 1px 0 1px 0 rgba(0, 0, 0, 0.1);  border: solid 0.5px #cccccc;
+}
+.help-block {  font-family:PingFangSC;  font-size: 12px;  text-align: left;  color: #999999;  }
+@media (min-width: 768px) {
+	.form-horizontal .control-label {  padding-top: 7px;  padding-left: 45px !important;  margin-bottom: 0;  text-align: left !important;  }
+}
+/***去配置***/
+.yGoPlug>i{display:inline-block;width: 15px;height: 15px;background-image: url(/img/stop.png);background-size:100%;position: relative;top:2px;margin-right:3px}
+.yGoPlug{width:100%;height: 50px;color:#63688d; font-size: 14px; background-color: #f2f8ff;  border: solid 1px #a3cdff;line-height: 48px;padding:0 20px;}
+.yGoPlug a{
+	color: #0085ff;
+	font-weight: bold;
+	font-size: 14px;
+}
+/*插件导航 结束*/
+.table>thead:first-child>tr:first-child>th{
+	color: #999999;
+	font-size: 14px;
+	font-weight: normal;
+	border:none;
+}
+.table > tbody > tr > td{
+	font-size: 14px;
+	color: #34353f;;
+}
+.table > tbody > tr > td:first-child{
+	color: #0084ff;
+}
+.table > tbody > tr > td a{
+	font-size: 14px;
+	color: #0084ff;
+}
+.state span{
+	padding-left:20px;
+	background: url(/img/Operation.png)no-repeat left center;
+	font-size: 12px;
+	color: #3b3d47;
+}
+.state span.warning{
+	background: url(/img/warning.png)no-repeat left center;
+}
+.form-horizontal .control-label{
+	color: #34353f;
+}
+.form-control{
+	color: #515151;
+	background-color: #e9e9e9;
+	border-radius: 0px;
+}
+@media screen and (max-width: 1280px) {
+	.yState>ul>li{
+		width: 45%;
+	}
+}
+/*弹出详情*/
+.hdfs_table tr td:first-child span{
+	cursor: pointer;
+}
+.modal-title{
+	color: #474c71;
+	font-weight: bold;
+}
+.modal-headcc{
+	text-align: center;
+	border-bottom: 1px solid #d7e0e5;
+	padding-bottom: 15px;
+}
+.modal-headcc i{
+	float: left;
+	display: inline-block;
+	width: 16px;
+	height: 24px;
+	background: url(/img/back.png)no-repeat left center;
+	cursor: pointer;
+}
+.modal-headcc i:hover{
+	background: url(/img/back-hover.png)no-repeat left center;
+}
+.modal-headcc>span{
+	font-size: 12px;
+  	color: #43b592;
+  	padding-left: 175px;
+    background: url(/img/yep.png)no-repeat 160px center;
+}
+.modal-headcc>span.warning{
+	color: #ec4343;
+	background: url(/img/knows.png)no-repeat 160px center;
+}
+.modal-headcc>p{
+	float: right;
+}
+.modal-headcc>p span{
+	margin-left: 20px;
+	font-size: 14px;
+	color: #525252;
+	padding-left: 20px;
+	background: url(/img/dk.png)no-repeat left center;
+	cursor: pointer;
+}
+.modal-headcc>p span:first-child{
+	background: url(/img/kb.png)no-repeat left center;
+}
+.modal-headcc>p span:last-child{
+	background: url(/img/Hostlogs.png)no-repeat left center;
+}
+.contBody{
+}
+.contBody>p{
+	color: #999999;
+	font-size: 14px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.contBody>p span{
+	color: #34353f;
+}
+.contBody>div{
+	min-height: 200px;
+	background-color: #f2f6f8;
+}
+.contInformation{
+	padding: 10px 0px;
+}
+.contInformation p{
+    line-height: 30px;
+    font-size: 14px;
+    padding: 0px 20px;
+}
+.footerBtn p{
+	float: left;
+}
+.footerBtn p label{
+	font-size: 14px;
+  	color: #999999;
+}
+.modal .btn{
+	background-color: #6593ff;
+	width: 80px;
+	border-radius: 0px;
+	color: #ffffff;
+	border-color: #6593ff;
+}
+.modal-footer .btn+.btn{
+	background-color: #fbfbfb;
+  	border: solid 1px #cccccc;
+  	color: #34353f;
+}

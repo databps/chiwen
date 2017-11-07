@@ -1,0 +1,139 @@
+[#include "/layout/layout_top.html"]
+<style>
+.closek:hover {
+	background-color: #EB6E78;
+}
+
+.openk:hover {
+	background-color: #33CF9C;
+}
+</style>
+<div class="col-xs-10 mainCont">
+	<div class="section main21" >
+		<h2>Kerberos配置</h2>
+		<div id="myAlert" class="alert alert-info" hidden="hidden"
+			style="padding-bottom: 10px">
+			<span id="alertText"></span>
+		</div>
+		<div class="row">
+			<div class="row col-md-5 gs-min-width form-item">
+				<label class="col-md-6 gs_table_label text-center"><strong>系统krb5.conf配置</strong></label>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="row col-md-5 gs-min-width form-item">
+				<dl class="dl-horizontal">
+					<dt>[realms]</dt>
+					<dd></dd>
+					[#if realms??] [#list realms as realm]
+					<dd>${realm}</dd>
+					[/#list] [#else]
+					<dd>
+						<font color="red">未检测到../conf/kerb5.conf文件</font>
+					</dd>
+					[/#if]
+				</dl>
+			</div>
+			<div class="row col-md-5 gs-min-width form-item">
+				<dl class="dl-horizontal">
+					<dt>[libdefaults]</dt>
+					<dd></dd>
+					[#list libdefaults as lib]
+					<dd>${lib}</dd>
+					[/#list]
+				</dl>
+			</div>
+		</div>
+
+		<div class="row gs_input_form gs-min-width form-item" style="margin-bottom:15px">
+			<a id="closea" style="dipslay: none"
+				href="javascript:handleKerberos('${base}/tkdcu/clear','0')"
+				class="btn  btn-lg gs_save_btn btn-default closek">关闭kerberos</a> <a
+				id="opena" style="dipslay: none"
+				href="javascript:handleKerberos('${base}/tkdcu/init','1')"
+				class="btn gs_save_btn btn-default openk">开启kerberos</a>
+		</div>
+	</div>
+</div>
+[#include "/layout/layout_bottom.html"]
+<script type="text/javascript">
+	function showOpen() {
+		$("#closea").hide();
+		$("#opena").show();
+	}
+	function showClose() {
+		$("#opena").hide();
+		$("#closea").show();
+	}
+	var kerberosable = "${kerberos_able}";
+	$(function() {
+		$("#closea").on("click", function() {
+			showOpen();
+		});
+		$("#opena").on("click", function() {
+			showClose();
+		});
+		if (kerberosable == "1") {
+			showMsg("1", "已开启Kerberos");
+			showClose();
+		} else {
+			showMsg("2", "已关闭Kerberos");
+			showOpen();
+		}
+	});
+
+	function changeFile(status) {
+		$.ajax({
+			type : "get",
+			url : "${base}/tkdcc/switch",
+			data : {
+				status : status
+			},
+			dataType : "json",//返回数据形式为json  
+			success : function(result) {
+			},
+			error : function(errorMsg) {
+				$("#msg").html("请求失败,请检查网络.");
+			}
+		});
+	}
+	function handleKerberos(url, status) {
+		$.ajax({
+			type : "get",
+			url : url,
+			data : {},
+			dataType : "json",//返回数据形式为json  
+			success : function(result) {
+				if (result.code == "-1") {
+					showOpen();
+					showMsg(result.code, result.msg);
+				} else {
+					changeFile(status);
+					showMsg(result.code, result.msg);
+				}
+				//window.location.href = "${base}/tkdcc/list";
+			},
+			error : function(errorMsg) {
+				$("#msg").html("请求失败,请检查网络.");
+			}
+		});
+	}
+	function showMsg(code, msg) {
+		if (code == "1") {
+			$("#myAlert").removeClass("alert-danger");
+			$("#myAlert").addClass("alert-info");
+		} else if (code == "-1") {
+			$("#myAlert").removeClass("alert-info");
+			$("#myAlert").addClass("alert-danger");
+		} else {
+			$("#myAlert").removeClass("alert-info");
+			$("#myAlert").addClass("alert-danger");
+		}
+		$('#alertText').html(msg);
+		$("#myAlert").show();
+		/* $("#myAlert").fadeTo("slow", 0.5).slideUp(3000, function() {
+			$("#myAlert").hide();
+		}); */
+	}
+</script>

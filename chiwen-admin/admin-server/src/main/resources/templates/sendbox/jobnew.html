@@ -1,0 +1,42 @@
+[#include "/include/header_index.html"]
+<body style='height: 100%;'>
+[#include "/include/navbar.html"]
+<div class="app-main">
+    <!-- 内容 -->
+    <ol class="breadcrumb">
+        <li><a class="grey9" href="#">安全管理</a></li>
+        <li class="active grey3">Job Design</li>
+    </ol>
+    <div class="panel panel-default mar15">
+        <div class="panel-body">
+            <h5 class="h5_pad">Job Design(mapreduce type)</h5>
+
+            <form action="${base}/security/sendbox/formParams" method="POST" enctype="multipart/form-data">
+                <div class="input-group mar15 pad-bot10">
+                    <div class="font14 grey3">任务名称</div>
+                    <input type="text" name="jName" value="job_0001" class="input_query mar-top10"
+                           aria-describedby="basic-addon2">
+                </div>
+                <div class="input-group mar15 pad-bot10">
+                    <div class="font14 grey3">HDFS 输入目录</div>
+                    <input type="text" name="inPath" value="/usr/append_shop.txt" class="input_query mar-top10"
+                           aria-describedby="basic-addon2">
+                </div>
+                <div class="input-group mar15 pad-bot10">
+                    <div class="font14 grey3">HDFS 输出目录</div>
+                    <input type="text" name="outPath" value="/usr/12345" class="input_query mar-top10"
+                           aria-describedby="basic-addon2">
+                </div>
+                <div class="input-group mar15 pad-bot10">
+                    <div class="font14 grey3">添加 JAR</div>
+                    <input type="file" name="file" class="btn btn-default mar15 saves" value=""
+                           aria-describedby="basic-addon2">
+                </div>
+                <input type="submit" name="submit" class="btn btn-default mar15 saves" value="提交任务"/>
+            </form>
+        </div>
+    </div>
+</div>
+[#include "/include/footer_index.html"]
+</body>
+</html>

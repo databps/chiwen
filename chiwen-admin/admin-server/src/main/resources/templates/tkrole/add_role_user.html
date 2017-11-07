@@ -1,0 +1,45 @@
+[#include "/layout/layout_top.html"]
+<div class="col-xs-10 mainCont">
+	<div class="section section23">
+		<h2>RBAC人员关联</h2>
+		<form action="${base}/tkrole/saveRelUser" id="gsForm" method="post"
+			class="form" autocomplete="off">
+			<div class="row">
+				<div class="row col-md-5 gs-min-width form-item">
+					<label class="col-md-4 gs_table_label text-right">角色名称:</label>
+					<div class="col-sm-5">
+						<div class="col-sm-8 gs_info_value">${roleName}</div>
+					</div>
+					<input 
+							type="hidden" name="roleName" value="${roleName}">
+						<input 
+							type="hidden" name="roleId" value="${roleId}">
+				</div>
+			</div>
+			<div class="row">
+				<div class="row col-md-5 gs-min-width form-item">
+					<label class="col-md-4 gs_table_label text-right"><span
+						class="glyphicon glyphicon-asterisk require_ico"></span>用户名称:</label>
+					<div class="col-sm-8">
+						<div class="select-wrap">
+							<select id="userId_select" class="form-control" name="userId">
+								<option value="0" selected="selected">==请选择==</option>
+								[#list allUserList as user]
+								<option value="${user._id}">${user.uname}</option>
+								[/#list]
+							</select>
+							<img src="${base}/images/select.png" alt="">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row gs_input_form gs-min-width form-item">
+				<button type="submit" class="btn btn-default  gs_save_btn">保存</button>
+			</div>
+			<div class="text-right m-top25"> </div>
+		</form>
+	</div>
+	<div class="gs_blank_gap"></div>
+</div>
+[#include "/layout/layout_bottom.html"]
+

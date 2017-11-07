@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN" style="height:100%">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>观数科技</title>
+    <!-- Bootstrap3 -->
+    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/lib/jquery.validator.css">
+    <!-- <link href="../resources/lib/assets/css/animate.min.css" rel="stylesheet"> -->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="${base}/js/html5shiv.min.js"></script>
+    <script src="${base}/js/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="/css/base.css">
+    <script src="${base}/lib/jquery.js"></script>
+</head>
+<body>
+<div class="navbar violet">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="javascript:;" data-url='**.html'><img src="/img/logo.png"></a>
+        </div>
+    </div>
+</div>
+<form class="form" action="${base}/authenticate" method="post" id="loginFrom">
+    <div class="loginBox">
+        <div class="loginUser">
+            <div class="prompt">
+                <div class="promptactive [#if error??]on[/#if]">
+                    ${error}
+                </div>
+            </div>
+
+            <div class="loguser">
+                <p class="clearfix username"><i></i><input type="text" id="username" name="username" value="" data-rule="required;username" placeholder="请输入用户名"></p>
+                <p class="clearfix password"><i></i><input type="password" id="pwd" name="password" value="" data-rule="required;password" placeholder="请输入密码"></p>
+                <!--<p class="clearfix code"><i></i><input type="text" id="code" placeholder="请输入验证码"><a href="javascript:;"><img src="/img/codeimg.png"></a></p>-->
+                <p class="clearfix code"><i></i><input type="text" name="vrifyCode" id="code" placeholder="请输入验证码">
+                    <img alt="验证码" onclick = "this.src='${base}/defaultKaptcha?d='+new Date()*1" src="${base}/defaultKaptcha" />
+                </p>
+            </div>
+            <a href="javascript:submit();" class="btn js-submit">登 录</a>
+
+
+        </div>
+    </div>
+</form>
+<!--<a href="javascript:getPicture();" class="btn js-submit">获取验证码</a>-->
+
+<script type="text/javascript">
+    function submit() {
+        var tableForm = document.getElementById('loginFrom');
+        tableForm.onsubmit=null;
+        tableForm.submit();
+    }
+
+</script>
+</body>
+</html>

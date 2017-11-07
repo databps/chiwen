@@ -1,0 +1,87 @@
+[#include "/include/header_index.html"]
+<body style='height: 100%;'>
+[#include "/include/navbar.html"]
+<div class="app-main">
+  <!-- 内容 -->
+  <div class="yHdfsBody clearfix operationlog">
+    <div class="yMain clearfix">
+      <div class="fl">
+        <p class="yMainTitle">审计日志</p>
+        <ul class="nav nav-pills nav-stacked yPlugNav">
+          <li ><a  href="${base}/audit/list">HDFS日志</a></li>
+          <li><a  href="${base}/audit/admin/list">ADMIN日志</a></li>
+          <li ><a  href="${base}/audit/hbase/list">HBASE日志</a></li>
+          <li class="active"><a  href="${base}/audit/gateway/list">GATEWAY日志</a></li>
+        </ul>
+      </div>
+      <div class="fr">
+
+        <p class="frtitle">GATEWAY日志</p>
+        <div class="frbody">
+          <form action="/audit/gateway/list" method="get" class="gs_table_form" id="queryPage">
+            <input type="hidden" name="currentPage" id="currentPage" value="${page.currentPage}"/>
+            <input type="hidden" name="ids" />
+          <div class="topoperation clearfix">
+              <span>用户名称 </span><input type="text" name="username" value="${param["username"]}">
+              <span>日期 </span>
+              <input size="20" name="startDate" value="${param["startDate"]}" placeholder="选择开始时间" type="text" id="datetimeStart" readonly class="form_datetime"> 至
+              <input size="20" name="endDate" value="${param["endDate"]}" placeholder="选择结束时间" type="text" id="datetimeEnd" readonly class="form_datetime">
+              [@p.select list={'success':'成功','failure':'失败'} value="${param['result']}" name="result" headerKey="" headerValue="请选择" /]
+              <!--<select name="">-->
+                <!--<option>成功</option>-->
+                <!--<option>失败</option>-->
+              <!--</select>-->
+
+              <button type="submit" class="btn">查询</button>
+          </div>
+          </form>
+
+          <div class="tablesBox">
+            <div class="tableBox">
+              <table class="table table-hover">
+                <thead>
+                <tr>
+                  <th style="width:10px;">#</th>
+                  <th>用户名</th>
+                  <th>IP</th>
+                  <th>PluginIP</th>
+                  <th>操作</th>
+                  <th>资源</th>
+                  <th>访问类型</th>
+                  <th>时间</th>
+                  <th>授权结果</th>
+                </tr>
+                </thead>
+                <tbody>
+                [#list auditVoList as log]
+                <tr>
+                  <td>
+                    <label>
+                      <input type="checkbox">
+                    </label>
+                  </td>
+                  <td>${log.user}</td>
+                  <td>${log.clientIPAddress}</td>
+                  <td>${log.pluginIp}</td>
+                  <td>${log.action}</td>
+                  <td>${log.path}</td>
+                  <td>${log.accessType}</td>
+                  <td>[@formatDate value="${log.accessTime}"/]</td>
+                  <td>[#if log.isAllowed=='success']<span class="label label-success">success</span>[#else]<span class="label label-danger">failure</span>[/#if]</td>
+                </tr>
+                [/#list]
+                </tbody>
+              </table>
+            </div>
+            <div class="clearfix row tabbuttom no-paddleft">
+            [@p.mongo_page value=page form="queryPage"/]
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+[#include "/include/footer_index.html"]
+</body>
+</html>

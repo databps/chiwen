@@ -1,0 +1,100 @@
+[#include "/include/header_index.html"]
+<body style='height: 100%;'>
+[#include "/include/navbar.html"]
+<div class="app-main">
+  <!-- 内容 -->
+  <div class="headNav">
+    <a href="javascript:;" class="active">审计数据清空备份</a>
+  </div>
+  <div class="messagebody">
+    <div class="SetupAll clearfix">
+      <div>
+        <p>手动备份配置</p>
+        <div class="operation">
+          <span>备份：</span>
+          <div class="dropdown">
+
+            <select id="date" class="form-control">
+              <option>1</option>
+              <option>7</option>
+              <option>30</option>
+              <option>45</option>
+              <option>60</option>
+            </select>
+
+          </div>
+          <span>天前数据</span>
+          <span class="backups" id="auditClean">清空</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="contentTable">
+    <div class="titleHead clearfix">
+      <form action="list" method="get" class="gs_table_form" id="queryPage">
+        <input type="hidden" name="currentPage" id="currentPage" value="${page.currentPage}"/>
+      <div class="fl">
+        日期 <input size="16" name="startDate" value="${param["startDate"]}" placeholder="选择开始时间" type="text" id="datetimeStart" readonly class="form_datetime">
+        至 <input size="16" name="endDate" value="${param["endDate"]}" placeholder="选择结束时间" type="text" id="datetimeEnd" readonly class="form_datetime">
+        <a href="javascript:admin.submit();" >查询</a>
+      </div>
+      </form>
+    </div>
+    <div class="tableBox mar15">
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>清空时间</th>
+          <th>清空结果</th>
+          <th>空间占用(备份空间/剩余磁盘)</th>
+          <th>备份路径</th>
+          <th>条数</th>
+        </tr>
+        </thead>
+        <tbody>
+        [#list backUpVoList as backup]
+        <tr>
+          <td>[@p.formatDate value="${backup.createTime}"/]</td>
+          <td>[#if backup.code == 0]成功[#else]失败[/#if] </td>
+          <td>${backup.catalog.size}M/${avail}</td>
+          <td>${backup.catalog.path}</td>
+          <td>${backup.catalog.count}</td>
+        </tr>
+        [/#list]
+
+        </tbody>
+      </table>
+    </div>
+    <div class="clearfix row tabbuttom">
+    [@p.mongo_page value=page form="queryPage"/]
+    </div>
+  </div>
+</div>
+[#include "/include/footer_index.html"]
+<script>
+$(function () {
+  $('#auditClean').click(function () {
+    var $this = $(this);
+    $this.html("清空中...");
+    $this.addClass("on");
+    //alert($("#date").val());
+    $.ajax({
+      type: 'GET',
+      url: '${base}/audit/clean?date=' + $("#date").val(),
+      dataType: 'json',
+      success: function (data) {
+        if (data.code == 0) {
+          $this.html("清空完成");
+          window.location.reload();
+        }
+      },
+      error: function (errorMsg) {
+        $this.html("清空完成");
+        window.location.reload();
+      }
+    });
+  })
+});
+</script>
+</body>
+</html>

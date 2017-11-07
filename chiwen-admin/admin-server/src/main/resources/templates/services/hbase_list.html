@@ -1,0 +1,97 @@
+[#include "/include/header_index.html"]
+<body style='height: 100%;'>
+[#include "/include/navbar.html"]
+<div class="app-main">
+  <!-- 内容 -->
+  <div class="yHdfsBody">
+    <div class="yHeader">
+      <div class="dropdown yHeadropdown js-yHeadR">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          cluster1
+          <i class="glyphicon glyphicon-menu-down"></i>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+          <li><a href="#" data-id="1">cluster1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="yMain clearfix">
+      <div class="fl">
+        <ul class="nav nav-pills nav-stacked yPlugNav">
+
+          [#if service.status == "1"]
+          <li class="active yStop"><a data-toggle="tab" href="/services/hbase/list"><i class="hd"></i>HBASE <b></b></a></li>
+          [/#if]
+          [#if service.status == "0"]
+          <li class="active"><a data-toggle="tab" href="/services/hbase/list"><i class="hd"></i>HBASE <b></b></a></li>
+          [/#if]
+
+        </ul>
+      </div>
+      <div class="fr">
+        <div class="yHdsfDetBox">
+          <ul class="nav nav-tabs yTabNav" id="js-tab">
+            <li class="active"><a href="#js-yState" data-toggle="tab" aria-expanded="true">状态</a></li>
+            <li><a href="#js-yPulg" data-toggle="tab">配置</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active yState" id="js-yState">
+            </div>
+            <div class="tab-pane yPulgBox" id="js-yPulg">
+              <form class="form-horizontal yHdfsForm" action="/services/hbase/saveConfig"  method="post">
+
+
+                <div class="form-group">
+                  <label class="col-md-5 col-lg-4 control-label" for="uname3">hbase.http-address</label>
+                  <div class="col-md-4">
+                    <input class="form-control" id="uname3"  name="hbaseHttpUrls" placeholder="http://192.168.1.240:16010,http://192.168.1.240:16010" value="${service.serviceConfig["hbase_http_url"]}" type="text">
+                    <input  name="confId" value="${service._id}" type="hidden">
+                  </div>
+                  <div class="col-md-2">
+                    <span class="help-block">必填信息 ,分割</span>
+                  </div>
+                </div>
+                <button class="btnPre">保存</button>
+              </form>
+            </div>
+          </div>
+
+        </div>
+        <div class="yHdsfDetBox">
+          <div class="mar15">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                <tr>
+                  <th>插件名称</th>
+                  <th>Hostname</th>
+                  <th>最后更新时间</th>
+                  <th>状态</th>
+
+                </tr>
+                </thead>
+                <tbody class="hdfs_table">
+                [#list service.plugins as plugin]
+                <tr>
+                  <td>${plugin.name}</td>
+                  <td>${plugin.hostname}</td>
+                  <td>${plugin.updateTime}</td>
+                  [#if plugin.status == "0"]
+                  <td class="state"><span>运行中</span></td>
+                  [#else]
+                  <td class="state"><span class="warning">已停止</span></td>
+                  [/#if]
+                </tr>
+                [/#list]
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+[#include "/include/footer_index.html"]
+</body>
+</html>

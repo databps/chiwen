@@ -1,0 +1,185 @@
+[#include "/include/header_index.html"]
+<body style='height: 100%;'>
+[#include "/include/navbar.html"]
+<div class="app-main">
+  <!-- 内容 -->
+  <div class="yHdfsBody jurisdiction">
+    <div class="yHeader">
+      <!-- <span>HDFS(Cluster1)</span> -->
+      <!-- <span class="hb">HDFS(Cluster1)</span> -->
+      <!-- <span class="hi">HDFS(Cluster1)</span> -->
+      <span class="ga">HDFS(Cluster1)</span>
+    </div>
+    <div class="yMain clearfix">
+      <div class="fl">
+        <ul class="nav nav-pills nav-stacked yPlugNav">
+          <li><a href="${base}/authority/user/list">用户管理</a></li>
+          <li><a href="${base}/authority/group/list">组管理</a></li>
+          <li class="active"><a href="${base}/authority/privilege/list">权限管理</a></li>
+        </ul>
+      </div>
+      <div class="fr massges">
+        <div class="panel panel-default toptitle">
+          <p class="panel-heading">权限管理</p>
+        </div>
+        <div class="contBox clearfix">
+          <form action="${base}/authority/privilege/list" method="get" class="gs_table_form" id="formSearch">
+            <input type="hidden" name="page" id="currentPage" value="${page.number}"/>
+            <div class="searcch">
+                <input type="text" class="form-control" name="name" placeholder="权限名" value="${param["name"]}">
+                <button class="btn btn-default" type="submit">查询</button>
+            </div>
+          </form>
+          <a href="javascript:openPolicy();" >添加权限</a>
+        </div>
+        <div class="tables">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>权限名</th>
+              <th>备注</th>
+              <th>资源</th>
+              <th>创建时间</th>
+              <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            [#list policy.privileges as privilege]
+            <tr>
+              <td>${privilege.name}</td>
+              <td>[@p.tooltip value="${privilege.description}"/]</td>
+              <td>${privilege.resources.path.values[0]}</td>
+              <td>[@p.formatDate value="${privilege.createTime}"/]</td>
+              <td>
+                <a href="javascript:edit('${privilege.name}');">编辑</a>
+                <a href="${base}/authority/privilege/delete?name=${privilege.name}" onclick="if(confirm('确定删除?')==false)return false;">删除</a>
+              </td>
+            </tr>
+            [/#list]
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- 模态框 -->
+    <!-- 模态框（Modal）添加用户 -->
+    <div class="modal fade jurisdicModal" id="addPolicy" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel"
+         aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+            </button>
+            <h6 class="modal-title" id="addPolicyh6">添加权限</h6>
+          </div>
+          <form action="${base}/authority/privilege/save" method="post" id="gsForm"
+                autocomplete="off">
+            <input type="hidden" value="" name="mainname" id="hiddenName">
+            <div class="modal-body modal-adduser clearfix">
+              <div class="row form-horizontal common_box">
+              <div class="form-group">
+                <label class="col-sm-2 control-label"><i>*</i>名称</label>
+                <div class="col-sm-5">
+                  <div class="row">
+                    <input type="text" value=""  class="form-control" name="name" data-rule="required;name; remote[${base}/authority/privilege/checkName, mainname];" id="name"/>
+                  </div>
+                </div>
+
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label"><i>*</i>资源</label>
+                <div class="col-sm-5">
+                  <div class="row">
+                    <input type="text" value=""  class="form-control" name="path" id="path" data-rule="required; pathRule"  data-rule-pathRule="[/^\/[a-zA-Z*1-9_.$-\/#]*$/, '请输入有效的路径']" >
+                  </div>
+                </div>
+
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label"><i>*</i>备注</label>
+                <div class="col-sm-5">
+                  <div class="row">
+                    <input type="text" value="" class="form-control" name="description" data-rule="required;description" id="description"/>
+                  </div>
+                </div>
+
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">权限</label>
+                <div class="col-sm-10">
+                  <div class="row jurisCheck">
+                    <label><input name="accesses" checked="checked" value="read" type="checkbox"/>read</label>
+                    <label><input name="accesses" checked="checked" value="write" type="checkbox"/>write</label>
+                    <label><input name="accesses" checked="checked" value="execute" type="checkbox"/>execute</label>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            </div>
+            <div class="modal-footer footerBtn">
+              <button type="submit" class="btn btn-primary">确认</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+          </form>
+        </div>
+      </div><!-- /.modal -->
+    </div>
+
+  </div>
+</div>
+[#include "/include/footer_index.html"]
+<script type="text/javascript">
+  function openPolicy() {
+    $('#name').val('');
+    $('#path').val('');
+    $('#description').val('');
+    $("input[name='accesses']").each(function(){
+      $(this).prop('checked',true);
+    });
+    $('#hiddenName').val('');
+    $('#gsForm').validator('cleanUp');
+    $('#addPolicyh6').html("添加权限");
+    $('#addPolicy').modal('show');
+  }
+  function edit(name) {
+    $('#addPolicyh6').html("编辑权限");
+    $.ajax({
+      type: 'GET',
+      url: '${base}/authority/privilege/getPolicy?name=' + name,
+      dataType: 'json',
+      success: function (data) {
+        if (data.code == 0) {
+          var ob=data.data;
+          //console.log(ob)
+          $('#name').val(ob.name);
+          $('#path').val(ob.path);
+          $('#description').val(ob.description);
+          $('#hiddenName').val(name);
+          var accesses=ob.accesses;
+          $("input[name='accesses']").each(function(){
+            $(this).prop('checked',false);
+          });
+
+          $("input[name='accesses']").each(function(){
+            for(var i=0;i<accesses.length;i++){
+
+              if($(this).val()==accesses[i]){
+                $(this).prop('checked',true);
+              }
+            }
+          });
+          $('#gsForm').validator('cleanUp');
+          $('#addPolicy').modal('show');
+
+        }
+      },
+      error: function (errorMsg) {
+        alert("error!")
+      }
+    });
+  }
+</script>
+</body>
+</html>

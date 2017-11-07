@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<configuration>
+	<property>
+		<name>dfs.replication</name>
+		<value>1</value>
+	</property>
+
+	<property>
+		<name>dfs.nameservices</name>
+		<value>cluster1</value>
+	</property>
+	<property>
+		<name>dfs.ha.namenodes.cluster1</name>
+		<value>nn1,nn2</value>
+	</property>
+	<property>
+		<name>dfs.namenode.rpc-address.cluster1.nn1</name>
+		<value>os1:8020</value>
+	</property>
+	<property>
+		<name>dfs.namenode.http-address.cluster1.nn1</name>
+		<value>os1:50070</value>
+	</property>
+	<property>
+		<name>dfs.namenode.rpc-address.cluster1.nn2</name>
+		<value>os2:8020</value>
+	</property>
+	<property>
+		<name>dfs.namenode.http-address.cluster1.nn2</name>
+		<value>os2:50070</value>
+	</property>
+
+
+
+	<property>
+		<name>dfs.namenode.shared.edits.dir</name>
+		<value>qjournal://os1:8485;os2:8485;os3:8485/cluster1</value>
+	</property>
+	<property>
+		<name>dfs.journalnode.edits.dir</name>
+		<value>/hadoop/data/journal</value>
+	</property>
+	<property>
+		<name>dfs.ha.automatic-failover.enabled</name>
+		<value>true</value>
+	</property>
+	<property>
+		<name>dfs.client.failover.proxy.provider.cluster1</name>
+		<value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
+	</property>
+	<property>
+		<name>dfs.ha.fencing.methods</name>
+		<value>sshfence</value>
+	</property>
+	<property>
+		<name>dfs.ha.fencing.ssh.private-key-files</name>
+		<value>~/.ssh/id_rsa</value>
+	</property>
+	<property>
+		<name>dfs.ha.fencing.ssh.connect-timeout</name>
+		<value>30000</value>
+	</property>
+
+	<property>
+		<name>dfs.namenode.name.dir</name>
+		<value>file:///hadoop/data/namenode1,file:///hadoop/data/namenode2</value>
+	</property>
+	<property>
+		<name>dfs.datanode.data.dir</name>
+		<value>file:///hadoop/data/datanode1,file:///hadoop/data/datanode2</value>
+	</property>
+
+	<property>
+		<name>dfs.block.access.token.enable</name>
+		<value>true</value>
+	</property>
+	<property>
+		<name>dfs.datanode.data.dir.perm</name>
+		<value>700</value>
+	</property>
+	<property>
+		<name>dfs.namenode.keytab.file</name>
+		<value>/usr/local/hadoop-2.7.3/etc/hadoop/kerberos/daf_dafserver.keytab</value>
+	</property>
+	<property>
+		<name>dfs.namenode.kerberos.principal</name>
+		<value>daf/dafserver@GS.COM</value>
+	</property>
+	<property>
+		<name>dfs.datanode.address</name>
+		<value>0.0.0.0:1004</value>
+	</property>
+	<property>
+		<name>dfs.datanode.http.address</name>
+		<value>0.0.0.0:1006</value>
+	</property>
+	<property>
+		<name>dfs.datanode.keytab.file</name>
+		<value>/usr/local/hadoop-2.7.3/etc/hadoop/kerberos/daf_dafserver.keytab</value>
+	</property>
+	<property>
+		<name>dfs.datanode.kerberos.principal</name>
+		<value>daf/dafserver@GS.COM</value>
+	</property>
+
+
+	<property>
+		<name>dfs.journalnode.keytab.file</name>
+		<value>/usr/local/hadoop-2.7.3/etc/hadoop/kerberos/daf_dafserver.keytab</value>
+	</property>
+	<property>
+		<name>dfs.journalnode.kerberos.principal</name>
+		<value>daf/dafserver@GS.COM</value>
+	</property>
+	<property>
+		<name>dfs.journalnode.kerberos.internal.spnego.principal</name>
+		<value>daf/dafserver@GS.COM</value>
+	</property>
+	
+	<property>
+		<name>dfs.webhdfs.enabled</name>
+		<value>true</value>
+	</property>
+
+	<property>
+		<name>dfs.web.authentication.kerberos.principal</name>
+		<value>daf/dafserver@GS.COM</value>
+	</property>
+
+	<property>
+		<name>dfs.web.authentication.kerberos.keytab</name>
+		<value>/usr/local/hadoop-2.7.3/etc/hadoop/kerberos/daf_dafserver.keytab</value>
+	</property>
+
+</configuration>

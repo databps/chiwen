@@ -1,0 +1,1 @@
+premain-class: com.databps.bigdaf.chiwen.hdfsagent.AuthCodeInjectionJavaAgent

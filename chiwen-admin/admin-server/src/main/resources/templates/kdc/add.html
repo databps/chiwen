@@ -1,0 +1,77 @@
+[#include "/layout/layout_top.html"]
+<div class="col-xs-10 mainCont">
+	<div class="section  gs-panle-auto">
+		<h2>新增Kerberos用户</h2>
+		<form action="${base}/tkdcu/addKerberos" id="gsForm" method="post"
+			class="form" autocomplete="off">
+			<div class="row">
+				<div class="row col-md-5 gs-min-width form-item">
+					<label class="col-md-4 gs_table_label text-right"><span
+						class="glyphicon glyphicon-asterisk require_ico"></span>主体名称:</label>
+					<div class="col-sm-6" style="padding-right: 1px;">
+						<input id="uname" class="form-control" type="text" name="uname"
+							value="" data-rule="required;uname;">
+					</div>
+					[#if realm ==""] <font color="red">未检测到../conf/krb5.conf文件</font>
+					[#else]
+					<div class="col-sm-2"
+						style="padding-right: 1px; padding-left: 1px;">
+						<label class="col-md-4 gs_table_label text-left"
+							style="padding-right: 1px; padding-left: 1px;">
+							 @${realm} </label>
+					</div>
+					[/#if]
+				</div>
+
+				<div class="row col-md-5 gs-min-width form-item">
+					<label class="col-md-4 gs_table_label text-right"><span
+						class="glyphicon glyphicon-asterisk require_ico"></span>类型:</label>
+					<div class="col-sm-4">
+						<select class="form-control" id="flag" name="flag">
+							<option value="2">系统</option>
+							<option value="1">个人</option>
+						</select>
+					</div>
+				</div>
+				<span id="helpBlock" class="help-block"><h5>
+						<font color="red"><span id="msg"></span></font>
+					</h5></span>
+			</div>
+
+			<div class="row gs_input_form gs-min-width form-item">
+				<a href="javascript:addKerberos()"
+					class="btn btn-default  gs_save_btn">保存</a>
+			</div>
+
+		</form>
+	</div>
+
+</div>
+<div class="gs_blank_gap"></div>
+</div>
+[#include "/layout/layout_bottom.html"]
+<script type="text/javascript">
+	function addKerberos() {
+		var uname = $("#uname").val();
+		var flag = $("#flag option:selected").val()
+		$.ajax({
+			type : "get",
+			url : "${base}/tkdcu/addKerberos",
+			data : {
+				uname : uname,
+				flag : flag
+			},
+			dataType : "json",//返回数据形式为json  
+			success : function(result) {
+				if (result.code == "2" || result.code == "-1") {
+					$("#msg").html(result.msg);
+				} else {
+					window.location.href = "${base}/tkdcu/list";
+				}
+			},
+			error : function(errorMsg) {
+				$("#msg").html("请求失败,请检查网络.");
+			}
+		});
+	}
+</script>

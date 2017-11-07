@@ -1,0 +1,332 @@
+[#include "/layout/layout_top.html"]
+<div class="col-xs-10 mainCont">
+  <div class="section section23">
+    <h2>
+      登陆策略
+      <div class="abs">
+        <a href="javascript:save();" class="a-btn"><img src="${base}/images/i-save.png" alt="" width="16"><span class="v-mid">保存</span></a>
+        <!--<a href="javascript:;" class="a-btn"><img src="images/i-disabled.png" alt="" width="16"><span class="v-mid">禁用</span></a>-->
+        <!--<a href="javascript:;" class="a-btn"><img src="images/i-del1.png" alt="" width="16"><span class="v-mid">删除</span></a>-->
+        <a href="javascript:return_page();" class="a-btn"><img src="${base}/images/i-back.png" alt="" width="16"><span class="v-mid">返回</span></a>
+      </div>
+    </h2>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="row">
+          <form class="form-horizontal" role="form" id="form" action="authorizeTimeSave" method="post">
+            <input type="hidden" name="userId" value="${_id}">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">用户:</label>
+              <div class="col-sm-6 ipt-wrap">
+                <input type="text" class="form-control ipt" value="${uname}" readonly>
+                <!--<img src="images/select.png" alt="">-->
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">IP白名单:</label>
+              <div class="col-sm-6 ipt-wrap">
+
+						<textarea id="ipStart" class="form-control ipt" name="ipStart"
+                      value="" data-rule="ipStart;" rows="10" cols="10"
+                      placeholder="一行一个IP, 或者IP段用中划线,例如 192.168.1.110 <换行> 192.168.1.111-192.168.1.120">${whiteIp}</textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-2 text-right">开始时间:</div>
+            </div>
+            <div class="form-group form-group-time">
+              <label class="col-sm-2 control-label">年:</label>
+              <div class="col-sm-2 ipt-wrap year">
+                <div class="select-wrap">
+                  <select class="form-control" id="year_start_box" name="start_year">
+                  </select>
+                  <img src="${base}/images/select.png" alt="">
+                </div>
+              </div>
+              <div class="col-sm-2 ipt-wrap">
+                <label class="control-label">月:</label>
+                <div class="select-wrap">
+                  <select class="form-control" id="month_start_box" name="start_month">
+                  </select>
+                  <img src="${base}/images/select.png" alt="">
+                </div>
+              </div>
+              <div class="col-sm-2 ipt-wrap">
+                <label class="control-label">日:</label>
+                <div class="select-wrap">
+                  <select class="form-control" id="day_start_box" name="start_day">
+                  </select>
+                  <img src="${base}/images/select.png" alt="">
+                </div>
+              </div>
+              <div class="col-sm-2 ipt-wrap">
+                <label class="control-label">星期:</label>
+                <div class="select-wrap">
+                  <select class="form-control" id="weekly_start_box" name="start_weekly">
+                  </select>
+                  <img src="${base}/images/select.png" alt="">
+                </div>
+              </div>
+              <div class="col-sm-2 ipt-wrap">
+                <label class="control-label">时:</label>
+                <div class="select-wrap">
+                  <select class="form-control" id="hour_start_box" name="start_hour">
+                  </select>
+                  <img src="${base}/images/select.png" alt="">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-2 text-right">结束时间:</div>
+            </div>
+            <div class="form-group form-group-time">
+              <label class="col-sm-2 control-label">年:</label>
+              <div class="col-sm-2 ipt-wrap year">
+                <div class="select-wrap">
+                  <select class="form-control" id="year_end_box" name="end_year">
+                  </select>
+                  <img src="${base}/images/select.png" alt="">
+                </div>
+              </div>
+              <div class="col-sm-2 ipt-wrap">
+                <label class="control-label">月:</label>
+                <div class="select-wrap">
+                  <select class="form-control" id="month_end_box" name="end_month">
+                  </select>
+                  <img src="${base}/images/select.png" alt="">
+                </div>
+              </div>
+              <div class="col-sm-2 ipt-wrap">
+                <label class="control-label">日:</label>
+                <div class="select-wrap">
+                  <select class="form-control" id="day_end_box" name="end_day">
+                  </select>
+                  <img src="${base}/images/select.png" alt="">
+                </div>
+              </div>
+              <div class="col-sm-2 ipt-wrap">
+                <label class="control-label">星期:</label>
+                <div class="select-wrap">
+                  <select class="form-control" id="weekly_end_box" name="end_weekly">
+                  </select>
+                  <img src="${base}/images/select.png" alt="">
+                </div>
+              </div>
+              <div class="col-sm-2 ipt-wrap">
+                <label class="control-label">时:</label>
+                <div class="select-wrap">
+                  <select class="form-control" name="end_hour" id="hour_end_box">
+                  </select>
+                  <img src="${base}/images/select.png" alt="">
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+[#include "/layout/layout_bottom.html"]
+<script type="text/javascript">
+
+    $(function(){
+        var at = ${at};
+
+        var optHtml = '<option value="0">不限</option>'
+
+        //year
+        <!--var d = new Date();-->
+        var html = optHtml;
+        var start = 2016;
+        for(i = 0; i < 11; i++) {
+            var year = start + i;
+            html += '<option value="' + year + '">' + year + '</option>';
+        }
+
+        $('#year_start_box').append(html);
+        $('#year_end_box').append(html);
+
+        //month
+        var html = optHtml;
+        var monthArr = ['', '一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];
+        var start = 1;
+        for(i = 0; i < 12; i++) {
+            var year = start + i;
+            html += '<option value="' + year + '">' + monthArr[year] + '</option>';
+        }
+
+        $('#month_start_box').append(html);
+        $('#month_end_box').append(html);
+
+        //day
+        var html = optHtml;
+        var start = 1;
+        for(i = 0; i < 31; i++) {
+            var year = start + i;
+            html += '<option value="' + year + '">' + year + ' 日</option>';
+        }
+
+        $('#day_start_box').append(html);
+        $('#day_end_box').append(html);
+
+        //weekly
+        var weeklyArr = ['', '一', '二', '三', '四', '五', '六', '日'];
+        var html = optHtml;
+        var start = 1;
+        for(i = 0; i < 7; i++) {
+            var year = start + i;
+            html += '<option value="' + year + '">' + weeklyArr[year] + '</option>';
+        }
+
+        $('#weekly_start_box').append(html);
+        $('#weekly_end_box').append(html);
+
+        //hour
+        var html = optHtml;
+        var start = 1;
+        for(i = 0; i < 24; i++) {
+            var year = start + i;
+            html += '<option value="' + year + '">' + year + ':00</option>';
+        }
+
+        $('#hour_start_box').append(html);
+        $('#hour_end_box').append(html);
+
+        //init
+        selectBox('year', at.year_type, at.start_year, at.end_year);
+        selectBox('month', at.month_type, at.start_month, at.end_month);
+        selectBox('day', at.day_type, at.start_day, at.end_day);
+        selectBox('weekly', at.weekly_type, at.start_weekly, at.end_weekly);
+        selectBox('hour', at.hour_type, at.start_hour, at.end_hour);
+
+        $('select').change(function() {
+            var str = $(this).attr('name');
+            var arr = str.split('_');
+            str = arr[1];
+            var start = parseInt($('#' + str + '_start_box').val());
+            var end = parseInt($('#' + str + '_end_box').val());
+
+            if(start == 0 && end != 0 && arr[0] == 'end') {
+
+                alert('请先选择开始值!');
+                $('#' + str + '_end_box').val(0).gentleSelect('update');
+
+                return false;
+            }
+
+            if(start == 0 && end != 0 && arr[0] != 'end') {
+
+                $('#' + str + '_end_box').val(0).gentleSelect('update');
+                return false;
+            }
+
+            if(end != 0 && end < start) {
+
+                alert('开始值不能大于结束值!');
+                selectBox(str, at[str + '_type'], at['start_' + str], at['end_' + str]);
+                return false;
+            }
+        });
+
+        //只能输入ip
+        $("#ipStart").keypress(function(event) {
+            var keyCode = event.which;
+            if ((keyCode >= 48 && keyCode <=57) || keyCode == 8
+            	|| keyCode == 46 || keyCode == 110 || keyCode == 190 || keyCode == 13
+            	|| keyCode == 173 || keyCode == 109 || keyCode == 45)
+                return true;
+            else
+                return false;
+        }).focus(function() {
+            this.style.imeMode='disabled';
+        });
+
+    });
+
+    function save() {
+
+			var ipst = $("#ipStart").val().trim();
+			$("#ipStar").val(ipst);
+			var arr = ipst.split("\n");
+			var flg = false;
+			arr.forEach(function(i){
+				var ip = i.trim();
+				if(ip != '' && !checkIpLine(ip)) {
+					flg = true;
+					alert('IP格式错误: ' + ip);
+					return false;
+				}
+			});
+      $('#form').submit();
+    }
+
+    function return_page() {
+      window.location.href="/tactics/list";
+    }
+
+    function selectBox(str, type, start, end) {
+
+        if(type == '') {
+            type = 1;
+        }
+        if(start == '') {
+            start = 0;
+        }
+        if(end == '') {
+            end = 0;
+        }
+
+        if(type == '' || type == 1) {
+            start = 0;
+            end = 0;
+        }
+        $('#' + str + '_start_box').val(start);
+        $('#' + str + '_end_box').val(end);
+    }
+
+  function checkIp(ipStr) {
+		var reg = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+
+		return reg.test(ipStr);
+	}
+
+	function checkIps(startIp, endIp) {
+		if(!checkIp(startIp) || !checkIp(endIp)) {
+		 	return false;
+		}
+
+		return (toInt(startIp) < toInt(endIp))
+
+	}
+
+	function checkIpLine(str) {
+		var len = str.length;
+		if(len < 7 || len > 31) {
+
+			return false;
+		}
+
+		if(!str.includes('-')) {
+			return checkIp(str);
+		} else {
+
+			var arr = str.split('-');
+			if(arr.length < 2) {
+				return false;
+
+			}
+			return checkIps(arr[0], arr[1]);
+		}
+
+	}
+
+	function toInt(ip){
+		var ipl=0;
+		ip.split('.').forEach(function( octet ) {
+				ipl<<=8;
+				ipl+=parseInt(octet);
+		});
+		return(ipl >>>0);
+	};
+</script>

@@ -1,0 +1,137 @@
+
+[#include "/include/header_index.html"]
+</head>
+<body style='height: 100%;'>
+[#include "/include/navbar.html"]
+<div class="app-main">
+  <!-- 内容 -->
+  <div class="yHdfsBody">
+    <div class="yHeader">
+      <div class="dropdown yHeadropdown js-yHeadR">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          cluster1
+          <i class="glyphicon glyphicon-menu-down"></i>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+          <li><a href="#" data-id="1">cluster1</a></li>
+          <li><a href="#" data-id="2">cluster2</a></li>
+          <li><a href="#" data-id="3">cluster3</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="yMain clearfix">
+      <div class="fl">
+        <ul class="nav nav-pills nav-stacked yPlugNav">
+          [#list services as service]
+
+          [#if service.name == "hdfs"]
+          [#if service.status == "0"]
+          <li><a href="/services/list"><i class="hd"></i>HDFS <b></b></a></li>
+          [/#if]
+          [#if service.status == "1"]
+          <li class="yStop active"><a data-toggle="tab" href="/services/list"><i class="hd"></i>HDFS <b></b></a></li>
+          [/#if]
+          [/#if]
+          <!--[#if service.name == "hbase"]
+          [#if service.status == "0"]
+          <li><a data-toggle="tab" href="#"><i class="hb"></i>HBACE<b></b></a></li>
+          [/#if]
+          [#if service.status == "1"]
+          <li class="yStop"><a data-toggle="tab" href="#"><i class="hb"></i>HBACE<b></b></a></li>
+          [/#if]
+          [/#if]
+
+          [#if service.name == "hive"]
+          [#if service.status == "0"]
+          <li><a data-toggle="tab" href="#"><i class="hi"></i>Hive<b></b></a></li>
+          [/#if]
+          [#if service.status == "1"]
+          <li class="yStop"><a data-toggle="tab" href="#"><i class="hi"></i>Hive<b></b></a></li>
+          [/#if]
+          [/#if]-->
+
+          [#if service.name == "gateway"]
+          [#if service.status == "0"]
+          <li><a data-toggle="tab" href="/api/gateway/list"><i class="ga"></i>Gateway<b></b></a></li>
+          [/#if]
+          [#if service.status == "1"]
+          <li class="yStop active"><a data-toggle="tab" href="/api/gateway/list"><i class="ga"></i>Gateway<b></b></a></li>
+
+
+
+
+
+          [/#if]
+          [/#if]
+
+          [/#list]
+        </ul>
+      </div>
+      <div class="fr">
+        <div class="yHdsfDetBox">
+          <div class="mar15">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                <tr>
+                  <th>插件名称</th>
+                  <th>Hostname</th>
+                  <th>最后更新时间</th>
+                  <th>状态</th>
+                  <th>平均负载</th>
+                  <th>物理内存</th>
+                  <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                [#list services as service]
+                [#if service.name == "gateway"]
+                [#list service.plugins as plugin]
+
+                <tr>
+                  <td>${plugin.name}</td>
+                  <td>${plugin.hostname}</td>
+                  <td>${plugin.updateTime}</td>
+                  [#if plugin.status == "0"]
+                  <td class="state"><span>运行中</span></td>
+                  [#else]
+                  <td class="state"><span class="warning">已停止</span></td>
+                  [/#if]
+                  <td>345:2017.06.12 12:34:09 09 08 OUT</td>
+                  <td>
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="60"
+                           aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
+                        <span class="sr-only">40% 完成</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td><a href="#">详情</a></td>
+                </tr>
+
+                [/#list]
+                [/#if]
+                [/#list]
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--<div class="footer">-->
+  <!--<p><a href="#">正式版 v1.1.0</a><span>证书正常</span><span>2017年7月16日 11:24:09</span></p>-->
+<!--</div>-->
+<!--&lt;!&ndash; jQuery (v2.2.4) &ndash;&gt;-->
+<!--<script src="lib/jquery.js"></script>-->
+<!--&lt;!&ndash; bootstrap3 &ndash;&gt;-->
+<!--<script src="/lib/bootstrap/js/bootstrap.min.js"></script>-->
+<!--<script src="/js/index.js"></script>-->
+<!--<script src="/js/common.js"></script>-->
+<!--</body>-->
+<!--</html>-->
+[#include "/include/footer_index.html"]
+</body>
+</html>

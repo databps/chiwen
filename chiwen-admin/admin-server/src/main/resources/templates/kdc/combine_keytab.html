@@ -1,0 +1,162 @@
+[#include "/layout/layout_top.html"]
+<div class="col-xs-10 mainCont">
+    <div class="section ">
+        <div class="gs-info-title">合并keytab</div>
+        <form action="${base}/tkdcu/combineKeytab" id="gsForm" method="post" class="form" autocomplete="off">
+            <div class="row">
+                <div class="row col-md-10 gs-min-width form-item">
+                    <label class="col-md-2 gs_table_label text-right"><span class="glyphicon glyphicon-asterisk require_ico"></span>kerberos账户:</label>
+                    <div class="col-sm-8">
+                        <div class="form-group col-sm-8">
+                            <textarea id="checkedPath" class="form-control" rows="4" readonly="true" data-rule="required;path;"
+                                placeholder="请勾选下面的kerberos账户"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="ids" name="ids"/>
+            <div class="row gs_input_form gs-min-width form-item">
+                <button type="button" class="btn btn-default " id="clean_btn">取消</button>
+                <button type="button" class="btn btn-default  gs_save_btn" id="download_btn">合并下载</button>
+            </div>
+            <div class="row gs_input_form gs-min-width form-item"></div>
+        </form>
+    </div>
+    <div class="section ">
+        <div class="gs-info-title">kerberos账户列表</div>
+        <div class="row">
+            <div class="col-xs-3 col-sm-12">
+                <form onsubmit="return false;">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="uname" /><span
+                            class="input-group-btn"><button class="btn btn-default"
+                                type="button" id="btn-nav-directory">查询</button></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="alert alert-danger" id="alert-panel" style="display: none"
+            role="alert">
+            <button type="button" class="close" onclick="$('#alert-panel').hide();">&times;</button>
+            <div class="alert-body" id="alert-panel-body"></div>
+        </div>
+        <div class="clearfix gs_table_box">
+            <div id="panel"></div>
+        </div>
+    </div>
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th class="active">选择</th>
+            <th class="active">kerberos主体称</th>
+            <th class="active">类型</th>
+        </tr>
+        </thead>
+        <tbody id="detail_list"></tbody>
+    </table>
+    <div class="text-center" id="modal_paging"></div>
+</div>
+[#include "/layout/layout_bottom.html"]
+
+<script src="${base}/js/pagination.js"></script>
+<script type="text/javascript">
+    var idArr = [];
+    var map = {};
+    var statusArr = ['', '个人', '系统'];
+    $(function() {
+        page('', 1);
+        $('body').on("click", "#modal_paging li", function(){
+            if($(this).hasClass('active') || $(this).hasClass('disabled')) {
+                return false;
+            }
+            var uname = $('#uname').val().trim();
+            var toPage = $(this).attr('data-id');
+            page(uname, toPage);
+        });
+
+        $('#btn-nav-directory').click(function(){
+            var uname = $('#uname').val().trim();
+            if(null == uname || '' == uname) {
+                uname = '';
+            }
+            page(uname, 1);
+        });
+
+        $('table').on('change', 'input[type="checkbox"]', function() {
+            var obj = $(this);
+            var id = obj.attr('data-id');
+            if(obj.is(':checked')) {
+               var tds =  $(this).parent().parent('tr').find('td');
+                idArr.push(id);
+                map[id] = $(tds[1]).text();
+            } else {
+                idArr.remove(id);
+                delete map[id];
+            }
+            refresh();
+        });
+
+        $('#download_btn').click(function(){
+            if(idArr.length < 1) {
+                alert('两个以上才能合并！');
+                return false;
+            }
+            $('#ids').val(idArr.join(','));
+            $('#gsForm').submit();
+        });
+
+    });
+
+    $('#clean_btn').click(function() {
+        idArr = [];
+        map = {};
+        $('#checkedPath').text('');
+        $('input[type="checkbox"]:checked').attr('checked', false);
+    });
+
+    function refresh() {
+        var str = '';
+        $.each(idArr, function(i, o) {
+            str += map[o] + '\n';
+        });
+        $('#checkedPath').text(str);
+    }
+
+    function page(name, currPage) {
+      $('#detail_list tr').remove();
+      $('#modal_paging ul').remove();
+      var isFirstPage = false;
+      $.ajax({
+        url : 'listUser',
+        method: 'POST',
+        data: {uname: name, currentPage: currPage},
+        dataType: 'json',
+        async: false,
+        success: function(data){
+            var page = data.page;
+            var list = data.list;
+
+            var arr = [];
+            $.each(list, function(i, obj) {
+              arr.push('<tr class="active">');
+              if(map[obj._id] != null) {
+
+                arr.push('<td> <input type="checkbox" data-id="' + obj._id + '" checked/></td>');
+              } else {
+                arr.push('<td> <input type="checkbox" data-id="' + obj._id + '"/></td>');
+              }
+              arr.push('<td>' + obj.uname + '</td>');
+              arr.push('<td>' + statusArr[obj.status] + '</td>');
+              arr.push('</tr>');
+            });
+
+            $('#detail_list').append(arr.join(''));
+            var html = createPagingHtml(page.currentPage, page.totalPage);
+            $('#modal_paging').append(html);
+        }
+
+      });
+
+    }
+</script>
+

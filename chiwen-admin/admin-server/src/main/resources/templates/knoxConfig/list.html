@@ -1,0 +1,256 @@
+[#include "/layout/layout_top.html"]
+<div class="col-xs-10 mainCont">
+	<div class="section main21" style="margin-bottom: 5px">
+		<h2>安全配置</h2>
+		<div id="myAlert" class="alert alert-success" hidden="hidden">
+			<strong>成功！</strong> 修改成功。
+		</div>
+		<div class="row">
+			<div class="row col-md-5 gs-min-width form-item">
+				<label class="col-md-8 gs_table_label text-right "><font
+					color="red">单击选项修改</font></label>
+			</div>
+		</div>
+		[#if RBACMap??]
+		<div class="row">
+			<div class="col-md-4 gs-min-width text-center"
+				style="margin-left: 200px">
+				<font color="red">注：</font>RBAC与MAC只能同时开启其中1个
+			</div>
+		</div>
+		<div class="row">
+			<div class="row col-sm-5 gs-min-width form-item">
+				<label class="col-sm-8 gs_table_label text-right">RBAC控制：</label>
+				[@p.radio value="${RBACMap['value']}" list={"1":"开启","0":"关闭"}
+				name="RBAC" /]
+			</div>
+			<span id="helpBlock" class="help-block"><h5>注：基于角色的访问控制模型,需要手动配置角色.</h5></span>
+		</div>
+		[/#if] [#if MACMap??]
+		<div class="row">
+			<div class="row col-sm-5 gs-min-width form-item">
+				<label class="col-sm-8 gs_table_label text-right">MAC控制：</label>
+				[@p.radio value="${MACMap['value']}" list={"1":"开启","0":"关闭"}
+				name="MAC" /]
+			</div>
+			<span id="helpBlock" class="help-block"><h5>注：强制访问控制BLP模型,主体向下只能读,向上只能追加写;需要手动配置MAC.</h5></span>
+		</div>
+		[/#if] [#if DACMap??]
+		<div class="row">
+			<div class="row col-sm-5 gs-min-width form-item">
+				<label class="col-sm-8 gs_table_label text-right">DAC控制：</label>
+				[@p.radio value="${DACMap['value']}" list={"1":"开启","0":"关闭"}
+				name="DAC" rule="checked;" onclick="setNV"
+				params="update?name=${DACMap['key']}&config=" /]
+			</div>
+			<span id="helpBlock" class="help-block"><h5>注：自主访问控制模型,开启后可以防止改变文件的所属者.</h5></span>
+		</div>
+		[/#if] [#if IPMap??]
+		<div class="row">
+			<div class="row col-sm-5 gs-min-width form-item">
+				<label class="col-sm-8 gs_table_label text-right">登录策略控制：</label>
+				[@p.radio value="${IPMap['value']}" list={"1":"开启","0":"关闭"}
+				name="IP" rule="checked;" onclick="setNV"
+				params="update?name=${IPMap['key']}&config=" /]
+			</div>
+		</div>
+		[/#if] [#if KMSMap??]
+		<div class="row">
+			<div class="row col-sm-5 gs-min-width form-item">
+				<label class="col-sm-8 gs_table_label text-right">Hadoop数据加密：</label>
+				[@p.radio value="${KMSMap['value']}" list={"1":"开启","0":"关闭"}
+				name="KMS" rule="checked;" onclick="setNV"
+				params="update?name=${KMSMap['key']}&config=" /]
+			</div>
+			<span id="helpBlock" class="help-block"><h5>注：开启Hadoop数据加密功能,加密方式AES,需要修改Hadoop集群配置及修改下面的KMS配置</h5></span>
+		</div>
+		[/#if] [#if testModeMap??]
+		<div class="row">
+			<div class="row col-sm-5 gs-min-width form-item">
+				<label class="col-sm-8 gs_table_label text-right">测试模式：</label>
+				[@p.radio value="${testModeMap['value']}" list={"1":"开启","0":"关闭"}
+				name="TestMode" rule="checked;" onclick="setNV"
+				params="update?name=${testModeMap['key']}&config=" /]
+			</div>
+			<span class="help-block"><h5>注：开启测试模式时，只记录日志, 不拦截!</h5></span>
+		</div>
+		[/#if]
+	</div>
+
+
+	[#if KMSMap['value'] =="1"] [/#if]
+[#if kmsUriMap??]
+	<div class="section main21" style="margin-bottom: 5px;">
+		<h2>KMS配置</h2>
+		<div class="row">
+			<div class="row col-sm-4 gs-min-width form-item">
+				<label class="col-sm-12 gs_table_label text-right">dfs.encryption.key.provider.uri：</label>
+			</div>
+			<div class="col-sm-4" style="padding-left: 5px; padding-right: 5px">
+					<input value="${kmsUriMap['value']}" id="kmsUri"
+						class="form-control" data-value="${kmsUriMap['value']}" />
+				</div>
+			<span id="helpBlock" class="help-block">&nbsp;&nbsp;注：KMS服务器地址</span>
+		</div>
+		[/#if] [#if kmsPathMap??]
+		<div class="row">
+			<div class="row col-sm-4 gs-min-width form-item">
+				<label class="col-sm-12 gs_table_label text-right">hadoop.security.key.provider.path：</label>
+				
+			</div>
+			<div class="col-sm-4" style="padding-left: 5px; padding-right: 5px">
+					<input value="${kmsPathMap['value']}" id="kmsPath"
+						class="form-control" data-value="${kmsPathMap['value']}" />
+				</div>
+			<span id="helpBlock" class="help-block">&nbsp;&nbsp;注：KMS服务器地址</span>
+		</div>
+		
+	</div>
+[/#if]
+[#if accessErrorNumMap??]
+	<div class="section main21" style="margin-bottom: 5px;">
+		<h2>登录错误设置</h2>
+		
+		<div class="row">
+			<div class="row col-sm-5 gs-min-width form-item">
+				<label class="col-sm-8 gs_table_label text-right">最大错误次数：</label>
+				<div class="col-sm-4" style="padding-left: 5px; padding-right: 5px">
+					<input value="${accessErrorNumMap['value']}" id="errorNum"
+						class="form-control" data-value="${accessErrorNumMap['value']}"
+						maxlength="4" />
+				</div>
+			</div>
+			<span id="helpBlock" class="help-block">&nbsp;&nbsp;注：hadoop用户认证最大错误次数</span>
+		</div>
+		[/#if] [#if accessErrorExpireMap??]
+		<div class="row">
+			<div class="row col-sm-5 gs-min-width form-item">
+				<label class="col-sm-8 gs_table_label text-right">最大错误数清零时间：</label>
+				<div class="col-sm-4" style="padding-left: 5px; padding-right: 5px">
+					<input value="${accessErrorExpireMap['value']}" id="errorExpire"
+						class="form-control" data-value="${accessErrorExpireMap['value']}"
+						maxlength="4" />
+				</div>
+			</div>
+			<span class="help-block">&nbsp;&nbsp;注：hadoop用户认证最大错误数清零时间(单位分钟)</span>
+		</div>
+		
+	</div>
+[/#if]
+
+</div>
+[#include "/layout/layout_bottom.html"]
+
+<script type="text/javascript">
+	function setNV(url) {
+		$.get(url, function(data) {
+			$('#myAlert').show();
+			$("#myAlert").fadeTo(2000, 500).slideUp(500, function() {
+				$("#myAlert").hide();
+			});
+		}).error(function(data, status) {
+			alert(data + status);
+		}, 'json');
+	}
+	$(function() {
+		$('input:radio[name="MAC"]').click(function() {
+			var val = $('input:radio[name="MAC"]:checked').val();
+			if (val == 1) {
+				$('input:radio[name="RBAC"][value="0"]').prop("checked", true);
+				setNV("update?name=rbac_able&config=0");
+				setNV("update?name=mac_able&config=1");
+			} else {
+				setNV("update?name=mac_able&config=0");
+			}
+		});
+		$('input:radio[name="RBAC"]').click(function() {
+			var val = $('input:radio[name="RBAC"]:checked').val();
+			if (val == 1) {
+				$('input:radio[name="MAC"][value="0"]').prop("checked", true);
+				setNV("update?name=mac_able&config=0");
+				setNV("update?name=rbac_able&config=1");
+			} else {
+				setNV("update?name=rbac_able&config=0");
+			}
+		});
+		$('#errorNum').blur(function() {
+
+			var input = $(this).val().trim();
+			if (input == '') {
+				return false;
+			}
+
+			var value = parseInt(input);
+			var old = $(this).attr('data-value').trim();
+			if (value < 1) {
+				alert('错误次数不能小于1');
+				$(this).val(old);
+				return false;
+			}
+
+			var old = parseInt(old);
+			if (old != value) {
+				$(this).attr('data-value', value);
+				setNV('update?name=access_error_num&config=' + value);
+			}
+
+		});
+
+		$('#errorExpire').blur(function() {
+
+			var input = $(this).val().trim();
+			if (input == '') {
+				return false;
+			}
+
+			var value = parseInt(input);
+			var old = $(this).attr('data-value').trim();
+			if (value < 1) {
+				alert('最大错误数清零时间不能小于1分钟');
+				$(this).val(old);
+				return false;
+			}
+
+			var old = parseInt(old);
+			if (old != value) {
+				$(this).attr('data-value', value);
+				setNV('update?name=access_error_expire&config=' + value);
+			}
+
+		});
+		$('#kmsPath').blur(function() {
+			var value = $(this).val().trim();
+			if (value == '') {
+				return false;
+			}
+			var old = $(this).attr('data-value').trim();
+			if (old != value) {
+				$(this).attr('data-value', value);
+				setNV('update?name=kms_path&config=' + value);
+			}
+		});
+		$('#kmsUri').blur(function() {
+			var value = $(this).val().trim();
+			if (value == '') {
+				return false;
+			}
+			var old = $(this).attr('data-value').trim();
+			if (old != value) {
+				$(this).attr('data-value', value);
+				setNV('update?name=kms_uri&config=' + value);
+			}
+		});
+		//只能输入数字
+		$("#errorNum").keypress(
+				function(event) {
+					var keyCode = event.which;
+					if ((keyCode >= 48 && keyCode <= 57) || keyCode == 46
+							|| keyCode == 8)
+						return true;
+					else
+						return false;
+				}).focus(function() {
+			this.style.imeMode = 'disabled';
+		});
+	})
+</script>

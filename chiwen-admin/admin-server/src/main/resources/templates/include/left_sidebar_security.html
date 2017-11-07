@@ -1,0 +1,32 @@
+<div class="gs-index-list" id="index_list">
+	<div class="panel-group" id="accordion">
+		<ul class="nav nav-pills nav-stacked gs-nav-bottom">
+			<li class="gs-index-list-a" navUrl="kconfig" param="dac_able"><a
+				data-parent="#accordion" href="${base}/kconfig/list?name=dac_able">DAC
+			</a></li>
+			<li class="gs-index-list-a" navUrl="tmac" param="null"><a
+				data-parent="#accordion" href="${base}/tmac/list">MAC </a></li>
+			<!-- <li class="gs-index-list-a"><a data-toggle="collapse"
+				data-toggle="collapse" data-parent="#accordion" href="#security">RBAC<span
+					class="caret"></span>
+			</a></li>
+			<div id="security" class="panel-collapse collapse">
+				<ul class="nav nav-pills nav-stacked gs-index-list-sm">
+					<li class="gs-index-list-b-sm" navUrl="tkrole"><a
+						href="${base}/tkrole/list">Hadoop角色</a></li>
+				</ul>
+			</div> -->
+			<li class="gs-index-list-a" navUrl="/tkrole" param="null"><a
+				data-parent="#accordion" href="${base}/tkrole/list">RBAC</a></li>
+			<li class="gs-index-list-a" navUrl="/tkuser" param="null"><a
+				data-parent="#accordion" href="${base}/tkuser/list">Hadoop用户</a></li>
+			<!-- <li class="gs-index-list-a" navUrl="twhitelist" param="null"><a
+				data-parent="#accordion" href="${base}/twhitelist/globalip">网络策略</a></li> -->
+			<li class="gs-index-list-a" navUrl="tactics" param="null"><a
+				data-parent="#accordion" href="${base}/tactics/list">访问时间策略</a></li>
+			<li class="gs-index-list-a" navUrl="kconfig" param="allconfig"><a
+				data-parent="#accordion"
+				href="${base}/kconfig/list?select=allconfig">安全配置</a></li>
+		</ul>
+	</div>
+</div>

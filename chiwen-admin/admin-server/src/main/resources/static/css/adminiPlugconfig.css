@@ -1,0 +1,115 @@
+/*插件导航 开始*/
+.yHdfsBody{background-color: #f7fafd;box-sizing: border-box}
+.yHeader{width:100%;height:76px;background-color: #fff;box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.04); border: solid 1px #dbdbdb;}
+.yHeader>input{margin:20px 30px;padding:10px;font-size:16px;width: 180px;  height: 36px;  border-radius: 4px;  background-color: #fbfbfb;  border: solid 1px #cccccc;font-family: PingFangSC;  font-weight: 500;  line-height: 1;  text-align: left;  color: #474c71;}
+.yMain{padding: 0 30px;margin:30px 0}
+.yMain>div:first-child{width:20%}
+.yMain>div:last-child{width:78%}
+/*********nav********/
+.yPlugNav>li:first-child{
+	border-top: 1px solid #d7e0e5;
+}
+.yPlugNav>li{margin-top:0 !important;}
+.yPlugNav>li a{background-color: #fff;border-left: solid 1px #d7e0e5;border-right: solid 1px #d7e0e5;font-size: 14px; text-align: left;  color: #34353f;border-radius: 0;border-bottom: solid 0.5px #d7e0e5;position: relative;padding-left: 30px;}
+.yPlugNav li.active a{border: solid 1px #a3cdff !important;background-color: #f2f6f9 !important;color: #34353f !important;}
+.yPlugNav>li a i{display:inline-block;width: 15px;height: 15px;margin-right:5px;background: url(/img/hdfs.png)no-repeat;background-size: 100%; position: absolute;
+	top: 9px;left: 10px;}
+.yPlugNav>li a i.hb{background-image: url(/img/hbase.png) }
+.yPlugNav>li a i.hi{background-image: url(/img/hive.png) }
+.yPlugNav>li a i.ga{background-image: url(/img/Gateway.png) }
+.yPlugNav>li a b{display:inline-block;width: 15px;height: 15px;background-image: url(/img/going.png);background-size: 100%;position: absolute;right:10px; top: 10px;}
+.yStop a b{background-image: url(/img/stop.png) !important;}
+.returnTo span{
+	display: inline-block;
+	box-sizing: border-box;
+	width: 130px;
+	height: 35px;
+	line-height: 35px;
+	padding-left: 36px;
+	background: url(/img/back.png)no-repeat 10px center;
+	border-radius: 2px;
+	border: 1px solid #739dff;
+	color: #739dff;
+	font-size: 14px;
+	cursor: pointer;
+}
+.returnTo span:hover{
+	background: url(/img/back-hover.png)no-repeat 10px center;
+}
+.statebox{
+	margin-top: 15px;
+}
+.stateleft{
+	width: 400px;
+	min-height: 500px;
+	float: left;
+}
+.panel-default>.panel-heading{
+	background-color: #ffffff;
+}
+.stateleft >p{
+	color: #474c71;
+	font-weight: 500;
+}
+.stateleft >p span{
+	float: right;
+	font-size: 12px;
+	color: #3b3d47;
+	padding-left: 15px;
+	background: url(/img/normal.png)no-repeat left center;
+}
+.stateleft >p span.abnormal{
+	background: url(/img/abnormal.png)no-repeat left center;
+}
+.namedata{
+	width: 340px;
+	margin: 0 auto;
+	border-bottom: 1px dashed #d7e0e5;
+	/*padding: 10px 0px;*/
+	font-size: 14px;
+	color: #34353f;
+	font-size: 14px;
+	color: #34353f;
+}
+.namedata b{
+	font-weight: bold;
+	color: #34353f;
+}
+.formdata>div{
+	width: 340px;
+	margin: 0 auto;
+	line-height: 50px;
+	font-size: 14px;
+}
+.formdata>div span{
+	display: inline-block;
+	width: 100px;
+}
+
+.formdata>div i{
+	font-size: 14px;
+	color: #34353f;
+}
+.stateright{
+	float: left;
+	width: 50%;
+	min-height: 500px;
+	margin-left: 20px;
+}
+.progress{
+	float: left;
+	width: 200px;
+	margin-top: 20px;
+}
+@media screen and (max-width: 1200px) {
+	.stateleft {
+    	width: 90%;
+    	min-height: 320px;
+    	float: left;
+	}
+	.stateright{
+		width: 90%;
+	    min-height: 500px;
+	    margin-left: 0px;
+	}
+}

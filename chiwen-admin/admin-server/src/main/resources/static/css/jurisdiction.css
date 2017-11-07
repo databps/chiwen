@@ -1,0 +1,171 @@
+@charset "UTF-8";
+/* CSS Document */
+/*插件导航 开始*/
+.yHdfsBody{background-color: #f2f6f9;box-sizing: border-box}
+.yHeader{width:100%;height:76px;background-color: #fff;box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.04); border: solid 1px #dbdbdb;}
+.yHeader>span{display:inline-block; margin:20px 30px;padding:10px;padding-left:30px; background: url(../img/hdfs.png)no-repeat left 10px;font-size:16px;width: 180px;  height: 36px;  border-radius: 4px;  font-family: PingFangSC;  font-weight: 500;  line-height: 1;  text-align: left;  color: #474c71;}
+.yHeader>span.hb{background: url(../img/hbase.png)no-repeat left 10px; }
+.yHeader>span.hi{background: url(../img/hive.png)no-repeat left 10px; }
+.yHeader>span.ga{background: url(../img/Gateway.png)no-repeat left 10px; }
+.yMain{padding: 0 30px;margin:30px 0}
+.yMain>div:first-child{width:20%}
+.yMain>div:last-child{width:78%}
+/*********nav********/
+.yPlugNav>li{margin-top:0 !important;}
+.yPlugNav>li a{background-color: #fff;border-left: solid 1px #d7e0e5;border-right: solid 1px #d7e0e5;font-family:PingFangSC;  font-size: 14px;  line-height: 1;  text-align: left;  color: #34353f;border-radius: 0;border-bottom: solid 0.5px #d7e0e5;border-top: solid 0.5px #d7e0e5;position: relative;padding-left: 30px;}
+.yPlugNav li.active a{border: solid 1px #a3cdff !important;background-color: #f2f6f9 !important;color: #34353f !important;}
+
+/*右侧内容区*/
+.massges{
+	width: 90%;
+	min-height: 500px;
+	background-color: #ffffff;
+}
+.panel-default>.panel-heading{
+	background-color: #ffffff;
+}
+.toptitle>p{
+	font-size: 16px;
+	color: #474c71;
+	padding-left: 30px;
+}
+.contBox{
+	padding: 0 30px;
+}
+.searcch{
+	width: 280px;
+	float: left;
+}
+.searcch button{
+	width: 80px;
+	background-color: #6593ff;
+	font-size: 14px;
+	color: #ffffff;
+}
+.input-group-btn>.btn:active, .input-group-btn>.btn:focus, .input-group-btn>.btn:hover{
+	background-color: #6593ff;
+	color: #ffffff;
+}
+.contBox>a{
+	float: right;
+	display: inline-block;
+	width: 122px;
+	height: 34px;
+	line-height: 32px;
+	font-size: 14px;
+	text-align: center;
+	color: #6593ff;
+	border: solid 1px #739dff;
+}
+.tables{
+	margin-top: 20px;
+	padding: 0px 30px;
+}
+.tables table{
+	border: solid 1px #d7e0e5;
+	border-radius: 2px;
+}
+.tables table th{
+	font-size: 14px;
+	color: #999999;
+	font-weight: normal;
+}
+.tables table a{
+	margin-right: 15px;
+	font-size: 14px;
+	color: #0085ff;
+}
+.tables table tbody td{
+	font-size: 14px;
+	color: #34353f;
+}
+.table-hover>tbody>tr:hover{
+	background-color: #f2f8ff;
+  	border: solid 1px #a3cdff;
+}
+.modal-dialog{
+	margin: 0 auto;
+	margin-top: 10%;
+}
+.modal-content h6{
+	color: #474c71;
+}
+.modaltitle{
+	font-size: 14px;
+	color: #63688d;
+}
+.btn-magrin button{
+	margin: 55px 0px;
+	color: #a8b0b8;
+	border-radius: 4px;
+	background-color: #fbfbfb;
+	border: solid 1px #cccccc;
+}
+.myoption p{
+	margin: 0px;
+	padding: 10px 10px;
+	background-color: #fafbfc;
+  	/*border-bottom: none;*/
+  	border-radius: 0;
+  	font-size: 14px;
+  	color: #34353f;
+  	border: none;
+  	border-bottom: 1px solid #dddddd;
+}
+.myoption select{
+	height: 200px;
+	border: none;
+}
+.myoption option{
+	padding: 10px 5px;
+	/*border-top: 1px solid #d7e0e5;*/
+	-moz-appearance:none; /* Firefox */
+	-webkit-appearance:none; /* Safari 和 Chrome */
+	appearance:none;
+}
+.myleftoption{
+	width: 200px;
+	padding: 0px;
+	border: solid 1px #d7e0e5;
+	margin-left: 10px;
+}
+.myleftoption input{
+	width: 180px;
+	height:30px;
+	margin: 10px;
+	font-size: 12px;
+	padding-left: 10px;
+	margin-bottom: 5px;
+}
+.form-control{
+	box-shadow:none;
+}
+.form-control:focus{
+	box-shadow:none;
+}
+.myrightoption{
+	width: 200px;
+	padding: 0px;
+	border: solid 1px #d7e0e5;
+}
+.myrightoption select{
+	height: 245px;
+}
+.row {
+    width: 495px;
+    margin: 0 auto;
+}
+.footerBtn button{
+	width: 80px;
+	height: 36px;
+	background-color: #6593ff;
+	border: none;
+	color: #ffffff;
+}
+.footerBtn button:hover,.footerBtn button:focus{
+	color: #ffffff;
+	background-color: #6593ff;
+}
+@media screen and (max-width: 1280px) {
+
+}

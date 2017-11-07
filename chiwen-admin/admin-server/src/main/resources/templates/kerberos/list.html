@@ -1,0 +1,279 @@
+[#include "/include/header_index.html"]
+<body style='height: 100%;'>
+[#include "/include/navbar.html"]
+<div class="app-main">
+  <!-- 内容 -->
+  <div class="managementBox">
+    <ol class="breadcrumb">
+      <li ><a class="grey9" href="#">安全管理</a></li>
+      <li class="active grey3">Kerberos</li>
+    </ol>
+    [#if errors ??]
+    <div class="yGoPlug">${errors}</div>
+    [/#if]
+
+    [#if config.kerberosEnable == "1"]
+    <div class="switch"><b class="on"></b>开启</div>
+    [/#if]
+    [#if config.kerberosEnable == "0"]
+    <div class="switch"><b class=""></b>开启</div>
+    [/#if]
+
+    <form  action="/kerberos/save"  method="post" id="kerberos_form">
+    <div class="panel-group" id="accordion">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+              <i class="glyphicon glyphicon-triangle-right"></i>KDC信
+            </a>
+          </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse">
+          <div class="panel-body panel-zdyone">
+            <div><span>KDC Server 主机</span><input class="kdcHost" type="text" name="kdcHost"  value="${kerberos.kdcHost}" data-rule="required;kdcHost"  ><i>必填信息</i></div>
+            <div><span>Kerberos 安全领域 default_realm</span><input type="text" name="defaultRealm"  data-rule="required;kdcHost"   value="${kerberos.defaultRealm}" ></div>
+            <div><span>Kerberos 加密类型</span><input type="text" name="encryptionTypes"   value="${(kerberos.encryptionTypes)???string("${kerberos.encryptionTypes}","aes des3-cbc-sha1 rc4 des-cbc-md5")}" data-rule="required;encryptionTypes" ></div>
+            <div><span>Kerberos Principal 最大可更新生命期</span><input type="text"   name="principalLifetime"  value="${(kerberos.principalLifetime)???string("${kerberos.principalLifetime}","7")}" data-rule="required;principalLifetime"  class="somol">
+              <div class="dropdown js-databackup">
+                <select class="form-control" form="kerberos_form" name="principalLifetimeUnit">
+
+                  <option value="d" ${(kerberos.principalLifetimeUnit == 'd')?string("selected=selected","")}>天</option>
+                  <option value="w" ${(kerberos.principalLifetimeUnit == 'w')?string("selected=selected","")}>周</option>
+                  <option value="m" ${(kerberos.principalLifetimeUnit == 'm')?string("selected=selected","")}>月</option>
+                  <option value="y" ${(kerberos.principalLifetimeUnit == 'y')?string("selected=selected","")}>年</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+              <i class="glyphicon glyphicon-triangle-right"></i>KRB5 配置
+            </a>
+          </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse in">
+          <div class="panel-body panel-KRB5two">
+            <div><span>Kerberos 票证生存期 ticket_lifetime</span><input type="text"  name="ticketLifetime" value="${(kerberos.ticketLifetime)???string("${kerberos.ticketLifetime}","7")}"  class="somol">
+              <div class="dropdown js-databackup">
+
+                <select class="form-control" form="kerberos_form" name="ticketLifetimeUnit">
+                  <option value="d" ${(kerberos.ticketLifetimeUnit == 'd')?string("selected=selected","")}>天</option>
+                  <option value="w" ${(kerberos.ticketLifetimeUnit == 'w')?string("selected=selected","")}>周</option>
+                  <option value="m" ${(kerberos.ticketLifetimeUnit == 'm')?string("selected=selected","")}>月</option>
+                  <option value="y" ${(kerberos.ticketLifetimeUnit == 'y')?string("selected=selected","")}>年</option>
+                </select>
+
+              </div>
+            </div>
+            <div><span>Kerberos 可更新生存期 renew_lifetime</span><input type="text"  name="renewLifetime"  value="${(kerberos.renewLifetime)???string("${kerberos.renewLifetime}","7")}"  class="somol">
+              <div class="dropdown js-databackup">
+
+                <select class="form-control" form="kerberos_form" name="renewlifetimeUnit">
+                  <option value="d" ${(kerberos.renewlifetimeUnit == 'd')?string("selected=selected","")}>天</option>
+                  <option value="w" ${(kerberos.renewlifetimeUnit == 'w')?string("selected=selected","")}>周</option>
+                  <option value="m" ${(kerberos.renewlifetimeUnit == 'm')?string("selected=selected","")}>月</option>
+                  <option value="y" ${(kerberos.renewlifetimeUnit == 'y')?string("selected=selected","")}>年</option>
+                </select>
+
+              </div>
+            </div>
+            <div><span class="fl">DNS 查找 KDC dns_lookup_kdc</span>
+
+              [#if kerberos.dnsLookupKdc == "true"]
+              <input id="dns_one" type="checkbox" name ="dnsLookupKdc" checked ><label for="dns_one"></label>
+              [#else]
+              <input id="dns_one" type="checkbox" name ="dnsLookupKdc" ><label for="dns_one"></label>
+              [/#if]
+
+            </div>
+            <div><span class="fl">可转发票证 forwardable</span>
+
+              <!--<input type="checkbox" name="forwardable" id="dns_two"><label for="dns_two"></label>-->
+              [#if kerberos.forwardable == "true"]
+              <input id="dns_two" type="checkbox" name ="forwardable" checked ><label for="dns_two"></label>
+              [#else]
+              <input id="dns_two" type="checkbox" name ="forwardable" ><label for="dns_two"></label>
+              [/#if]
+            </div>
+            <div><span>KDC 超时 kdc_timeout</span><input type="text" name="kdcTimeout"   value="${(kerberos.kdcTimeout)???string("${kerberos.kdcTimeout}","7")}" class="somol">
+              <div class="dropdown js-databackup">
+                <select class="form-control" form="kerberos_form" name="kdcTimeoutUnit">
+                  <option value="d" ${(kerberos.kdcTimeoutUnit == 'd')?string("selected=selected","")}>天</option>
+                  <option value="w" ${(kerberos.kdcTimeoutUnit == 'w')?string("selected=selected","")}>周</option>
+                  <option value="m" ${(kerberos.kdcTimeoutUnit == 'm')?string("selected=selected","")}>月</option>
+                  <option value="y" ${(kerberos.kdcTimeoutUnit == 'y')?string("selected=selected","")}>年</option>
+                </select>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+              <i class="glyphicon glyphicon-triangle-right"></i>Kadmin
+            </a>
+          </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse in">
+          <div class="panel-body panel-kadtwree">
+            <div><span>用户名</span><input type="text" name="adminPrincipal" data-rule="required;adminPrincipal"  value="${kerberos.adminPrincipal}" ></div>
+            <div><span>密码</span><input type="text" name="adminPassword" data-rule="required;adminPassword"  value="${kerberos.adminPassword}" ><a href="#" class="restBtn">测试</a><s class="testSuc">测试成功</s><s class="prompt testFail">网络不通</s></div>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+              <i class="glyphicon glyphicon-triangle-right"></i>全局
+            </a>
+          </h4>
+        </div>
+        <div id="collapseFour" class="panel-collapse collapse in">
+          <div class="panel-body panel-Allfore">
+            <div><span>Keytab Dir</span><input type="text"  name="keytabDir"  value="${(kerberos.keytabDir)???string("${kerberos.keytabDir}","${absolutePath}")}"   ></div>
+            <div><span>Realm</span><input type="text"  name="realm"  data-rule="required;kdcHost"  value="${kerberos.realm}"></div>
+            <div><span>Additional Realms</span><input type="text"  name="additionalRealms"  value="${kerberos.additionalRealms}"></div>
+            <div><span>Spnego Keytab</span><input type="text"  name="spnegoKeytab"   value="${(kerberos.spnegoKeytab)???string("${kerberos.spnegoKeytab}","spnego.Keytab")}" ></div>
+            <div><span>Spnego Principal</span><input type="text"  name="spnegoPrincipal" value="${(kerberos.spnegoPrincipal)???string("${kerberos.spnegoPrincipal}","spnego")}" ></div>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapsefive">
+              <i class="glyphicon glyphicon-triangle-right"></i>Bigdaf Principals
+            </a>
+          </h4>
+        </div>
+        <div id="collapsefive" class="panel-collapse collapse in">
+          <div class="panel-body panel-Bigfive">
+
+            <div><span>BigDAF Keytab</span><input type="text"   name="bigdafKeytab"   value="${(kerberos.bigdafKeytab)???string("${kerberos.bigdafKeytab}","$[keytab_dir]/data/bigdaf-admin.keytab")}"  ></div>
+            <div><span>BigDAF Principal Name</span><input type="text" name="bigdafPrincipal" value="${(kerberos.bigdafPrincipal)???string("${kerberos.bigdafPrincipal}","bigdaf-admin")}"   ></div>
+            <div><span>HBase user keytab</span><input type="text" name="hbaseKeytab" value="${(kerberos.hbaseKeytab)???string("${kerberos.hbaseKeytab}","$[keytab_dir]/data/hbase.keytab")}"    ></div>
+            <div><span>HBase user principa</span><input type="text"  name="hbasePrincipal"   value="${(kerberos.hbasePrincipal)???string("${kerberos.hbasePrincipal}","hbase")}"  ></div>
+            <div><span>HDFS user keytab</span><input type="text"  name="hdfsKeytab"  value="${(kerberos.hdfsKeytab)???string("${kerberos.hdfsKeytab}","$[keytab_dir]/data/hdfs.keytab")}" ></div>
+            <div><span>HDFS user principal</span><input type="text" name="hdfsPrincipal"   value="${(kerberos.hdfsPrincipal)???string("${kerberos.hdfsPrincipal}","hdfs")}"    ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+      <button type="submit" class="btn btn-primary">生成</button>
+    <!--<div class="btn-divsive"><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">生成</a></div>-->
+  </div>
+</form>
+</div>
+<!-- 模态框（Modal）确认配置 -->
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <form  action="/kerberos/save"  method="post">
+  <div class="modal-dialog" style="width:800px;margin-top: 15%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h6 class="modal-title" id="myModalLabel">确认配置</h6>
+      </div>
+      <div class="modal-body modal-management">
+        <p>Please review the configuration before continuing the setup process</p>
+        <p>Using the Download CSV button, you can download a csv file which contains a list of the principals and keytabs that will automatically be created by Ambari.</p>
+        <p>Executable path: /usr/bin, /usr/kerberos/bin, /usr/sbin, /usr/lib/mit/bin, /usr/lib/mit/sbin</p>
+        <p>KDC Hosts: 192.168.1.1</p>
+        <p>KDC Type: Existing MIT KDC</p>
+        <p>Realm Name: 192.168.1.1</p>
+      </div>
+      <div class="modal-footer footerBtn">
+        <button type="button" class="btn btn-primary">保存</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal -->
+  </form>
+</div>
+
+<!-- jQuery (v2.2.4) -->
+<script type="text/javascript">
+  $('.testSuc').hide()
+  $('.testFail').hide()
+  //$('.collapse').collapse();
+  var databackup="";
+  $('.js-databackup li > a').click(function() {
+    databackup = $(this).data('id');
+    $('.js-databackup > button').html($(this).text()+' <i class="glyphicon glyphicon-menu-down"></i>');
+    $('.js-databackup > button').data('id',databackup);
+  });
+  $(document).on('click','.switch b',function(){
+    var state=""
+    if($(this).attr('class')=='on'){
+        state='0'
+    }else{
+        state='1'
+    }
+    console.log(state)
+  var el=$(this)
+      $.ajax({
+        url:"/security/settings/kerberos",
+        type:'post',
+        data:{
+          kerberosEnable:state
+        },
+        success:function (res) {
+          if(res.code=='0'){
+            console.log(res.data.kerberosEnable);
+            if(res.data.kerberosEnable == 1){
+              console.log($(this));
+              el.addClass('on');
+            }
+            else{
+              el.removeClass('on');
+            }
+          }
+        },
+        error:function () {
+
+        }
+      })
+
+  });
+
+  $('.restBtn').click(function () {
+    var kdcHostVal=$('.kdcHost').val()
+    console.log(kdcHostVal)
+    $.ajax({
+      url:"/kerberos/ping",
+      type:'post',
+      data:{
+        host:kdcHostVal
+      },
+      success:function (res) {
+        if(res.code==1){
+          $('.testSuc').show()
+          $('.testFail').hide()
+        }else{
+          $('.testSuc').hide()
+          $('.testFail').show()
+        }
+      }
+    })
+  })
+
+  $(function () {
+    $('#dns_one').bootstrapSwitch('setActive',true);
+  });
+
+  $(function () {
+    $('#dns_one').bootstrapSwitch('setActive',true);
+  });
+
+</script>
+[#include "/include/footer_index.html"]
+</body>
+</html>

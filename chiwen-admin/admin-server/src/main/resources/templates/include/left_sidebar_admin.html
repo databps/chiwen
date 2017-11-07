@@ -1,0 +1,184 @@
+<div class="col-xs-2">
+	<div class="aside col-xs-2">
+		<div class="panel-group" id="accordion" role="tablist"
+			aria-multiselectable="true">
+			<div class="panel panel-default panel-one">
+				<div class="panel-heading" role="tab" id="headingTwo">
+					<h4 class="panel-title">
+						<a href="javascript:;"><img src="${base}/images/aside-i0.png"
+							alt=""></a>
+					</h4>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="headingTwo">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" href="#collapseOne" aria-expanded="true"
+							aria-controls="collapseTwo"><img
+							src="${base}/images/aside-i1.png" alt=""><span
+							class="v-mid">监控面板</span></a>
+					</h4>
+				</div>
+				<div id="collapseOne" class="panel-collapse collapse in"
+					role="tabpanel" aria-labelledby="headingTwo">
+					<div class="panel-body">
+						<ul>
+							<li class="menus" navUrl="/clusterm/" param="home"><a
+								href="${base}/clusterm/list?name=home">首页</a></li>
+							<li class="menus" navUrl="/clusterm/" param="hadoop"><a
+								href="${base}/clusterm/hadoop?name=hadoop">集群概览</a></li>
+							<li class="menus" navUrl="/visite/"><a
+								href="${base}/visite/list">访问总览</a></li>
+							<li class="menus" navUrl="/visittu/"><a
+								href="${base}/visittu/list">访客动态</a></li>
+							<!-- <li class="menus" navUrl="/visittr/"><a href="${base}/visittr/list">资源动态</a></li> -->
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="headingTwo">
+					<h4 class="panel-title">
+						<a class="collapsed" data-toggle="collapse" href="#collapseTwo"
+							aria-expanded="false" aria-controls="collapseTwo"><img
+							src="${base}/images/aside-i2.png" alt=""><span
+							class="v-mid">集群防护</span></a>
+					</h4>
+				</div>
+				<div id="collapseTwo" class="panel-collapse collapse"
+					role="tabpanel" aria-labelledby="headingTwo">
+					<div class="panel-body">
+						<ul>
+							<li class="menus" navUrl="kconfig" param="dac_able"><a
+								href="${base}/kconfig/list?name=dac_able">DAC </a></li>
+							<li class="menus" navUrl="tmac" param="null"><a
+								href="${base}/tmac/list">MAC </a></li>
+							<li class="menus" navUrl="/tkrole" param="null"><a
+								href="${base}/tkrole/list">RBAC</a></li>
+							<!-- <li class="menus" navUrl="twhitelist" param="null"><a
+								href="${base}/twhitelist/globalip">网络策略</a></li> -->
+							<li class="menus" navUrl="tactics" param="null"><a
+								href="${base}/tactics/list">登录策略</a></li>
+							<li class="menus" navUrl="kconfig" param="allconfig"><a
+								href="${base}/kconfig/list?select=allconfig">安全配置</a></li>
+							<li class="menus" navUrl="/tkdcu" param="null"><a
+								href="${base}/tkdcu/list">密钥管理中心</a></li>
+							<li class="menus" navUrl="/tkdcc" param="null"><a
+								href="${base}/tkdcc/list">Kerberos配置</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+      <!--
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="headingTwo">
+					<h4 class="panel-title">
+						<a class="collapsed" data-toggle="collapse" href="#collapseSix"
+							aria-expanded="false" aria-controls="collapseTwo"><img
+							src="${base}/images/aside-i4.png" alt=""><span
+							class="v-mid">Yarn安全</span></a>
+					</h4>
+				</div>
+				<div id="collapseSix" class="panel-collapse collapse"
+					role="tabpanel" aria-labelledby="headingTwo">
+					<div class="panel-body">
+						<ul>
+							<li class="menus" navUrl="/yarn" param="null"><a
+								href="${base}/yarn/list">yarn权限管理</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			-->
+			<div class="panel panel-default" >
+				<div class="panel-heading" role="tab"  id="headingTwo">
+					<h4 class="panel-title">
+						<a class="collapsed" data-toggle="collapse" href="#collapseFive"
+							aria-expanded="false" aria-controls="collapseTwo"><img
+							src="${base}/images/aside-i4.png" alt=""><span
+							class="v-mid">HBase </span></a>
+					</h4>
+				</div>
+				<div id="collapseFive" class="panel-collapse collapse"
+					role="tabpanel" aria-labelledby="headingTwo">
+					<div class="panel-body">
+						<ul>
+							<li class="menus" navUrl="/hbaseAcl" param="setting"><a
+								href="${base}/hbaseAcl/setting?select=setting">hbase设置</a></li>
+							<li class="menus" navUrl="/hbaseAcl" param="list"><a
+									href="${base}/hbaseAcl/list?select=list">权限管理</a></li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+			<div class="panel panel-default" >
+				<div class="panel-heading" role="tab"  id="headingHive">
+					<h4 class="panel-title">
+						<a class="collapsed" data-toggle="collapse" href="#collapseHive"
+							 aria-expanded="false" aria-controls="collapseHive"><img
+								src="${base}/images/aside-i4.png" alt=""><span
+								class="v-mid">Hive</span></a>
+					</h4>
+				</div>
+				<div id="collapseHive" class="panel-collapse collapse"
+						 role="tabpanel" aria-labelledby="headingHive">
+					<div class="panel-body">
+						<ul>
+							<li class="menus" navUrl="/hiveAcl" param="hiveSetting">
+								<a href="${base}/hiveAcl/setting?nav=hiveSetting">hive设置</a></li>
+							<li class="menus" navUrl="/hiveAcl" param="hiveList">
+								<a href="${base}/hiveAcl/list?nav=hiveList">权限管理</a></li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="headingTwo">
+					<h4 class="panel-title">
+						<a class="collapsed" data-toggle="collapse" href="#collapseFour"
+							aria-expanded="false" aria-controls="collapseTwo"><img
+							src="${base}/images/aside-i4.png" alt=""><span
+							class="v-mid">管理员中心</span></a>
+					</h4>
+				</div>
+				<div id="collapseFour" class="panel-collapse collapse"
+					role="tabpanel" aria-labelledby="headingTwo">
+					<div class="panel-body">
+						<ul>
+							<li class="menus" navUrl="/tkuser" param="null"><a
+								href="${base}/tkuser/list">Hadoop用户</a></li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+
+			<!-- <div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="headingTwo">
+					<h4 class="panel-title">
+						<a class="collapsed" data-toggle="collapse" href="#collapseFour"
+							aria-expanded="false" aria-controls="collapseTwo"><img
+							src="${base}/images/aside-i4.png" alt=""><span
+							class="v-mid">安全配置</span></a>
+					</h4>
+				</div>
+				<div id="collapseFour" class="panel-collapse collapse"
+					role="tabpanel" aria-labelledby="headingTwo">
+					<div class="panel-body">
+						<ul>
+							<li class="menus" navUrl="/tkdcu" param="null"><a
+								href="${base}/tkdcu/list">密钥管理中心</a></li>
+						</ul>
+						<ul>
+							<li class="menus" navUrl="/tkdcc" param="null"><a
+								href="${base}/tkdcc/list">Kerberos配置</a></li>
+						</ul>
+					</div>
+				</div>
+				</div> -->
+		</div>
+	</div>
+</div>

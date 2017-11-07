@@ -1,0 +1,85 @@
+[#include "/include/header_index.html"]
+<body style='height: 100%;'>
+[#include "/include/navbar.html"]
+<div class="app-main">
+    <!-- 内容 -->
+    <ol class="breadcrumb">
+        <li><a class="grey9" href="#">浏览</a></li>
+        <li class="active grey3">job</li>
+    </ol>
+    <div class="input-group clearfix col-sm-12">
+        <div class="fl col-lg-5">
+            <form id="formid" action="/sendbox/searchJob" method="post">
+                <input id="dataid" name="searchJob" type="text" class="input_query fl" placeholder="搜索数据">
+                <button type="submit" onclick="smu();" class="btn_query fl">SearchJob</button>
+            </form>
+        </div>
+        <div class="fr col-lg-5">
+            <button id='btn1' type="button" class="fr btn btn-default btn-lg" onclick="window.open('/sendbox/newJob')">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新建任务
+            </button>
+        </div>
+    </div>
+    <div class="panel panel-default mar15">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>任务ID</th>
+                    <th>任务名</th>
+                    <th>map进度</th>
+                    <th>reduce进度</th>
+                    <th>任务状态</th>
+                    <th>用户名</th>
+                    <th>STATUS</th>
+                </tr>
+                </thead>
+                <tbody>
+                [#list jobInfo as job]
+                <tr>
+                    <td>${job.jobId}</td>
+                    <td>${job.jobName}</td>
+                    <td>${job.mapProgress}</td>
+                    <td>${job.redProgress}</td>
+                    <td>${job.runState}</td>
+                    <td>${job.userName}</td>
+                    <td><span class="state info">Shared</span></td>
+                </tr>
+                [/#list]
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- 模态框（Modal）创建确认配置 -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width:400px;margin-top: 15%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h6 class="modal-title" id="myModalLabel">确认配置</h6>
+            </div>
+            <div class="modal-body modal-configure">
+                <p class="userName"><span><i>*</i>姓名</span><input type="text"><b>您输入的信息有误</b></p>
+                <p class="remarks"><span>备注</span><input type="text"></p>
+            </div>
+            <div class="modal-footer footerBtn">
+                <button type="button" class="btn btn-primary" data-toggle="modal">保存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<script language="JavaScript" type="text/javascript">
+function smu(){
+   var result = document.getElementById("dataid").value;
+      if(result == "" ){
+        alert("搜索内容不能为空!");
+      }else{
+        document.getElementById("formid").submit();
+      }
+}
+</script>
+[#include "/include/footer_index.html"]
+</body>
+</html>

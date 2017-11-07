@@ -1,0 +1,122 @@
+[#include "/layout/layout_top.html"]
+<div class="col-xs-10 mainCont">
+  <div class="section main21" style="margin-bottom:0px">
+    <h2>Hive配置</h2>
+    <div id="myAlert" class="alert  alert-success" style="padding-bottom:10px;margin-bottom:10px" hidden="hidden">
+      <strong>编辑成功</strong>
+    </div>
+    <div class="alert  alert-danger" role="alert" style="padding-bottom:10px" hidden="hidden" id="alertError">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span
+          class="sr-only">关闭</span></button>
+      <strong>${errorMsg}</strong>
+    </div>
+    <br/>
+    <div class="row">
+      <label class="col-md-3 gs_table_label text-right"><span
+          class="glyphicon glyphicon-asterisk require_ico"></span>Hive Acl 状态</label>
+      <div class="col-sm-5">
+        <label for="acl_on">开启: </label>
+        <input id="acl_on" name="isAcl" type="radio" value="1">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <label for="acl_off">关闭: </label>
+        <input id="acl_off" name="isAcl" type="radio" value="0">
+      </div>
+    </div>
+    <br/>
+    <div class="row">
+      <label class="col-md-3 gs_table_label text-right"><span
+          class="glyphicon glyphicon-asterisk require_ico"></span>HiveServer2 Jdbc Url:</label>
+      <div class="col-sm-5">
+        <input id="jdbc_url" class="form-control" type="text" value="${acl.jdbc_url}">
+      </div>
+      <span class="help-block helpBlock_gs"><h5>例：jdbc://hive2/192.168.1.101:10000,192.168.1.102:10000/db</h5></span>
+    </div>
+    <br/>
+    <br/>
+    <br/>
+
+    <div class="row gs_input_form gs-min-width ">
+      <button type="button" class="btn btn-default btn-lg gs_save_btn" id="submit_button">保存</button>
+    </div>
+
+    <div class="gs_blank_gap"></div>
+  </div>
+</div>
+
+[#include "/layout/layout_bottom.html"]
+<script type="text/javascript">
+  $(function(){
+    var errorMsg = '${errorMsg}';
+    if(null != errorMsg && errorMsg != '') {
+      $('#alertError').show();
+    }
+
+    var acl_status = '${acl.status}';
+    if(acl_status == '1') {
+      $('#acl_on').click();
+    } else {
+      $('#acl_off').click();
+    }
+    $('#submit_button').click(function(){
+
+      var aclStat = $('input[name="isAcl"]:checked').val();
+
+      if(aclStat != '1') {
+        var r = confirm('确认关闭Hive ACL管理?');
+        if(!r) {
+          return;
+        } else {
+          $.ajax({
+            type : "POST",
+            async : false,
+            url : "${base}/hiveAcl/edit",
+            data : {isAcl:0},
+            dataType : "json",//返回数据形式为json
+            success : function(data) {
+              var result = data.result;
+              if(result == '1') {
+                showAlert();
+              }
+            }
+          });
+
+        }
+        return;
+      }
+
+      var jdbcUrl = $('#jdbc_url').val().trim();
+      if('' == jdbcUrl) {
+        alert('HiveServer2 Jdbc Url 不能为空!');
+        return;
+      }
+
+      if(jdbcUrl.slice(0, 13) != 'jdbc:hive2://') {
+
+        alert('HiveServer2 Jdbc Url 必须以 "jdbc:hive2://" 开头!' + jdbcUrl.slice(0, 13));
+        return;
+      }
+
+      $.ajax({
+        type : "POST",
+        async : false,
+        url : "${base}/hiveAcl/edit",
+        data : {isAcl:1, jdbcUrl:jdbcUrl},
+        dataType : "json",//返回数据形式为json
+        success : function(data) {
+          var result = data.result;
+          if(result == '1') {
+            showAlert();
+          }
+        }
+      });
+    });
+  });
+
+  function showAlert() {
+     $("#myAlert").fadeTo("slow", 1).slideUp(1000, function(){
+      $("#myAlert").hide();
+    });
+  }
+
+
+</script>

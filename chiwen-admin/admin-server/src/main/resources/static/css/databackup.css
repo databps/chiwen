@@ -1,0 +1,271 @@
+body{
+	background-color: #f7fafd;
+}
+.headNav{
+	height: 50px;
+	line-height: 50px;
+	background-color: #ffffff;
+	padding: 0px 30px;
+}
+.headNav a{
+	margin-right: 50px;
+	font-size: 14px;
+	color: #999999;
+}
+.headNav a.active{
+	color: #474c71;
+	padding-bottom: 12px;
+	border-bottom: 4px solid #474c71;
+}
+.messagebody{
+	margin-top: 30px;
+	padding: 0px 30px;
+}
+.SetupAll{
+	background-color: #ffffff;
+	    border: solid 1px #d7e0e5;
+}
+.SetupAll>div{
+	width: 50%;
+	float: left;
+	padding-bottom: 30px;
+}
+.SetupAll>div.Setupleft{
+	border-right: 1px solid #d7e0e5;
+}
+.SetupAll>div>p{
+	font-size: 14px;
+	color: #474c71;
+	line-height: 60px;
+	padding: 0px 30px;
+}
+.operation{
+	padding: 0px 30px;
+}
+.dropdown{
+	display: inline-block;
+	margin-right: 5px;
+}
+.operation span{
+	color: #676767;
+	font-size: 14px;
+}
+.operation button{
+	width: 80px;
+    text-align: left;
+    background-color: #ffffff;
+  	border: solid 1px #739dff;
+}
+.operation button i{
+	float: right;
+	margin-top: 2px;
+}
+.operation ul{
+	min-width: 80px;
+}
+.operation input{
+	width: 80px;
+	height: 32px;
+	text-align: center;
+	background-color: #fbfbfb;
+  	box-shadow: inset 0 1px 1px 0 rgba(0, 0, 0, 0.1), inset 1px 0 1px 0 rgba(0, 0, 0, 0.1);
+  	border: solid 0.5px #cccccc;
+}
+.operation .start{
+	margin-left: 40px;
+}
+.operation >a{
+	display: inline-block;
+	width: 80px;
+	height: 32px;
+	line-height: 32px;
+	text-align: center;
+	color: #ffffff;
+	font-size: 14px;
+	background-color: #6593ff;
+	margin-left: 40px;
+	border-radius: 2px;
+}
+.operation span.backups{
+	display: inline-block;
+	min-width: 100px;
+	color: #739dff;
+	font-size: 14px;
+	line-height: 30px;
+	text-align: center;
+	border: 1px solid #739dff;
+	padding-left: 30px;
+	background: url(/img/backups.png)no-repeat 15px center;
+	cursor: pointer;
+}
+.operation span.backups.on{
+	min-width: 125px;
+}
+.btn-default:hover{
+	background: none;
+	border: 1px solid #739dff;
+	outline:none;
+}
+.btn-default.active.focus, .btn-default.active:focus, .btn-default.active:hover, .btn-default:active.focus, .btn-default:active:focus, .btn-default:active:hover, .open>.dropdown-toggle.btn-default.focus, .open>.dropdown-toggle.btn-default:focus, .open>.dropdown-toggle.btn-default:hover{
+	background: none;
+	border: 1px solid #739dff;
+	outline:none;
+}
+.btn-default.focus, .btn-default:focus{
+	border: 1px solid #739dff;
+	background-color: #ffffff;
+}
+ button i{
+	float: right;
+	margin-top: 2px;
+}
+.contentTable{
+    margin: 30px 30px;
+    padding: 15px 0px;
+    background-color: #ffffff;
+        border: solid 1px #d7e0e5;
+}
+.titleHead{
+	padding-bottom: 15px;
+	 border-bottom: solid 1px #d7e0e5;
+}
+.contentTable div.fl{
+	padding-left: 30px;
+	color: #676767;
+	font-size: 14px;
+}
+.contentTable div.fl input{
+	line-height: 30px;
+	font-size: 14px;
+	color: #34353f;
+	background-color: #ffffff;
+  	border: solid 1px #739dff;
+  	padding-left: 10px;
+}
+.contentTable div.fl a{
+	display: inline-block;
+	width: 80px;
+	height: 32px;
+	line-height: 32px;
+	text-align: center;
+	color: #ffffff;
+	font-size: 14px;
+	background-color: #6593ff;
+	margin-left: 10px;
+	border-radius: 2px;
+}
+
+div.fr{
+	padding-right: 30px;
+}
+div.fr>span{
+	display: inline-block;
+	float: left;
+	line-height: 30px;
+	color: #34353f;
+	font-size: 14px;
+	margin-right: 20px;
+}
+.flNav {
+	display: inline-block;
+	line-height: 30px;
+}
+.flNav ul li{
+	float: left;
+}
+.flNav ul li a{
+	display: inline-block;
+	width: 75px;
+	height: 32px;
+    line-height: 32px;
+    text-align: center;
+    color: #739dff;
+    font-size: 14px;
+    border: 1px solid #739dff;
+    /*background-color: #739dff;*/
+    margin-left: 10px;
+    border-radius: 2px;
+}
+.flNav ul li a.active{
+	background-color: #6593ff;
+	color: #ffffff;
+}
+.tableBox{
+	/*margin: 0 30px;*/
+}
+.tableBox thead tr{
+	height: 50px;
+	padding: 0 30px;
+}
+.tableBox thead tr th{
+	line-height: 50px;
+	padding: 0px 30px;
+	font-size: 14px;
+	color: #999999;
+	font-weight: normal;
+	border-bottom: none;
+}
+.tableBox tbody tr{
+	height: 40px;
+}
+.tableBox tbody tr td{
+	padding: 0px 30px;
+	vertical-align: middle;
+	font-size: 14px;
+	color: #34353f;
+	border-color: #d7e0e5;
+}
+.table-hover>tbody>tr:hover{
+	background-color: #f2f8ff;
+}
+.table-hover>tbody>tr:hover td{
+	border-color: #a3cdff;
+}
+@media screen and (max-width: 1310px) {
+	.operation .start {
+    	margin-left: 20px;
+	}
+	.operation >a{
+		margin-left: 20px;
+	}
+}
+@media screen and (max-width: 1230px) {
+	.operation .start {
+    	margin-left: 20px;
+	}
+	.SetupAll>div>p{
+		padding: 0 10px;
+	}
+	.operation{
+		padding: 0 10px;
+	}
+	.operation input{
+		width: 50px;
+	}
+	.operation button{
+		width: 50px;
+	}
+	.operation ul{
+		max-width: 50px;
+	}
+	.operation .start {
+    	margin-left: 15px;
+	}
+	.operation >a {
+    	margin-left: 15px;
+	}
+	.contentTable div.fl{
+		padding-left: 10px;
+	}
+	div.fr{
+		padding-right: 10px;
+	}
+	div.fr>span{
+     	margin-right:10px;
+	}
+	.flNav ul li a{
+		width: 65px;
+	}
+}
+
+

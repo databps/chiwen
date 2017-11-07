@@ -1,0 +1,115 @@
+[#include "/layout/layout_top.html"]
+<div class="gs-index-table-box gs-margin-top">
+	<div class="gs-index-info">
+		<div class="gs-info-title">
+			<span class="gs-info-title-text">IP白名单
+            [#if _id == '_0']
+                所有用户
+            [/#if]
+			</span>
+		</div>
+		<form action="${base}/tkuser/saveIp" id="gsForm" name="form"
+			method="post" class="form" autocomplete="off">
+			<input type="hidden" name="userId" value="${_id}">
+			<div class="row">
+					<div class="col-sm-3"></div>
+					<div class="col-sm-4">
+						<textarea id="ipStart" class="form-control" name="ipStart"
+								  value="" data-rule="ipStart;" rows="10" cols="10"
+								  placeholder="一行一个IP, 或者IP段用中划线,例如 192.168.1.110 <换行> 192.168.1.111-192.168.1.120">${white_ip}</textarea>
+					</div>
+			</div>
+			<div class="row gs_input_form gs-min-width form-item">
+				<button type="button" class="btn btn-default btn-lg gs_save_btn" id="form_button">保存</button>
+			</div>
+		</form>
+	</div>
+	<div class="gs_blank_gap"></div>
+</div>
+[#include "/layout/layout_bottom.html"]
+
+<script type="text/javascript">
+	$(function() {
+
+        //只能输入ip
+        $("#ipStart").keypress(function(event) {
+            var keyCode = event.which;
+            if ((keyCode >= 48 && keyCode <=57) || keyCode == 8
+            	|| keyCode == 46 || keyCode == 110 || keyCode == 190 || keyCode == 13
+            	|| keyCode == 173 || keyCode == 109 || keyCode == 45)
+                return true;
+            else
+                return false;
+        }).focus(function() {
+            this.style.imeMode='disabled';
+        });
+
+		//submit
+		$('#form_button').click(function() {
+
+            var ipst = $("#ipStart").val().trim();
+            $("#ipStar").val(ipst);
+            var arr = ipst.split("\n");
+            var flg = false;
+            arr.forEach(function(i){
+            	var ip = i.trim();
+            	if(ip != '' && !checkIpLine(ip)) {
+            		flg = true;
+                    alert('IP格式错误: ' + ip);
+            		return false;
+            	}
+            });
+
+			if(!flg) {
+
+                document.form.submit();
+			}
+		});
+	})
+
+	function checkIp(ipStr)　{
+		var reg = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+
+		return reg.test(ipStr);
+	}
+
+	function checkIps(startIp, endIp) {
+		if(!checkIp(startIp) || !checkIp(endIp)) {
+		 	return false;
+		}
+
+		return (toInt(startIp) < toInt(endIp))
+
+	}
+
+	function checkIpLine(str) {
+		var len = str.length;
+		if(len < 7 || len > 31) {
+
+			return false;
+		}
+
+		if(!str.includes('-')) {
+			return checkIp(str);
+		} else {
+
+			var arr = str.split('-');
+			if(arr.length < 2) {
+				return false;
+
+			}
+			return checkIps(arr[0], arr[1]);
+		}
+
+	}
+
+	function toInt(ip){
+      var ipl=0;
+      ip.split('.').forEach(function( octet ) {
+          ipl<<=8;
+          ipl+=parseInt(octet);
+      });
+      return(ipl >>>0);
+    };
+
+</script>

@@ -1,0 +1,456 @@
+[#include "/layout/layout_top.html"]
+<div class="col-xs-10 mainCont">
+	<div class="section" style="height: 300px; overflow: hidden">
+		<h2>集群安全指数</h2>
+		<div class="row m-top15">
+			<div class="col-lg-5" style="text-align: right">
+				<div id="main" style="width: 500px; height: 300px;"></div>
+			</div>
+			<div class="col-lg-4 note-txt">
+				<ul id="showAdvice" class="text-gray9">
+					<li id='clear' style="display: none"><font color='green'>当前系统已全面防护</font></li>
+					<li id="showDanger" style="display: none">当前系统<em>未配置防护策略</em>，系统面临较大安全问题，建议尽快进行<a
+						href="${base}/kconfig/list?select=allconfig"><font size="4px">安全配置</font></a>.
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="row m-top15 section-two">
+		<div class="col-lg-6">
+			<div class="section">
+				<h2>防护状态</h2>
+				<div class="status">
+					<div class="ss">
+						<div class="ss-left one">DAC</div>
+						<div class="ss-right">
+							<p>
+								<span id="dac_desc"></span>
+							</p>
+						</div>
+					</div>
+					<div class="ss">
+						<div class="ss-left one">MAC</div>
+						<div class="ss-right">
+							<p>
+								<span id="mac_desc"></span>
+							</p>
+						</div>
+					</div>
+					<div class="ss">
+						<div class="ss-left two">RBAC</div>
+						<div class="ss-right">
+							<p>
+								<span id="rbac_desc"></span></span>
+							</p>
+						</div>
+					</div>
+					<div class="ss">
+						<div class="ss-left two">网络策略</div>
+						<div class="ss-right">
+							<p>
+								<span id="ip_desc"></span>
+							</p>
+						</div>
+					</div>
+					<div class="ss">
+						<div class="ss-left one">登录控制</div>
+						<div class="ss-right">
+							<p>
+								<span id="login_desc"></span>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="section safe">
+				<h2>访问预警</h2>
+				<div class="row">
+					<div class="col-lg-4 text-center">
+						<img src="${base}/images/i-user.png" alt="" width="50">
+					</div>
+					<div class="col-lg-8">
+						<table class="table table-gray">
+							<thead>
+								<tr>
+									<th style="width: 150px"></th>
+									<th>违规</th>
+									<th>正常</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>用户访问</td>
+									<td class="flag"><span id="user_acc_refuse"></span></td>
+									<td><span id="user_acc_success"></span></td>
+								</tr>
+								<tr>
+									<td>用户操作</td>
+									<td class="flag"><span id="user_auth_refuse"></span></td>
+									<td><span id="user_auth_success"></span></td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-4 text-center">
+						<img src="${base}/images/i-ip.png" alt="" width="50">
+					</div>
+					<div class="col-lg-8">
+						<table class="table table-gray">
+							<thead>
+								<tr>
+									<th style="width: 150px"></th>
+									<th>违规</th>
+									<th>正常</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>IP访问</td>
+									<td class="flag"><span id="ip_acc_refuse"></span></td>
+									<td><span id="ip_acc_success"></span></td>
+								</tr>
+								<tr>
+									<td>IP操作</td>
+									<td class="flag"><span id="ip_auth_refuse"></span></td>
+									<td><span id="ip_auth_success"></span></td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- <div class="section">
+		<h2>集群状态</h2>
+		<div class="status-box m-top25">
+			<span class="one">HDFS</span> <span class="one">HBase</span> <span
+				class="two">Spark</span> <span class="two">ZooKeeper</span> <span
+				class="three">Hive</span> <span class="three">Pig</span>
+		</div>
+	</div> -->
+
+	<div class="section">
+		<h2>Big DAF自检</h2>
+		<div class="row" id="health_div">
+
+			<!--<span id="rpc_status" class="one">RPC Server</span> <span-->
+			<!--id="redis_status" class="one ">Redis</span> <span id="mongo_status"-->
+			<!--class="one ">Mongodb</span><span id="hdfs_status" class="one ">WebHDFS</span>-->
+			<!--</div>-->
+			<!-- <div class="col-lg-6">
+				<div class="row">
+					<div class="col-lg-2 a-link">
+						<a href="javascript:;" class="a-link"
+							style="background-color: #33cf9c;">webhdfs</a>
+					</div>
+					<div class="col-lg-2 a-link">
+						<a href="javascript:;" class="a-link"
+							style="background-color: #ffd57b;">rpc</a>
+					</div>
+					<div class="col-lg-2 a-link">
+						<a href="javascript:;" class="a-link"
+							style="background-color: #33bacf;">redic</a>
+					</div>
+					<div class="col-lg-2 a-link">
+						<a href="javascript:;" class="a-link"
+							style="background-color: #eb6e78;">mongodn</a>
+					</div>
+				</div>
+			</div> -->
+		</div>
+	</div>
+</div>
+[#include "/layout/layout_bottom.html"]
+<script src="${base}/js/echarts.min.js"></script>
+<script type="text/javascript">
+var allConfigStatus;
+var showValue = 0;
+	$(function() {
+		//通过Ajax获取数据
+		$.ajax({
+			type : "get",
+			async : false,
+			url : "${base}/clusterm/initjson",
+			data : {},
+			dataType : "json",//返回数据形式为json
+			success : function(result) {
+					var datas = result.data;
+					allConfigStatus = datas.security_status.allconfig;
+					initSecurityStatus(datas);
+					initAccessCount(datas);
+			},
+			error : function(errorMsg) {
+				alert("请求数据失败!" + errorMsg.msg);
+			}
+		});
+		$.ajax({
+			type : "get",
+			async : true,
+			url : "${base}/health",//应用自检状态
+			data : {},
+			dataType : "json",//返回数据形式为json
+			success : function(result) {
+					var datas = result.details;
+					healthInit(datas);
+					<!--changeClass("rpc_status",datas.gatewayRpc.status.code);-->
+					<!--changeClass("hdfs_status",datas.gatewayWebhdfs.status.code);-->
+					<!--changeClass("redis_status",datas.redis.status.code);-->
+					<!--changeClass("mongo_status",datas.mongo.status.code);-->
+			},
+			error : function(errorMsg) {
+				var erros = errorMsg;
+				if(erros.status == "503"){
+					var datas = erros.responseJSON.details;
+					healthInit(datas);
+					<!--changeClass("rpc_status",datas.gatewayRpc.status.code);-->
+					<!--changeClass("hdfs_status",datas.gatewayWebhdfs.status.code);-->
+					<!--changeClass("redis_status",datas.redis.status.code);-->
+					<!--changeClass("mongo_status",datas.mongo.status.code);-->
+				}
+			}
+		});
+		initEcharts();
+	});
+
+	function healthInit(datas) {
+		if (null == datas) return false;
+
+		var arr = [];
+
+		healthParse(datas.gatewayRpc, 'Rpc Server', arr);
+		<!--healthParse(datas.gatewayWebhdfs, 'WebHdfs', arr);-->
+		healthParse(datas.mongo, 'Mongodb', arr);
+		<!--healthParse(datas.redis, 'Redis', arr);-->
+		healthParse(datas.kerberos, 'Kerberos', arr);
+		var html = '<div class="status-box m-top25">';
+		$.each(arr, function(i, obj) {
+			if(i > 0 && i % 6 == 0) {
+				html += '</div>';
+				html += '<div class="status-box m-top25">';
+			}
+			html += '<span class="';
+			html += obj.status == '1' ? 'one' : 'four';
+			html += '" ';
+			html += 'title="' + obj.ip + '">';
+			html += obj.name;
+			html += '</span>'
+		});
+		html += '</div>';
+		$(html).appendTo('#health_div');
+
+	}
+
+	function healthParse(obj, name, arr) {
+		var enable = 1;
+		if(obj.details.enable == '0') {
+			enable = 0;
+		}
+
+		if (enable != 0) {
+			obj = obj.details.details;
+			if(null == obj || obj.length == 0) {
+				var map = {};
+				map.name = name;
+				map.ip = 'Unknown ip';
+				map.status = 0;
+				arr.push(map);
+			} else {
+				$.each(obj, function(i, o) {
+					var map = {};
+					map.name = name;
+					if(obj.length > 1) {
+						map.name += '_' + (i + 1);
+					}
+					map.ip = o.ip + ':' + o.port;
+					map.status = o.status;
+					arr.push(map);
+				});
+			}
+		}
+	}
+
+	function initAccessCount(indata) {
+		var access_count = indata.access_count;
+		var data;
+		data = access_count.user;
+		sethtml("user_auth_refuse",data.refuse_auth_count);
+		sethtml("user_auth_success",data.success_auth_count);
+		sethtml("user_acc_refuse",data.refuse_acc_count);
+		sethtml("user_acc_success",data.success_acc_count);
+		data = access_count.ip;
+		sethtml("ip_auth_refuse",data.refuse_auth_count);
+		sethtml("ip_auth_success",data.success_auth_count);
+		sethtml("ip_acc_refuse",data.refuse_acc_count);
+		sethtml("ip_acc_success",data.success_acc_count);
+	}
+
+	function initSecurityStatus(indata) {
+		var open = "已开启";
+		var close = "未开启";
+		var status, data, id;
+		var security_status = indata.security_status;
+		var allconfig = security_status.allconfig;
+		status = allconfig.rbac_able;
+		data = security_status.rbac_data;
+		id = "rbac_desc";
+		changeClass(id, status);
+		if (status == "1") {
+			sethtml(id, "角色" + data.role_num + "个、用户" + data.user_num + "个");
+		} else {
+			sethtml(id, close)
+		}
+		status = allconfig.dac_able;
+		id = "dac_desc";
+		changeClass(id, status);
+		if (status == "1") {
+			sethtml(id, open);
+		} else {
+			sethtml(id, close);
+		}
+		status = allconfig.mac_able;
+		id = "mac_desc";
+		changeClass(id, status);
+		if (status == "1") {
+			sethtml(id, open);
+		} else {
+			sethtml(id, close);
+		}
+
+		data = security_status.ip_data;
+		status = allconfig.ip_able;
+		id = "ip_desc";
+		changeClass(id, status);
+		changeClass("login_desc", status);
+		if (status == "1") {
+			sethtml(id, "信任IP" + data.ip_num + "个");
+			sethtml("login_desc", open);
+		} else {
+			sethtml(id, close);
+			sethtml("login_desc", close);
+		}
+	}
+
+	function changeClass(id, type) {
+		if (type == "1") {
+			$("#" + id).parent().parent().prev().removeClass("one");
+			$("#" + id).parent().parent().prev().addClass("two");
+		} else if(type == "0"){
+			$("#" + id).parent().parent().prev().removeClass("two");
+			$("#" + id).parent().parent().prev().addClass("one");
+		}else if(type == "UP"){
+			//默认是UP
+			$("#" + id).removeClass("four");
+			$("#" + id).addClass("one");
+		}else{
+			$("#" + id).removeClass("one");
+			$("#" + id).addClass("four");
+		}
+	}
+	function sethtml(id, txt) {
+		$("#" + id).html(txt);
+	}
+	function appendAdvice(status,txt){
+		if(status != "0"){
+			showValue += 20;
+		}else{
+			$("#showAdvice").append("<li>"+txt+"</li>");
+		}
+	}
+</script>
+<script type="text/javascript">
+function initEcharts(){
+	// 基于准备好的dom，初始化echarts实例
+	var myChart = echarts.init(document.getElementById('main'));
+	option = {
+	    tooltip : {
+	        formatter: "{b} : {c}"
+	    },
+	    toolbox: {
+	        feature: {
+	            restore: {
+	            	show: false,
+	            },
+	            saveAsImage: {
+	            	show: false,
+	            },
+	        }
+	    },
+    	series: 
+    	[{
+            name: '',
+            type: 'gauge',
+            
+			radius: '100%',
+			startAngle: 180,
+			endAngle: 0,
+			splitNumber: 3,
+			clockwise: true,
+			min: 0,
+			max: 100,
+			axisTick: {
+				show: false,
+			},
+			splitLine: { //分割线样式
+            				show: false,
+         			},
+			axisLabel: {
+				show: false,
+			},
+			axisLine: {
+				lineStyle : {
+					<!--opacity: 0.9,-->
+					color: [[0.33, '#eb6e78'], [0.66, '#ffd57b'], [1, '#33cf9c']],
+				}
+
+			},
+            detail: "none",
+            data: [{value: 1.5, name: '安全指数'}]
+       	 }]
+	};
+
+	/* setInterval(function () {
+			option.series[0].data[0].value = (Math.random() * 100).toFixed(2) - 0;
+			myChart.setOption(option, true);
+	},2000); */
+	try{
+		var rbacStatus = allConfigStatus.rbac_able;
+		var macStatus = allConfigStatus.mac_able;
+		var dacStatus = allConfigStatus.dac_able;
+		var ipStatus = allConfigStatus.ip_able;
+		var access_error_expire = allConfigStatus.access_error_expire;
+		var access_error_num = allConfigStatus.access_error_num;
+		if((rbacStatus-0)+(macStatus-0) == 0)
+		appendAdvice(rbacStatus,"建议开启RBAC或MAC控制<a href='${base}/kconfig/list?select=allconfig'><font size='4px'>安全配置</font></a>");
+		else
+		appendAdvice("1","建议开启MAC或RBAC控制<a href='${base}/kconfig/list?select=allconfig'><font size='4px'>安全配置</font></a>");
+		appendAdvice(dacStatus,"建议开启DAC控制<a href='${base}/kconfig/list?select=allconfig'><font size='4px'>安全配置</font></a>");
+		appendAdvice(ipStatus,"建议开启登录控制策略<a href='${base}/kconfig/list?select=allconfig'><font size='4px'>安全配置</font></a>");
+		appendAdvice(access_error_expire,"建议登录失败后锁定时间超过15分钟<a href='${base}/kconfig/list?select=allconfig'><font size='4px'>安全配置</font></a>");
+		appendAdvice(access_error_num,"建议登录失败重试次数低于6次<a href='${base}/kconfig/list?select=allconfig'><font size='4px'>安全配置</font></a>");
+		}catch(err){
+			appendAdvice("0","<em>系统出现异常......</em>");
+		}
+		if(showValue < 60){
+			$("#showDanger").show();
+		}else if(showValue < 100){
+			$("#clear").hide();
+		}else{
+			$("#showDanger").hide();
+			if(showValue >= 100)
+				showValue = 100;
+			$("#clear").show();		
+		}
+	option.series[0].data[0].value = showValue;
+// 使用刚指定的配置项和数据显示图表。
+	myChart.setOption(option);
+}
+</script>

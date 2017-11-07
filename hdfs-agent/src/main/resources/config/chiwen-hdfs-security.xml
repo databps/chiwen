@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet xmlns:xi="http://www.w3.org/2001/XInclude" type="text/xsl" href="configuration.xsl"?>
+<configuration>
+  <property>
+    <name>chiwen.plugin.hdfs.policy.cache.dir</name>
+    <value>/home/lgc</value>
+    <description>
+    policy base dir
+    </description>
+  </property>
+
+  <!--<property>-->
+    <!--<name>chiwen.plugin.hdfs.policy.rest.url</name>-->
+    <!--<value>http://policymanagerhost:port</value>-->
+    <!--<description>-->
+      <!--URL to ChiWen Admin-->
+    <!--</description>-->
+  <!--</property>-->
+
+  <!--<property>-->
+    <!--<name>chiwen.plugin.hdfs.policy.rest.url</name>-->
+    <!--<value>http://localhost:8080</value>-->
+    <!--<description>-->
+      <!--URL to ChiWen Admin-->
+    <!--</description>-->
+  <!--</property>-->
+
+</configuration>

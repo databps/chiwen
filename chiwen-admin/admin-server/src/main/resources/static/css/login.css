@@ -1,0 +1,197 @@
+.violet{
+	background-color: #474c71;
+	color: #c9cbda;
+	border-radius: 0px;
+	line-height: 72px;
+    box-sizing: border-box;
+    margin-bottom: 0px;
+    padding-left: 40px;
+}
+.container-fluid{
+	padding-left: 0px;
+}
+.navbar .navbar-brand{
+	width: 160px;
+    height: 45px;
+    line-height: 45px;
+    padding: 0px;
+    margin: 13px 0px;
+    text-align: center;
+    color: #ffffff;
+}
+.loginBox{
+    max-width: 730px;
+    min-width: 480px;
+    max-height: 520px;
+    width: 50%;
+    background-color: #ffffff;
+    margin: 8% auto;
+    padding-bottom: 60px;
+    /*position: fixed;*/
+    /*left: 50%;*/
+    /*top: 50%;*/
+    /*margin-left: -365px;*/
+    /*margin-top: -260px;*/
+}
+.loginUser{
+    width: 480px;
+    margin: 0 auto;
+    padding-top: 40px;
+}
+.prompt{
+    height: 30px;
+    margin-bottom: 10px;
+}
+.prompt .promptactive{
+    box-sizing: border-box;
+    height: 30px;
+    border: 1px solid #ff6c6c;
+    background-color: #ffdfdf;
+    padding-left: 12px;
+    line-height: 30px;
+    font-size: 14px;
+    color: #f74646;
+    opacity: 0;
+    transform: translate3d(0px, -40px, 0px);
+    transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1) 0s, opacity 0.3s ease 0s, height 0s linear 0.35s;
+}
+.prompt .promptactive.on{
+    opacity: 1;
+    transform: translate3d(0px, 0px, 0px);
+}
+.loguser{
+    width: 480px;
+    margin: 0 auto;
+}
+.loguser p{
+    height: 60px;
+    margin-bottom: 20px;
+    border-radius: 2px;
+}
+.loguser p>i{
+    float: left;
+    display: inline-block;
+    height: 58px;
+    width: 59px;
+    background-color: #fbfbfb;
+    border: 1px solid #e0e0e0;
+    /*border-left: 1px solid #e0e0e0;*/
+}
+.loguser p>input{
+    width: 420px;
+    height: 58px;
+    border: solid 0.5px #a3a3a3;
+    border-left: none;
+    padding-left: 10px;
+}
+.loguser p.code input{
+    width: 312px;
+}
+.loguser p.code >a{
+    float: right;
+    display: inline-block;
+    width: 98px;
+    height: 50px;
+    margin-top: 4px;
+}
+.loguser p.code >a img{
+    width: 98px;
+    height: 50px;
+}
+.loginUser >a {
+    display:block;
+    width: 360px;
+    height: 70px;
+    line-height: 55px;
+    margin: 0 auto;
+    margin-top: 10px;
+    text-align: center;
+    border-radius: 2px;
+    background-color: #6593ff;
+    font-size: 20px;
+    font-weight: 500;
+    color: #ffffff;
+}
+.loginUser >a:hover,.loginUser >a:focus{
+    color: #ffffff;
+}
+.username i{
+    background:  url(/img/username.png)no-repeat center;
+}
+.password i{
+    background:  url(/img/password.png)no-repeat center;
+}
+.code i{
+    background:  url(/img/code.png)no-repeat center;
+}
+/*如果文档宽度小于 1440 像素则修改背景演示*/
+@media screen and (max-width: 1441px) {
+    .loginBox{
+        width: 580px;
+        height: 340px;
+        margin: 10% auto;
+    }
+    .loginUser {
+        width: 400px;
+        margin: 0 auto;
+        padding-top: 15px;
+    }
+    .loguser{
+        width:400px;
+    }
+    .loguser p{
+        height: 40px;
+    }
+    .loguser p>i{
+        width: 40px;
+        height: 40px;
+        background-size: 50%;
+    }
+    .loguser p>input{
+        width:360px;
+        height: 40px;
+    }
+    .loguser p.code input{
+        width: 260px;
+    }
+    .loguser p.code >a{
+        width: 70px;
+        height: 40px;
+        margin: 0px;
+    }
+    .loguser p.code >a img{
+        width: 70px;
+        height:40px;
+    }
+    .loginUser >a{
+        width: 280px;
+        height: 50px;
+        line-height: 35px;
+    }
+}
+/*如果文档宽度小于 1440 像素则修改背景演示*/
+@media screen and (max-width: 1100px) {
+    .loginBox{
+        width: 480px;
+        height: 300px;
+        padding-bottom: 0px;
+    }
+    .loginUser {
+        width: 330px;
+        padding-top: 0px;
+    }
+    .loguser {
+        width: 330px;
+    }
+    .loguser p>input {
+        width: 290px;
+    }
+    .loguser p.code input {
+        width: 190px;
+    }
+    .loginUser >a{
+        width: 280px;
+        height: 40px;
+        line-height: 25px;
+    }
+}

@@ -1,0 +1,47 @@
+<div class="footer">
+  <p><a href="#">正式版 v1.1.0</a><span>证书正常</span><span>${.now?string("yyyy年MM月dd日 HH:mm:ss")}</span></p>
+</div>
+
+<!-- bootstrap3 -->
+<script src="${base}/lib/bootstrap/js/bootstrap.min.js"></script>
+<!-- bootstrap3 -->
+<script src="${base}/lib/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
+<script src="${base}/lib/bootstrap/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="${base}/lib/jquery.downCount.js"></script>
+<script src="${base}/js/common.js"></script>
+<script src="${base}/lib/bootstrap/js/bootstrapSwitch.js"></script>
+
+<script src="${base}/lib/jquery.validator.min.js?local=zh-CN"></script>
+<script src="${base}/lib/local/zh-CN.js"></script>
+<script>
+  $(function () {
+    $('#gsForm').validator({
+      theme: 'simple',
+      focusCleanup: false,
+      timely: 2,
+      stopOnError: true
+    });
+    // 时间插件---开始
+    $("#datetimeStart").datetimepicker({
+      format: 'yyyy-mm-dd hh:ii',
+      minView:'day',
+      language: 'zh-CN',
+      autoclose:true,
+      todayBtn:true,
+      endDate:new Date()
+    }).on("click",function(){
+      $("#datetimeStart").datetimepicker("setEndDate",$("#datetimeEnd").val());
+    });
+    $("#datetimeEnd").datetimepicker({
+      format: 'yyyy-mm-dd hh:ii',
+      minView:'day',
+      language: 'zh-CN',
+      autoclose:true,
+      todayBtn:true,
+      endDate:new Date()
+    }).on("click",function(){
+      $("#datetimeEnd").datetimepicker("setStartDate",$("#datetimeStart").val());
+    });
+    // 时间插件 ----结束
+  });
+</script>

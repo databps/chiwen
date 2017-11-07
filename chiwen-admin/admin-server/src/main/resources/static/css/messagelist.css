@@ -1,0 +1,131 @@
+@charset "UTF-8";
+/* CSS Document */
+body{
+	background-color: #f7fafd;
+}
+.headNav{
+	height: 50px;
+	line-height: 50px;
+	background-color: #ffffff;
+	padding: 0px 30px;
+}
+.headNav a{
+	margin-right: 50px;
+	font-size: 14px;
+	color: #999999;
+}
+.headNav a.active{
+	color: #474c71;
+	padding-bottom: 12px;
+	border-bottom: 4px solid #474c71;
+}
+.grey9 {
+	color: #999;
+}
+.mar15 {
+	margin: 30px;
+}
+.titleheader{
+	position: relative;
+	height: 45px;
+	border-bottom: 1px solid #d7e0e5;
+}
+.titleheader .title{
+	position: absolute;
+	width: 100%;
+	line-height: 35px;
+	text-align: center;
+  	font-size: 16px;
+  	color: #474c71;
+}
+.returnTo{
+	float: left;
+	position: absolute;
+	z-index: 1;
+}
+.returnTo span{
+	display: inline-block;
+	box-sizing: border-box;
+	width: 130px;
+	height: 35px;
+	line-height: 35px;
+	padding-left: 36px;
+	background: url(/img/back.png)no-repeat 10px center;
+	border-radius: 2px;
+	border: 1px solid #739dff;
+	color: #739dff;
+	font-size: 14px;
+	cursor: pointer;
+}
+.returnTo span:hover{
+	background: url(/img/back-hover.png)no-repeat 10px center;
+}
+.contentBox{
+	padding: 0px 80px;
+}
+.titleCont{
+	height: 40px;
+	line-height: 40px;
+	border-bottom: solid 1px #d7e0e5;
+	font-size: 14px;
+	color: #999999;
+}
+.titleCont span{
+	margin-right: 200px;
+	color: #34353f;
+	margin-left: 5px;
+}
+.contBody{
+	width: 980px;
+}
+.contBody li{
+	float: left;
+	line-height: 40px;
+	font-size: 14px;
+	width: 300px;
+	color: #999999;
+}
+.contBody li span{
+	color: #34353f;
+	margin-left: 5px;
+}
+/*.line1 {
+	height: 1px;
+	background: #dee3e6;
+}*/
+
+.martp{ margin: 15px 0 15px 0;}
+.textmessage li{font-size: 14px; margin:8px 0px 8px 40px;}
+.textmessage li>span{ color: #34353f; margin-left:10px;}
+
+.mar{margin: 15px 40px 15px 40px;}
+
+
+.suggestions>i{display:inline-block;width: 15px;height: 15px;background-image: url(/img/suggestions.png);background-size:100%;position: relative;top:2px;margin-right:3px}
+.suggestions{
+	color:#63688d; 
+	font-size: 14px; 
+	background-color: #f2f8ff;  
+	border: solid 1px #a3cdff;
+	line-height: 48px;
+	padding:0 20px 20px;
+	margin: 0px 80px;
+}
+.suggestions>p{ 
+	text-align:justify;
+	margin-left: 15px;
+	color: #68738b; 
+	font-size:12px; 
+	line-height: 20px;
+}
+@media screen and (max-width: 1200px) {
+	.contBody{
+		width: 100%;
+	}
+	.suggestions{
+		width: 800px;
+		margin: 0 auto;
+	}
+}
+
+

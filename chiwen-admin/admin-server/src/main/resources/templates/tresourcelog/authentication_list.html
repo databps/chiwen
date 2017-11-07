@@ -1,0 +1,116 @@
+[#include "/layout/layout_top.html"]
+<div class="col-xs-10 mainCont">
+	<div class="section main21">
+			<h2>Hadoop认证日志</h2>
+		<form action="list" method="get" class="gs_table_form" id="formSearch">
+			<input type="hidden" name="currentPage" id="currentPage"
+				value="${page.currentPage}" /> <input type="hidden" id="action"
+				name="action" value="${action}" />
+				<div class="text-right m-top25">
+			</div>
+			<div class="row">
+				<div class="row col-md-3 gs-min-width">
+					<label class="col-md-4 gs_table_label text-right">用户名称:</label>
+					<div class="col-sm-8">
+						<input type="text" id="uname" class="form-control" name="uname"
+							value="${param['uname']}" placeholder="" />
+					</div>
+				</div>
+				<div class="row col-md-3 gs-min-width">
+					<label class="col-md-4 gs_table_label text-right">访问ip:</label>
+					<div class="col-sm-8">
+						<input type="text" id="ip" class="form-control" name="ip"
+							value="${param['ip']}" placeholder="" />
+					</div>
+				</div>
+				<div class="row col-md-3 gs-min-width">
+					<label class="col-md-4 gs_table_label text-right">访问时间:</label>
+					<div class="col-sm-8">
+						<input type="text" id="rangeTime" class="form-control"
+							name="rangeTime" value="${param['rangeTime']}" placeholder="" />
+					</div>
+				</div>
+				<div class="row col-md-3 gs-min-width ">
+					<div class="col-md-3 ">
+						<button type="submit" class="btn btn-default btn-md ">查询</button>
+					</div>
+					<div class="col-md-3 ">
+						<a href="javascript:download()"
+							class="btn btn-default btn-md ">下载</a>
+					</div>
+					<div class="col-md-4 ">
+						<a href="javascript:clearn()"
+							class="btn btn-danger btn-md ">清空日志</a>
+					</div>
+				</div>
+			</div>
+		</form>
+		<div class="table-responsive">
+			<table class="table table-hover table-blue table22"
+				style="table-layout: fixed">
+				<thead>
+					<tr>
+						<th  width='10%'>用户名称</th>
+						<!-- <th  width='20%'>所属角色</th> -->
+						<th  width='15%'>访问ip</th>
+						<th  width='10%'>认证结果</th>
+						<th  width='10%'>结果说明</th>
+						<th  width='10%'>访问类型</th>
+						<th  width='20%'>操作时间</th>
+					</tr>
+				</thead>
+				<tbody>
+					[#list resourceLogList as tResourceLog]
+					<tr class="active">
+						<td class="active">${tResourceLog.kuser.uname}</td>
+						<!-- <td class="active">[#list tResourceLog.kuser.roles as roleNameMap]
+							[#list roleNameMap?keys as roleKey]
+							[#if roleKey="rolename"]
+							 ${roleNameMap[roleKey]}
+							 [/#if]
+							[/#list] [#if roleNameMap_index+1 != tResourceLog.kuser.roles?size] ,
+							[/#if] [/#list]</td> -->
+						<td class="active">${tResourceLog.ip}</td>
+						<td class="active">${tResourceLog.outcome}</td>
+						<td class="active">${tResourceLog.message}</td>
+						<td class="active">${tResourceLog.service_name}</td>
+						<td class="active">
+							${tResourceLog.create_time?datetime("yyyyMMddHHmmssSSS")}</td>
+					</tr>
+					[/#list]
+				</tbody>
+			</table>
+			<div class="text-center">[@p.page value=page
+				form="formSearch"/]</div>
+		</div>
+	</div>
+</div>
+[#include "/layout/layout_bottom.html"]
+<script src="${base}/js/datapicker.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$('#rangeTime').daterangepicker();
+	});
+	function download() {
+		var formTmp = $("<form>");
+		formTmp.attr("action", "download");
+		formTmp.append($('<input type="hidden" name="uname" value="'
+				+ $("#uname").val() + '">'));
+		formTmp.append($('<input type="hidden" name="ip" value="'
+				+ $("#ip").val() + '">'));
+		formTmp.append($('<input type="hidden" name="action" value="'
+				+ $("#action").val() + '">'));
+		formTmp.append($('<input type="hidden" name="rangeTime" value="'
+				+ $("#rangeTime").val() + '">'));
+		formTmp.appendTo('body')
+		formTmp.submit();
+	}
+
+	function clearn() {
+		var r = confirm("确认清空日志吗？")
+		if (r == true) {
+			window.location.href="${base}/tresourcelog/clearn?action=${action}";
+		} else {
+		}
+	}
+</script>

@@ -1,0 +1,74 @@
+[#include "/include/header_index.html"]
+<body style='height: 100%;'>
+[#include "/include/navbar.html"]
+<div class="app-main">
+  <!-- 内容 -->
+  <div class="yHdfsBody clearfix operationlog">
+    <div class="yMain clearfix">
+      <div class="fl">
+        <p class="yMainTitle">审计日志</p>
+        <ul class="nav nav-pills nav-stacked yPlugNav">
+          <li><a  href="${base}/audit/list">HDFS日志</a></li>
+          <li class="active"><a  href="${base}/audit/admin/list">ADMIN日志</a></li>
+          <li><a  href="${base}/audit/hbase/list">HBASE日志</a></li>
+          <li ><a  href="${base}/audit/gateway/list">GATEWAY日志</a></li>
+        </ul>
+      </div>
+      <div class="fr">
+
+        <p class="frtitle">ADMIN日志</p>
+        <div class="frbody">
+          <form action="list" method="get" class="gs_table_form" id="queryPage">
+            <input type="hidden" name="currentPage" id="currentPage" value="${page.currentPage}"/>
+            <div class="topoperation clearfix"></div>
+
+          </form>
+
+          <div class="tablesBox">
+            <!--<p class="checkbox">-->
+              <!--<label>-->
+                <!--<input type="checkbox"> 全选-->
+              <!--</label>-->
+              <!--<a href="#">清空</a>-->
+              <!--<a href="#">导出</a>-->
+            <!--</p>-->
+            <div class="tableBox">
+              <table class="table table-hover">
+                <thead>
+                <tr>
+                  <th>用户名</th>
+                  <th>操作</th>
+                  <th>时间</th>
+                  <th>结果</th>
+                </tr>
+                </thead>
+                <tbody>
+                [#list adminLogList as log]
+                <tr>
+                  <td>${log.principal}</td>
+                  <td>${log.auditEventType}</td>
+                  <td>[@p.formatDate value="${log.auditEventDate}"/]</td>
+                  [#if log.data ??]
+                  <td>${log.data["message"]}</td>
+                  [/#if]
+
+                </tr>
+                [/#list]
+                </tbody>
+              </table>
+            </div>
+            <div class="clearfix row tabbuttom no-paddleft">
+
+              [@p.mongo_page value=page form="queryPage"/]
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+[#include "/include/footer_index.html"]
+</body>
+</html>
+

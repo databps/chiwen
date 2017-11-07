@@ -1,0 +1,44 @@
+.checkbox label{
+	font-size: 14px;
+	color: #34353f;
+}
+
+/**********分页**********/
+.page{
+	text-align: center;
+}
+.page .pagecont{
+	display: inline-block;
+}
+.page span{
+  	font-size: 14px;
+  	color: #34353f;
+  	margin-right: 20px;
+}
+.page >a{
+	display: inline-block;
+	height: 28px;
+	line-height: 27px;
+	border: 1px solid #dddddd;
+	font-size: 14px;
+	color: #959ca4;
+	padding: 0px 5px;
+}
+.page .pagecont a{
+	display: inline-block;
+	height: 28px;
+	width: 28px;
+	text-align: center;
+	line-height: 27px;
+	border-radius: 2px;
+	border: 1px solid #dddddd;
+	font-size: 14px;
+	color: #959ca4;
+}
+.page .pagecont a.on{
+	color: #34353f;
+  	background-color: #d7e0e5;
+}
+@media screen and (max-width: 1230px) {
+	
+}

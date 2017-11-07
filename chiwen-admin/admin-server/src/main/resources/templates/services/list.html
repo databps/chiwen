@@ -1,0 +1,185 @@
+[#include "/include/header_index.html"]
+<body style='height: 100%;'>
+[#include "/include/navbar.html"]
+<div class="app-main">
+  <!-- 内容 -->
+  <div class="yHdfsBody">
+    <div class="yHeader">
+      <div class="dropdown yHeadropdown js-yHeadR">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          cluster1
+          <i class="glyphicon glyphicon-menu-down"></i>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+          <li><a href="#" data-id="1">cluster1</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="yMain clearfix">
+      <div class="fl">
+        <ul class="nav nav-pills nav-stacked yPlugNav">
+          [#list services as service]
+
+          [#if service.name == "hdfs"]
+          [#if service.status == "1"]
+          <li class="active yStop"><a data-toggle="tab" href="/services/list"><i class="hd"></i>HDFS <b></b></a></li>
+          [/#if]
+          [#if service.status == "0"]
+          <li class="active"><a data-toggle="tab" href="/services/list"><i class="hd"></i>HDFS <b></b></a></li>
+          [/#if]
+          [/#if]
+
+          [#if service.name == "gateway"]
+          [#if service.status == "0"]
+          <!--<li><a data-toggle="tab" href="/api/gateway/list"><i class="ga"></i>GATEWAY<b></b></a></li>-->
+          [/#if]
+          [#if service.status == "1"]
+          <!--<li class="yStop"><a  href="/api/gateway/list"><i class="ga"></i>GATEWAY<b></b></a></li>-->
+
+          [/#if]
+          [/#if]
+
+          [/#list]
+        </ul>
+      </div>
+      <div class="fr">
+        <div class="yHdsfDetBox">
+          <ul class="nav nav-tabs yTabNav" id="js-tab">
+            <li class="active"><a href="#js-yState" data-toggle="tab" aria-expanded="true">状态</a></li>
+            <li><a href="#js-yPulg" data-toggle="tab">配置</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active yState" id="js-yState">
+
+              [#list services as service]
+              [#if service.name == "hdfs"]
+                [#if service.serviceConfig??]
+                  [#else]
+                       <!--<div class="yGoPlug"><i></i>您还没有完成配置。<a href="#js-yPulg" >去配置</a></div>-->
+                  [/#if]
+              <ul class="clearfix">
+                <li class="fl">
+                  <p>NameNode Uptime</p>
+                  <div><span class="yBule">${service.servicesJMXVo.runtime.days}</span> days <span class="yBule">${service.servicesJMXVo.runtime.hours}</span> hours <span class="yBule">${service.servicesJMXVo.runtime.minutes}</span> minutes</div>
+                </li>
+                <li class="fl">
+                  <p>DataNodes Status</p>
+                  <div><span class="yBule">${service.servicesJMXVo.numLiveDataNodes}</span> live / <span class="yBule">${service.servicesJMXVo.numDeadDataNodes}</span> dead / <span class="yBule">${service.servicesJMXVo.numDecommissioningDataNodes}</span> decommissioning</div>
+                </li>
+                <li class="fl">
+                  <p>NameNode Heap</p>
+                  <div><span class="yBule">${service.servicesJMXVo.dataNodesUse}</span> MB /<span class="yBule">${service.servicesJMXVo.dataNodesMax}</span>  MB <span class="yGray">(${service.servicesJMXVo.dataNodesPercent}% used)</span></div>
+                </li>
+                <!--<li class="fl">-->
+                  <!--<p>DataNodes Status</p>-->
+                  <!--<div><span class="yBule">3/3</span> JournalNodes Live</div>-->
+                <!--</li>-->
+
+              </ul>
+            </div>
+            <div class="tab-pane yPulgBox" id="js-yPulg">
+              <form class="form-horizontal yHdfsForm" action="/services/saveConfig"  method="post">
+                <div class="form-group">
+                  <label class="col-md-5 col-lg-4 control-label left" for="uname1">fs.default.name</label>
+                  <div class="col-md-4">
+                    <input class="form-control" id="uname2" name="hdfsDefaultName" placeholder="192.168.1.130:9000" value="${service.serviceConfig["hdfs_default_name"]}" type="text">
+                  </div>
+                  <div class="col-md-2">
+                    <span class="help-block">必填信息</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-5 col-lg-4 control-label left" for="uname1">yarn.resourcemanager.hostname</label>
+                  <div class="col-md-4">
+                    <input class="form-control" id="uname4" name="yarnRMHostname" placeholder="192.168.1.130" value="${service.serviceConfig["yarn_rm_hostname"]}" type="text">
+                  </div>
+                  <div class="col-md-2">
+                    <span class="help-block">必填信息</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-5 col-lg-4 control-label left" for="uname1">mapreduce.jobhistory.address</label>
+                  <div class="col-md-4">
+                    <input class="form-control" id="uname5" name="mapreduceJobHostname"  placeholder="192.168.1.130:10020" value="${service.serviceConfig["mapreduce_job_hostname"]}" type="text">
+                  </div>
+                  <div class="col-md-2">
+                    <span class="help-block">必填信息</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-5 col-lg-4 control-label" for="uname3">dfs.namenode.http-address</label>
+                  <div class="col-md-4">
+                    <input class="form-control" id="uname3"  name="hdfsHttpUrls" placeholder="http://192.168.1.130:50070,http://192.168.1.131:50070" value="${service.serviceConfig["hdfs_http_url"]}" type="text">
+                    <input  name="confId" value="${service._id}" type="hidden">
+                  </div>
+                  <div class="col-md-2">
+                    <span class="help-block">必填信息 ,分割</span>
+                  </div>
+                </div>
+                <button class="btnPre">保存</button>
+              </form>
+            </div>
+          </div>
+              [/#if]
+              [/#list]
+
+
+
+
+        </div>
+        <div class="yHdsfDetBox">
+          <div class="mar15">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                <tr>
+                  <th>插件名称</th>
+                  <th>Hostname</th>
+                  <th>最后更新时间</th>
+                  <th>状态</th>
+                  <!--<th>平均负载</th>-->
+                  <!--<th>物理内存</th>-->
+                  <!--<th>操作</th>-->
+                </tr>
+                </thead>
+                <tbody class="hdfs_table">
+                [#list services as service]
+                [#if service.name == "hdfs"]
+                [#list service.plugins as plugin]
+
+                <tr>
+                  <td>${plugin.name}</td>
+                  <td>${plugin.hostname}</td>
+                  <td>${plugin.updateTime}</td>
+                  [#if plugin.status == "0"]
+                  <td class="state"><span>运行中</span></td>
+                  [#else]
+                  <td class="state"><span class="warning">已停止</span></td>
+                  [/#if]
+                  <!--<td>345:2017.06.12 12:34:09 09 08 OUT</td>-->
+                  <!--<td>-->
+                    <!--<div class="progress">-->
+                      <!--<div class="progress-bar" role="progressbar" aria-valuenow="60"-->
+                           <!--aria-valuemin="0" aria-valuemax="100" style="width: 80%;">-->
+                        <!--<span class="sr-only">40% 完成</span>-->
+                      <!--</div>-->
+                    <!--</div>-->
+                  <!--</td>-->
+                  <!--<td><a href="#">详情</a></td>-->
+                </tr>
+
+                [/#list]
+                [/#if]
+                [/#list]
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+[#include "/include/footer_index.html"]
+</body>
+</html>

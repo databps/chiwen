@@ -1,0 +1,379 @@
+[#include "/layout/layout_top.html"]
+<style>
+.font-style {
+	font-family: 黑体;
+	font-size: 30px;
+	font-weight: 900;
+	color: #CCCC66;
+	text-align: center;
+}
+
+.panel-div {
+	margin: 20px 50px 50px 30px;
+	width: 180px;
+	height: 150px;
+	/* box-shadow: inset 1px -1px 1px #999999, inset -1px 1px 1px #999999; */
+	border: 1px solid #999999;
+	padding: 1px 0 0 5px;
+	position: relative;
+	float: left;
+}
+
+.divleft {
+	/* display: table;
+	margin-left: 0; */
+	padding-right: 1px;
+	padding-left: 1px;
+}
+
+.divright {
+	/* display: table;
+	margin-right: 0; */
+	padding-right: 1px;
+	padding-left: 1px;
+}
+
+.one-line-echarts {
+	height: 500px;
+	width: 500px;
+}
+</style>
+<div class="col-xs-10 mainCont">
+	<div class="section">
+		<h2>集群概览</h2>
+		<div id="myAlert" class="alert alert-danger" hidden="hidden"
+			style="padding-bottom: 10px">
+			<strong>异常！</strong><span id="alertText"></span>
+		</div>
+		<div class="row section1-1">
+			<div class="col-lg-4">
+				<div class="s1-1" style="width: 100%">
+					<div class="s1-1-1">
+						<img src="${base}/images/section1-1.png" alt="">
+					</div>
+					<div class="s1-1-2">
+						<p>NameNode Uptime</p>
+						<p id="uptime"></p>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="s1-2" style="width: 100%">
+					<div class="s1-2-1">
+						<img src="${base}/images/section1-2.png" alt="">
+					</div>
+					<div class="s1-2-2">
+						<p>DataNode Live</p>
+						<p>
+							<span id="liveDataNode"></span><span style="font-size: 30px;">/</span><span
+								id="allDataNode"></span>
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="s1-2" style="width: 100%">
+					<div class="s1-2-1">
+						<img src="${base}/images/section1-2.png" alt="">
+					</div>
+					<div class="s1-2-2">
+						<p>NameNode Memery</p>
+						<p>
+							<span id="used"></span><span style="font-size: 30px;">/</span><span
+								id="max"></span>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="section">
+		<h2>集群概况</h2>
+		<div class="row">
+			<div class="col-lg-6">
+				<div id="cpuDom"
+					class="center-block col-xs-6 one-line-echarts divleft"></div>
+			</div>
+			<div class="col-lg-6">
+				<div id="memoryDom"
+					class="center-block col-xs-6 one-line-echarts divright"></div>
+			</div>
+		</div>
+		<br />
+		<div class="row">
+			<div class="col-lg-6">
+				<div id="threadDom" class="one-line-echarts divright"></div>
+			</div>
+			<div class="col-lg-6">
+				<div id="hdfsDom" class="one-line-echarts divleft"></div>
+			</div>
+		</div>
+		<br />
+	</div>
+</div>
+[#include "/layout/layout_bottom.html"]
+<script src="${base}/js/echarts.min.js"></script>
+<script type="text/javascript">
+	function numArr(base, fd, fixed) {
+		var arr = [];
+		for (var i = 0; i < 24; i++) {
+			arr.push((base + Math.random() * fd).toFixed(fixed));
+		}
+		return arr;
+	}
+
+	function timeArr() {
+		var now = new Date();
+		var nowHours = now.getHours();
+		var nowMinutes = now.getMinutes();
+		var arr = [];
+		for (var i = 0; i < 12; i++) {
+			arr.push(nowHours + ':' + '30');
+			arr.push(nowHours + ':' + '00');
+			nowHours -= 1;
+			if (nowHours < 0) {
+				nowHours = 23;
+			}
+		}
+
+		if (nowMinutes < 30) {
+			arr.shift();
+			arr.push(nowHours + ':' + '30');
+		}
+
+		arr.reverse();
+
+		return arr;
+
+	}
+</script>
+<script type="text/javascript">
+	$(function() {
+		$.ajax({ //获取datanode数量
+			type : "get",
+			async : true,
+			url : "${base}/clusterm/data",
+			data : {
+				type : "dataNodeInfo"
+			},
+			dataType : "json",//返回数据形式为json  
+			success : function(result) {
+				$("#liveDataNode").html(result.liveDataNodes);
+				$("#allDataNode").html(result.allDataNodes);
+			},
+			error : function(errorMsg) {
+				showAlert();
+			}
+		});
+		$.ajax({ //获取namenode运行时间
+			type : "get",
+			async : true,
+			url : "${base}/clusterm/data",
+			data : {
+				type : "Uptime"
+			},
+			dataType : "json",//返回数据形式为json  
+			success : function(result) {
+				$("#uptime").html(result.Uptime + "s");
+			},
+			error : function(errorMsg) {
+				showAlert();
+			}
+		});
+		$.ajax({ //获取namenode内存使用情况
+			type : "get",
+			async : true,
+			url : "${base}/clusterm/data",
+			data : {
+				type : "memory"
+			},
+			dataType : "json",//返回数据形式为json  
+			success : function(result) {
+				$("#used").html(result.used);
+				$("#max").html(result.max);
+			},
+			error : function(errorMsg) {
+				showAlert();
+			}
+		});
+	})
+</script>
+<script type="text/javascript">
+	/**      获取cpu折线图      **/
+	function getCpuOption(title, name, colors, max) {
+		var option = {
+			title : {
+				text : title
+			},
+			legend : {
+				data : [ name ],
+				left : 'right'
+			},
+			color : [ colors ],
+			tooltip : {
+				trigger : 'axis',
+				axisPointer : { // 坐标轴指示器，坐标轴触发有效
+					type : 'line' // 默认为直线，可选为：'line' | 'shadow'|'cross'十字形
+				}
+			},
+			grid : {
+				left : '37',
+				right : '10',
+				bottom : '50',
+				containLabel : false
+			},
+			xAxis : [ {
+				type : 'category',
+				boundaryGap : true,
+				data : [],
+				axisTick : {
+					show : true,
+					alignWithLabel : true,
+					inside : true
+				},
+				axisLabel : {
+					interval : 1
+				}
+			} ],
+			yAxis : [ {
+				type : 'value',
+				min : 0,
+				max : max
+			} ],
+			series : [ {
+				barMinHeight : 0,
+				name : name,
+				type : 'line',
+				barWidth : '70%',
+				data : []
+			} ]
+		};
+		return option;
+	}
+</script>
+<script type="text/javascript">
+	// 基于准备好的dom，初始化echarts实例
+	var myChart = echarts.init(document.getElementById('cpuDom'));
+	var title = "NameNode主机cpu使用率";
+	var name = "百分比(%)";
+	// 指定图表的配置项和数据
+	var options = getCpuOption(title, name, '#00CED1', 100);
+	var xdata = timeArr();
+	var sdata = numArr(32, 3, 2);
+	options.xAxis[0].data = xdata;
+	options.series[0].data = sdata;
+	myChart.setOption(options);
+</script>
+<script type="text/javascript">
+	var myChart = echarts.init(document.getElementById('memoryDom'));
+	var title = "NameNode主机内存使用情况";
+	var name = "单位(M)";
+	// 指定图表的配置项和数据
+	var options = getCpuOption(title, name, '#9ACD32', 1000);
+	var xdata = timeArr();
+	var sdata = numArr(500, 100, 0);
+	options.xAxis[0].data = xdata;
+	options.series[0].data = sdata;
+	myChart.setOption(options);
+</script>
+
+<script type="text/javascript">
+	var myChart = echarts.init(document.getElementById('hdfsDom'));
+	var title = "HDFS使用情况";
+	var name = "单位(G)";
+	// 指定图表的配置项和数据
+	var options = getCpuOption(title, name, '#FFD700', 1000);
+	var xdata = timeArr();
+	var sdata = numArr(300, 30, 2);
+	options.xAxis[0].data = xdata;
+	options.series[0].data = sdata;
+	myChart.setOption(options);
+</script>
+
+<script type="text/javascript">
+	var myChart = echarts.init(document.getElementById('threadDom'));
+	var title = "NameNode JVM运行线程个数";
+	var name = "单位(个)";
+	// 指定图表的配置项和数据
+	var option = {
+		title : {
+			text : title
+		},
+		tooltip : {
+			trigger : 'axis'
+		},
+		legend : {
+			data : [ '最大', '平均', '最小' ],
+			left : 'right'
+		},
+		toolbox : {
+			feature : {
+				saveAsImage : {}
+			}
+		},
+		color : [ '#EB6E78', '#33BACF', '#212960', '#33CF9C', '#FFD57B',
+				'#ca8622', '#bda29a', '##FFD57B', '#c4ccd3' ],
+		grid : {
+			left : '3%',
+			right : '4%',
+			bottom : '3%',
+			containLabel : true
+		},
+		xAxis : [ {
+			type : 'category',
+			boundaryGap : false,
+			data : timeArr(),
+			axisTick : {
+				show : true,
+				alignWithLabel : true,
+				inside : true
+			},
+			axisLabel : {
+				interval : 1
+			}
+		} ],
+		yAxis : [ {
+			splitNumber : 10,
+			type : 'value'
+		} ],
+		series : [ {
+			name : '最大',
+			type : 'line',
+			stack : '总量',
+			areaStyle : {
+				normal : {}
+			},
+			data : numArr(50, 20, 0)
+		}, {
+			name : '平均',
+			type : 'line',
+			stack : '总量',
+			areaStyle : {
+				normal : {}
+			},
+			data : numArr(30, 20, 0)
+		}, {
+			name : '最小',
+			type : 'line',
+			stack : '总量',
+			areaStyle : {
+				normal : {}
+			},
+			data : numArr(9, 10, 0)
+		} ]
+
+	};
+	// 使用刚指定的配置项和数据显示图表。
+	myChart.setOption(option);
+</script>
+
+
+<script type="text/javascript">
+	function showAlert() {
+		$('#alertText').html("请求hadoop集群失败,请检查hadoop配置的address是否正确.");
+		$('#myAlert').show();
+		/* $("#myAlert").fadeTo(2000, 1).slideUp(800, function(){
+			$("#myAlert").hide();
+		}); */
+	}
+</script>

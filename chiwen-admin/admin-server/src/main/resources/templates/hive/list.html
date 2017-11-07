@@ -1,0 +1,157 @@
+[#include "/layout/layout_top.html"]
+<div class="col-xs-10 mainCont">
+  <div class="section ">
+    <h2>Hive Acl权限</h2>
+    <div class="alert  alert-danger" role="alert" style="padding-bottom:10px" hidden="hidden" id="alertError">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+      <strong id="errorMsg">${errorMsg}</strong>
+    </div>
+    <div class="text-right" id="add_btn">
+          <a href="${base}/hiveAcl/add" class="a-btn-gs btn btn-default"><img
+            src="${base}/images/i-add.png" alt=""><span class="v-mid">添加</span></a>
+        </div>
+    <div class="table-responsive m-top15">
+
+      <table class="table table-hover table-blue table22">
+        <thead>
+          <tr>
+            <th>Hive用户</th>
+            <th>Acl权限</th>
+            <th>Acl权限值</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody id="tbody_list">
+          [#list roleList as tkRole]
+          <tr class="active">
+            <td class="active" style="text-align:left;padding-left:30px" colspan="">${tkRole.rolename}</td>
+            <td class="active" style="text-align:left;padding-left:30px">${tkRole.description}</td>
+            <td>
+            <div style="text-align:right;margin-right:15px">
+            <span class="v-mid">${tkRole.countUser}</span>
+            <a class="handle" href="listRoleUser?roleId=${tkRole._id}&roleName=${tkRole.rolename}&menu=role">
+              <img alt="" src="${base}/images/set.png"> <span class="v-mid">配置</span>
+            </a>
+            </div>
+            </td>
+          <td>
+            <div style="text-align:right;margin-right:15px">
+            <span class="v-mid">
+              ${tkRole.privileges?size}
+            </span>
+            <a class="handle" href="listResource?roleId=${tkRole._id}&roleName=${tkRole.rolename}">
+              <img alt="" src="${base}/images/set.png"> <span class="v-mid">配置</span>
+            </a>
+            </div>
+          </td>
+            <td class="active">${tkRole.create_time?datetime("yyyyMMddHHmmssSSS")}</td>
+            <td class="active"> <a href="javascript:deletes('角色：${tkRole.rolename}','${tkRole._id}');" class="handle"><img alt="" src="${base}/images/i-del.png"><span>删除</span></a></td>
+
+            </td>
+          </tr>
+          [/#list]
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+[#include "/layout/layout_bottom.html"]
+<script type="text/javascript">
+  $(function(){
+    init();
+
+
+  });
+
+  function init() {
+
+    //list
+    $.ajax({
+      type : "POST",
+      async : false,
+      url : "${base}/hiveAcl/listAcls",
+      dataType : "json",
+      success : function(data) {
+        var result = data.type;
+        if(result == 0) {
+          showError(data.msg);
+        <!--$('#add_btn').hide();-->
+        }
+
+      <!--console.log(data.list);-->
+      refresh(data.list);
+      }
+    });
+  }
+
+  function refresh(data) {
+
+    $('#tbody_list tr').remove();
+    if(null == data || data == '' || data.length < 1) {
+
+      return false;
+    }
+    $.each(data, function(j, o) {
+      if(null != o.acls && 'undefined' != o.acls && o.acls.length > 0) {
+        var html = [];
+        html.push('<tr class="active">');
+        html.push('<td class="active" style="text-align:left;padding-left:30px"');
+        if(o.acls.length > 1) {
+
+          html.push(' rowspan="' + o.acls.length + '"');
+        }
+
+        html.push('>' + o.user_name + '</td>');
+        $.each(o.acls, function(i, x) {
+
+          if(i > 0) {
+            html = [];
+            html.push('<tr>');
+          }
+          html.push('<td style="text-align:left;padding-left:30px">' + x.key + '</td>');
+          html.push('<td style="text-align:left;padding-left:30px">' + x.str + '</td>');
+          html.push('<td class="active"><a class="handle delete" data-oid="' + o.id + '" data-t="' + x.key + '" data-uid="' + o.user_id + '"><img alt="" src="${base}/images/i-del.png"><span>删除</span></a></td>');
+          html.push('</tr>');
+          $('#tbody_list').append(html.join(' '));
+        });
+      }
+    });
+
+    $('.delete').click(function() {
+      var id = $(this).attr('data-oid');
+      var user = $(this).attr('data-uid');
+      var str = $(this).attr('data-t');
+      var r = confirm('确认删除?');
+      if(!r) {
+        return false;
+      }
+
+      $.ajax({
+        type : "POST",
+        async : false,
+        url : "${base}/hiveAcl/deleteAcl",
+        data: {id: id, user: user, str: str},
+        dataType : "json",
+        success : function(data) {
+          var result = data.result;
+          if(result == 0) {
+            <!--showError(data.errorMsg);-->
+          } else if(result == 1) {
+            init();
+          }
+        }
+      });
+    });
+  }
+
+  function showAlert() {
+     $("#myAlert").fadeTo("slow", 1).slideUp(1000, function(){
+      $("#myAlert").hide();
+    });
+  }
+  function showError(msg) {
+    $('#errorMsg').text(msg);
+    $("#alertError").show();
+  }
+</script>
+

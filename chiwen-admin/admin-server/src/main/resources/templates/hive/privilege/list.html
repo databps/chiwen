@@ -1,0 +1,196 @@
+[#include "/include/header_index.html"]
+<body style='height: 100%;'>
+[#include "/include/navbar.html"]
+<div class="app-main">
+  <!-- 内容 -->
+  <div class="yHiveBody jurisdiction">
+    <div class="yHeader">
+      <!-- <span>HDFS(Cluster1)</span> -->
+      <!-- <span class="hb">HDFS(Cluster1)</span> -->
+      <!-- <span class="hi">HDFS(Cluster1)</span> -->
+      <span class="ga">HIVE(Cluster1)</span>
+    </div>
+    <div class="yMain clearfix">
+      <div class="fl">
+        <ul class="nav nav-pills nav-stacked yPlugNav">
+          <li ><a  href="${base}/authority/hive/user/list">用户管理</a></li>
+          <li><a href="${base}/hive/role/list">角色管理</a></li>
+          <li class="active"><a href="${base}/hive/privilege/list">权限管理</a></li>
+        </ul>
+      </div>
+      <div class="fr massges">
+        <div class="panel panel-default toptitle">
+          <p class="panel-heading">权限管理</p>
+        </div>
+        <div class="contBox clearfix">
+          <form action="${base}/hive/privilege/list" method="get" class="gs_table_form" id="formSearch">
+            <input type="hidden" name="currentPage" id="currentPage" value="${page.currentPage}"/>
+            <div class="searcch">
+                <input type="text" class="form-control" name="name" placeholder="权限名" value="${param['name']}"/>
+                      <button class="btn btn-default" type="submit">查询</button>
+            </div>
+          </form>
+          <a href="javascript:openPolicy();" >添加权限</a>
+        </div>
+        <div class="tables">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>权限名</th>
+              <th>备注</th>
+              <th>资源</th>
+              <!-- <th>创建时间</th>-->
+              <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            [#list gatewayPrivileges as privilege]
+            <tr>
+              <td>${privilege.name}</td>
+              <td>[@p.tooltip value="${privilege.description}"/]</td>
+              <td>${privilege.resource}</td>
+
+              <td>
+                <a href="javascript:edit('${privilege._id}');">编辑</a>
+                <a href="${base}/hive/privilege/delete?privilegeId=${privilege._id}" onclick="if(confirm('确定删除?')==false)return false;">删除</a>
+              </td>
+
+            </tr>
+            [/#list]
+            </tbody>
+          </table>
+        </div>
+        [@p.mongo_page value=page form="formSearch"/]
+      </div>
+    </div>
+
+
+
+
+
+
+
+    <!-- 模态框 -->
+    <!-- 模态框（Modal）添加用户 -->
+    <div class="modal fade jurisdicModal" id="addPolicy" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel"
+         aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+            </button>
+
+            <h6 class="modal-title" id="addPolicyh6"></h6>
+          </div>
+          <form action="${base}/hive/privilege/save" method="post" id="gsForm"
+                autocomplete="off">
+            <input type="hidden" value="" name="privilegeId" id="privilegeId">
+
+            <div class="modal-body modal-adduser clearfix">
+              <div class="row form-horizontal common_box">
+              <div class="form-group">
+                <label class="col-sm-2 control-label"><i>*</i>名称</label>
+                <div class="col-sm-5">
+                  <div class="row">
+                    <input type="text" value="" class="form-control" name="name" data-rule="required;name; remote[${base}/hive/privilege/checkName, privilegeId];" id="name"/>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label"><i>*</i>资源</label>
+                <div class="col-sm-5">
+                  <div class="row">
+                    <input type="text" value="" class="form-control" name="resource" id="resource" data-rule="required; pathRule"  >
+                  </div>
+                </div>
+
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label"><i>*</i>备注</label>
+                <div class="col-sm-5">
+                  <div class="row">
+                    <input type="text" value="" class="form-control" name="description" data-rule="required;description" id="description"/>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">权限</label>
+                <div class="col-sm-10">
+                  <div class="row jurisCheck">
+                    <label><input name="permissions" checked="checked" value="read" type="checkbox"/>read</label>
+                    <label><input name="permissions" checked="checked" value="write" type="checkbox"/>write</label>
+                    <label><input name="permissions" checked="checked" value="create" type="checkbox"/>create</label>
+                    <label><input name="permissions" checked="checked" value="admin" type="checkbox"/>admin</label>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            </div>
+            <div class="modal-footer footerBtn">
+              <button type="submit" class="btn btn-primary">确认</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+          </form>
+        </div>
+      </div><!-- /.modal -->
+    </div>
+
+  </div>
+</div>
+[#include "/include/footer_index.html"]
+<script type="text/javascript">
+    function openPolicy() {
+        $('#name').val('');
+        $('#resource').val('');
+        $('#description').val('');
+        $("input[name='permissions']").each(function(){
+            $(this).prop('checked',false);
+        });
+        $('#hiddenName').val('');
+        $('#gsForm').validator('cleanUp');
+        $('#addPolicyh6').html("添加权限");
+        $('#addPolicy').modal('show');
+    }
+    function edit(id) {
+        $('#addPolicyh6').html("编辑权限");
+        $.ajax({
+            type: 'GET',
+            url: '${base}/hive/privilege/getPolicy?privilegeId=' + id,
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == 0) {
+                    var ob=data.data;
+                    //console.log(ob)
+                    $('#name').val(ob.name);
+                    $('#resource').val(ob.resource);
+                    $('#description').val(ob.description);
+                    $('#privilegeId').val(id);
+                    //alert($('#privilegeId').val());
+                    var accesses=ob.permissions;
+                    $("input[name='permissions']").each(function(){
+                        $(this).prop('checked',false);
+                    });
+
+                    $("input[name='permissions']").each(function(){
+                        for(var i=0;i<accesses.length;i++){
+
+                            if($(this).val()==accesses[i]){
+                                $(this).prop('checked',true);
+                            }
+                        }
+                    });
+                    $('#gsForm').validator('cleanUp');
+                    $('#addPolicy').modal('show');
+
+                }
+            },
+            error: function (errorMsg) {
+                alert("error!")
+            }
+        });
+    }
+</script>
+</body>
+</html>

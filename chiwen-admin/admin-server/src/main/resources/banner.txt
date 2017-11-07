@@ -1,0 +1,7 @@
+${AnsiColor.RED}  ██████╗ ██╗ ██████╗ ██████╗  █████╗ ███████╗
+${AnsiColor.RED}  ██╔══██╗██║██╔════╝ ██╔══██╗██╔══██╗██╔════╝
+${AnsiColor.RED}  ██████╔╝██║██║  ███╗██║  ██║███████║█████╗
+${AnsiColor.RED}  ██╔══██╗██║██║   ██║██║  ██║██╔══██║██╔══╝
+${AnsiColor.RED}  ██████╔╝██║╚██████╔╝██████╔╝██║  ██║██║
+${AnsiColor.RED}  ╚═════╝ ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝
+${AnsiColor.BRIGHT_BLUE}:: BIGDAF 🤓  :: Running Spring Boot ${spring-boot.version} ::

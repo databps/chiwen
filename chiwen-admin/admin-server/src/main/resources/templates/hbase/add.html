@@ -1,0 +1,219 @@
+[#include "/layout/layout_top.html"]
+<div class="col-xs-10 mainCont">
+  <div class="section  gs-panle">
+    <h2>HBase Acl权限新增</h2>
+    <div class="alert  alert-danger" role="alert" style="padding-bottom:10px" hidden="hidden" id="alertError">
+      <!--<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>-->
+      <strong id="errorMsg">${errorMsg}</strong>
+    </div>
+    <form action="${base}/hbaseAcl/saveAcl" id="gsForm" method="post" class="form" autocomplete="off">
+      <div class="row">
+        <div class="row col-sm-10 gs-min-width form-item">
+          <label class="col-sm-2 gs_table_label text-right"><span class="glyphicon glyphicon-asterisk require_ico"></span>权限类型:</label>
+          <div class="form-group col-sm-6">
+            <select name="type">
+              <option value="3">表</option>
+              <option value="2">namespace</option>
+              <option value="1">全局</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="row col-md-5 gs-min-width form-item">
+          <label class="col-md-4 gs_table_label text-right"><span class="glyphicon glyphicon-asterisk require_ico"></span>HBase用户名:</label>
+          <div class="col-sm-6" id="userList">
+            <select name="user">
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row" id="namespace_row" hidden>
+        <div class="row col-md-5 gs-min-width form-item">
+          <label class="col-md-4 gs_table_label text-right"><span class="glyphicon glyphicon-asterisk require_ico"></span>namespace:</label>
+          <div class="col-sm-6" id="namespaceList">
+            <select name="namespace">
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row" id="table_row">
+        <div class="row col-md-5 gs-min-width form-item">
+          <label class="col-md-4 gs_table_label text-right"><span class="glyphicon glyphicon-asterisk require_ico"></span>表名:</label>
+          <div class="col-sm-6" id="tableList">
+            <select name="table">
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row" id="family_row">
+        <div class="row col-md-5 gs-min-width form-item">
+          <label class="col-md-4 gs_table_label text-right">列族:</label>
+          <div class="col-sm-6" id="familyList">
+            <select name="family">
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row" id="cell_row">
+        <div class="row col-md-5 gs-min-width form-item">
+          <label class="col-md-4 gs_table_label text-right">字段:</label>
+          <div class="col-sm-6" id="cellList">
+            <input class="form-control" type="text" name="cell">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="row col-md-5 gs-min-width form-item">
+          <label class="col-md-4 gs_table_label text-right"><span class="glyphicon glyphicon-asterisk require_ico"></span>权限:</label>
+          <div class="col-sm-8">
+            <label><input type="checkbox" name="permission" value="1"/>R(读)</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label><input type="checkbox" name="permission" value="2"/>W(写)</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label><input type="checkbox" name="permission" value="8"/>C(创建)</label><br/>
+            <label><input type="checkbox" name="permission" value="4"/>X(执行)</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label><input type="checkbox" name="permission" value="16"/>A(管理)</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row gs_input_form gs-min-width form-item">
+        <button type="button" class="btn btn-default btn-lg gs_save_btn">保存</button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="gs_blank_gap"></div>
+</div>
+[#include "/layout/layout_bottom.html"]
+
+<script type="text/javascript">
+  $(function(){
+    //init
+    $.ajax({
+      type : "POST",
+      async : false,
+      url : "${base}/hbaseAcl/addInfo",
+      dataType : "json",
+      success : function(data) {
+        refresh(data);
+      }
+    });
+
+
+    $('button').click(function() {
+
+      var user = $('select[name="user"]').val();
+      if(null == user || '' == user) {
+        alert('请选择用户!');
+        return false;
+      }
+
+      var type = $('select[name="type"]').val();
+      if(type == 2) {
+        //namespace
+        user = $('select[name="namespace"]').val();
+        if(null == user || '' == user) {
+          alert('请选择namespace!');
+          return false;
+        }
+      } else if(type == 3) {
+        //table
+        user = $('select[name="table"]').val();
+        if(null == user || '' == user) {
+          alert('请选择表名!');
+          return false;
+        }
+      }
+
+      user = $('input[name="permission"]:checked').val();
+      if('undefined' == user || user == null) {
+        alert('权限最少选一项!');
+        return false;
+      }
+
+      $('#gsForm').submit();
+
+    });
+
+    //select
+    $('select').change(function(){
+      var v = $(this).val();
+      if(v == 1) {
+        $('#namespace_row').hide();
+        $('#table_row').hide();
+        $('#family_row').hide();
+        $('#cell_row').hide();
+        selectNull('namespace');
+        selectNull('table');
+        selectNull('family');
+      } else if(v == 2) {
+
+        $('#namespace_row').show();
+        $('#table_row').hide();
+        $('#family_row').hide();
+        $('#cell_row').hide();
+        selectNull('table');
+        selectNull('family');
+      } else if(v == 3) {
+        $('#namespace_row').hide();
+        $('#table_row').show();
+        $('#family_row').show();
+        $('#cell_row').show();
+        selectNull('namespace');
+      }
+    });
+
+    $('select[name="table"]').change(function(){
+      var table = $(this).val();
+      var data = familyMap[table];
+      if(null == data || 'undefined' == data || '' == data) {
+        data = [];
+      }
+      select(data, 'family');
+    });
+  });
+
+  var familyMap = {};
+
+  function refresh(data) {
+    <!--console.log(data);-->
+    var type = data.type;
+    selectUser(data.users);
+    if(type == 0) {
+      type = data.msg;
+      $('#errorMsg').text(type);
+      $('#alertError').show();
+      return false;
+    }
+
+    familyMap = data.fs;
+    select(data.namespace, 'namespace');
+    select(data.tables, 'table');
+
+  }
+
+  function select(data, type) {
+    $('select[name="' + type + '"] option').remove();
+    var arr = [];
+    arr.push('<option value=""></option>')
+    $.each(data, function(i, o) {
+      arr.push('<option value="' + o + '">' + o + '</option>')
+    });
+    $('select[name="' + type + '"]').append(arr.join(''));
+  }
+
+  function selectUser(data) {
+    $('select[name="user"] option').remove();
+    var arr = [];
+    arr.push('<option value=""></option>')
+    $.each(data, function(i, o) {
+      arr.push('<option value="' + o.id + '">' + o.uname + '</option>')
+    });
+    $('select[name="user"]').append(arr.join(''));
+  }
+
+  function selectNull(type) {
+    $('select[name="' + type + '"]').val('');
+  }
+
+</script>

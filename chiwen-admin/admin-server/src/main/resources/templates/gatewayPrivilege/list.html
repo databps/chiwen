@@ -1,0 +1,217 @@
+[#include "/include/header_index.html"]
+<body style='height: 100%;'>
+[#include "/include/navbar.html"]
+<div class="app-main">
+  <!-- 内容 -->
+  <div class="yHdfsBody jurisdiction">
+    <div class="yHeader">
+      <!-- <span>HDFS(Cluster1)</span> -->
+      <!-- <span class="hb">HDFS(Cluster1)</span> -->
+      <!-- <span class="hi">HDFS(Cluster1)</span> -->
+      <span class="ga">GATEWAY(Cluster1)</span>
+    </div>
+    <div class="yMain clearfix">
+      <div class="fl">
+        <ul class="nav nav-pills nav-stacked yPlugNav">
+          <li ><a  href="${base}/authority/gateway/list">用户管理</a></li>
+          <li><a  href="${base}/character/list">角色管理</a></li>
+          <li class="active"> <a  href="${base}/gateway/privilege/list">权限管理</a></li>
+        </ul>
+      </div>
+      <div class="fr massges">
+        <div class="panel panel-default toptitle">
+          <p class="panel-heading">权限管理</p>
+        </div>
+        <div class="contBox clearfix">
+          <form action="${base}/gateway/privilege/list" method="get" class="gs_table_form" id="formSearch">
+            <input type="hidden" name="currentPage" id="currentPage" value="${page.currentPage}"/>
+            <div class="searcch">
+                <input type="text" class="form-control" name="name" placeholder="权限名" value="${param['name']}"/>
+                      <button class="btn btn-default" type="submit">查询</button>
+            </div>
+          </form>
+          <a href="javascript:openPolicy();" >添加权限</a>
+        </div>
+        <div class="tables">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>权限名</th>
+              <th>备注</th>
+              <th>资源</th>
+              <!-- <th>创建时间</th>-->
+              <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            [#list gatewayPrivileges as privilege]
+            <tr>
+              <td>${privilege.name}</td>
+              <td>[@p.tooltip value="${privilege.description}"/]</td>
+              <td>${privilege.sources.path}</td>
+
+              <td>
+                <a href="javascript:edit('${privilege._id}');">编辑</a>
+                <a href="${base}/gateway/privilege/delete?privilegeId=${privilege._id}" onclick="if(confirm('确定删除?')==false)return false;">删除</a>
+              </td>
+
+            </tr>
+            [/#list]
+            </tbody>
+          </table>
+        </div>
+        [@p.mongo_page value=page form="formSearch"/]
+      </div>
+    </div>
+    <!-- 模态框 -->
+    <!-- 模态框（Modal）添加用户 -->
+    <div class="modal fade jurisdicModal" id="addPolicy" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel"
+         aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+            </button>
+
+            <h6 class="modal-title" id="addPolicyh6"></h6>
+          </div>
+          <form action="${base}/gateway/privilege/save" method="post" id="gsForm"
+                autocomplete="off">
+            <input type="hidden" value="" name="privilegeId" id="privilegeId">
+            <div class="modal-body modal-adduser">
+              <div class="row form-horizontal common_box">
+              <div class="form-group">
+                <label class="col-sm-2 control-label"><i>*</i>名称</label>
+                <div class="col-sm-5">
+                  <div class="row">
+                    <input type="text" value="" name="name" class="form-control" data-rule="required;name; remote[${base}/gateway/privilege/checkName, privilegeId];" id="name"/>
+                  </div>
+                </div>
+
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label"><i>*</i>资源</label>
+                <div class="col-sm-5">
+                  <div class="row">
+                    <input type="text" value="" name="path" class="form-control" id="path" data-rule="required; pathRule"  data-rule-pathRule="[/^\/[a-zA-Z*1-9_.$-\/#]*$/, '请输入有效的路径']" >
+                  </div>
+                </div>
+
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label"><i>*</i>备注</label>
+                <div class="col-sm-5">
+                  <div class="row">
+                    <input type="text" value="" class="form-control" name="description" data-rule="required;description" id="description"/>
+                  </div>
+                </div>
+
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">权限</label>
+                <div class="col-sm-10">
+                  <div class="row inputCheck">
+                    <label><input name="ops"    value="OPEN" type="checkbox"/>OPEN</label>
+                    <label><input name="ops"   value="GETFILESTATUS" type="checkbox"/>GETFILESTATUS</label>
+                    <label><input name="ops"   value="LISTSTATUS" type="checkbox"/>LISTSTATUS</label>
+                    <label><input name="ops"   value="GETCONTENTSUMMARY" type="checkbox"/>GETCONTENTSUMMARY</label>
+                    <label><input name="ops"   value="DELETESNAPSHOT" type="checkbox"/>DELETESNAPSHOT</label>
+                    <label><input name="ops"   value="DELETE" type="checkbox"/>DELETE</label>
+                    <label><input name="ops"   value="TRUNCATE" type="checkbox"/>TRUNCATE</label>
+                    <label><input name="ops"   value="CONCAT" type="checkbox"/>CONCAT</label>
+                    <label><input name="ops"   value="APPEND" type="checkbox"/>APPEND</label>
+                    <label><input name="ops"   value="REMOVEXATTR" type="checkbox"/>REMOVEXATTR</label>
+                    <label><input name="ops"   value="SETXATTR" type="checkbox"/>SETXATTR</label>
+                    <label><input name="ops"   value="RENAMESNAPSHOT" type="checkbox"/>RENAMESNAPSHOT</label>
+                    <label><input name="ops"   value="CREATESNAPSHOT" type="checkbox"/>CREATESNAPSHOT</label>
+                    <label><input name="ops"   value="CANCELDELEGATIONTOKEN" type="checkbox"/>CANCELDELEGATIONTOKEN</label>
+                    <label><input name="ops"   value="RENEWDELEGATIONTOKEN" type="checkbox"/>RENEWDELEGATIONTOKEN</label>
+                    <label><input name="ops"   value="SETTIMES" type="checkbox"/>SETTIMES</label>
+                    <label><input name="ops"   value="SETPERMISSION" type="checkbox"/>SETPERMISSION</label>
+                    <label><input name="ops"   value="SETOWNER" type="checkbox"/>SETOWNER</label>
+                    <label><input name="ops"   value="SETREPLICATION" type="checkbox"/>SETREPLICATION</label>
+                    <label><input name="ops"   value="RENAME" type="checkbox"/>RENAME</label>
+                    <label><input name="ops"   value="CREATESYMLINK" type="checkbox"/>CREATESYMLINK</label>
+                    <label><input name="ops"   value="MKDIRS" type="checkbox"/>MKDIRS</label>
+                    <label><input name="ops"   value="CREATE" type="checkbox"/>CREATE</label>
+                    <label><input name="ops"   value="CHECKACCESS" type="checkbox"/>CHECKACCESS</label>
+                    <label><input name="ops"   value="LISTXATTRS" type="checkbox"/>LISTXATTRS</label>
+                    <label><input name="ops"   value="GETXATTRS" type="checkbox"/>GETXATTRS</label>
+                    <label><input name="ops"   value="GETDELEGATIONTOKENS" type="checkbox"/>GETDELEGATIONTOKENS</label>
+                    <label><input name="ops"   value="GETDELEGATIONTOKEN" type="checkbox"/>GETDELEGATIONTOKEN</label>
+                    <label><input name="ops"   value="GETHOMEDIRECTORY" type="checkbox"/>GETHOMEDIRECTORY</label>
+                    <label><input name="ops"    value="GETFILECHECKSUM" type="checkbox"/>GETFILECHECKSUM</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+            <div class="modal-footer footerBtn">
+              <button type="submit" class="btn btn-primary">确认</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+          </form>
+        </div>
+      </div><!-- /.modal -->
+    </div>
+
+  </div>
+</div>
+[#include "/include/footer_index.html"]
+<script type="text/javascript">
+    function openPolicy() {
+        $('#name').val('');
+        $('#path').val('');
+        $('#description').val('');
+        $("input[name='accesses']").each(function(){
+            $(this).prop('checked',true);
+        });
+        $('#hiddenName').val('');
+        $('#gsForm').validator('cleanUp');
+        $("input[name='ops']").each(function(){
+            $(this).prop('checked',false);
+        });
+        $('#addPolicyh6').html("添加权限");
+        $('#addPolicy').modal('show');
+    }
+    function edit(id) {
+        $('#addPolicyh6').html("编辑权限");
+        $.ajax({
+            type: 'GET',
+            url: '${base}/gateway/privilege/getPolicy?privilegeId=' + id,
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == 0) {
+                    var ob=data.data;
+                    //console.log(ob)
+                    $('#name').val(ob.name);
+                    $('#path').val(ob.path);
+                    $('#description').val(ob.description);
+                    $('#privilegeId').val(id);
+                    var accesses=ob.ops;
+                    $("input[name='ops']").each(function(){
+                        $(this).prop('checked',false);
+                    });
+
+                    $("input[name='ops']").each(function(){
+                        for(var i=0;i<accesses.length;i++){
+
+                            if($(this).val()==accesses[i]){
+                                $(this).prop('checked',true);
+                            }
+                        }
+                    });
+                    $('#gsForm').validator('cleanUp');
+                    $('#addPolicy').modal('show');
+
+                }
+            },
+            error: function (errorMsg) {
+                alert("error!")
+            }
+        });
+    }
+</script>
+</body>
+</html>

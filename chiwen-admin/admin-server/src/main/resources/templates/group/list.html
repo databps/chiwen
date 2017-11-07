@@ -1,0 +1,228 @@
+[#include "/include/header_index.html"]
+<body style='height: 100%;'>
+[#include "/include/navbar.html"]
+<div class="app-main">
+  <!-- 内容 -->
+  <div class="yHdfsBody jurisdiction">
+    <div class="yHeader">
+      <!-- <span>HDFS(Cluster1)</span> -->
+      <!-- <span class="hb">HDFS(Cluster1)</span> -->
+      <!-- <span class="hi">HDFS(Cluster1)</span> -->
+      <span class="ga">HDFS(Cluster1)</span>
+    </div>
+    <div class="yMain clearfix">
+      <div class="fl">
+        <ul class="nav nav-pills nav-stacked yPlugNav">
+          <li><a href="${base}/authority/user/list">用户管理</a></li>
+          <li class="active"><a href="${base}/authority/group/list">组管理</a></li>
+          <li><a href="${base}/authority/privilege/list">权限管理</a></li>
+        </ul>
+      </div>
+      <div class="fr massges">
+        <div class="panel panel-default toptitle">
+          <p class="panel-heading">组管理</p>
+        </div>
+        <div class="contBox clearfix">
+          <form action="${base}/authority/group/list" method="get" class="gs_table_form" id="formSearch">
+            <input type="hidden" name="currentPage" id="currentPage" value="${page.currentPage}"/>
+            <div class="searcch">
+                <input type="text" class="form-control" name="name" placeholder="组名" value="${param["name"]}">
+              <button class="btn btn-default" type="submit">查询</button>
+            </div>
+          </form>
+          <a href="javascript:openGroup();" >添加组</a>
+        </div>
+        <div class="tables">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>组名</th>
+              <th>备注</th>
+              <th>创建时间</th>
+              <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            [#list groupVoList as group]
+            <tr>
+              <td>${group.groupName}</td>
+              <td>[@p.tooltip value="${group.description}"/]</td>
+              <td>[@p.formatDate value="${group.createTime}"/]</td>
+              <td>
+                <a href="javascript:getPrivilege('${group.groupName}');" id="ajaxPri">授权</a>
+                <a href="javascript:edit('${group.id}');">编辑</a>
+                <a href="${base}/authority/group/delete?id=${group.id}" onclick="if(confirm('确定删除?')==false)return false;">删除</a>
+              </td>
+            </tr>
+            [/#list]
+            </tbody>
+          </table>
+        </div>
+        [@p.mongo_page value=page form="formSearch"/]
+
+      </div>
+    </div>
+    <!-- 模态框 -->
+    <!-- 模态框（Modal）添加用户 -->
+    <div class="modal fade jurisdicModal" id="addGroup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+            </button>
+            <h6 class="modal-title" id="myModalLabelh">添加组</h6>
+          </div>
+          <form action="${base}/authority/group/save"  id="gsForm" method="post" autocomplete="off">
+            <input type="hidden" value="" name="mainname" id="hiddenName">
+            <div class="modal-body modal-adduser">
+              <div class="modalAddgroup">
+                  <span class="userdata">
+                    <i>*</i>组名
+                  </span>
+
+                <input type="text" name="groupName" placeholder="请输入组名" data-rule="required; groupName; remote[${base}/authority/group/checkName, mainname];" id="groupName">
+
+              </div>
+              <div class="modalAddgroup addCont">
+                  <span class="userdata">
+                    <i>*</i>备注
+                  </span>
+                <textarea name="description" placeholder="请输入需要备注的内容" data-rule="required; description" id="description"></textarea>
+              </div>
+            </div>
+            <div class="modal-footer footerBtn">
+              <button type="submit" class="btn btn-primary">保存</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+          </form>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal -->
+    </div>
+    <div class="modal fade jurisdicModal" id="privilege" tabindex="-1" role="dialog"
+         aria-labelledby="privilegelLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+            </button>
+            <h6 class="modal-title" id="myModalLabel">授权</h6>
+          </div>
+          <form action="${base}/authority/group/privilege" method="post">
+            <input type="hidden" id="groupname" name="groupname" value="" />
+            <div class="modal-body">
+              <div class="row myoption">
+                <div class="col-xs-5 myleftoption">
+                  <p class="panel panel-default">权限选择</p>
+                  <select name="from" id="multiselect" class="form-control" multiple="multiple">
+                    <option value="1">Item 1</option>
+                    <option value="2">Item 5</option>
+                    <option value="2">Item 2</option>
+                    <option value="2">Item 4</option>
+                    <option value="3">Item 3</option>
+                  </select>
+                </div>
+                <div class="col-xs-2 btn-magrin">
+                  <!-- <button type="button" id="multiselect_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button> -->
+                  <button type="button" id="multiselect_rightSelected" class="btn btn-block"><i
+                      class="glyphicon glyphicon-chevron-right"></i></button>
+                  <button type="button" id="multiselect_leftSelected" class="btn btn-block"><i
+                      class="glyphicon glyphicon-chevron-left"></i></button>
+                  <!--  <button type="button" id="multiselect_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button> -->
+                </div>
+                <div class="col-xs-5 myrightoption">
+                  <p class="panel panel-default">已选择权限</p>
+                  <select name="names" id="multiselect_to" class="form-control" name="" size="8"
+                          multiple="multiple"></select>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer footerBtn">
+              <button type="submit" class="btn btn-primary">确认</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+          </form>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal -->
+    </div>
+  </div>
+</div>
+[#include "/include/footer_index.html"]
+<!-- jQuery (v2.2.4) -->
+<!-- bootstrap3 -->
+<script type="text/javascript" src="${base}/lib/multiselect.js"></script>
+<script type="text/javascript">
+  $(function () {
+    $('#multiselect').multiselect();
+  });
+</script>
+<script type="text/javascript">
+  function openGroup() {
+    $('#groupName').val('');
+    $('#description').val('');
+    $('#hiddenName').val('');
+    $('#gsForm').validator('cleanUp');
+    $('#myModalLabelh').html("添加组");
+    $('#addGroup').modal('show');
+  }
+  $(function () {
+    $('#multiselect').multiselect();
+  });
+
+  function getPrivilege(groupname) {
+    $('#groupname').val(groupname);
+    $.ajax({
+      type: 'GET',
+      url: '${base}/authority/privilege/gdetail?groupname=' + groupname,
+      dataType: 'json',
+      success: function (data) {
+        if (data.code == 0) {
+          var usedPrivileges = data.data.usedPrivileges;
+          var notUsedPrivileges = data.data.notUsedPrivileges;
+          $('#multiselect').empty();
+          $('#multiselect_to').empty();
+          for (var k = 0, length = notUsedPrivileges.length; k < length; k++) {
+            $('#multiselect').append(
+                $("<option  value='" + notUsedPrivileges[k] + "'>" + notUsedPrivileges[k]
+                    + "</option> "));
+          }
+          for (var k = 0, length = usedPrivileges.length; k < length; k++) {
+            $('#multiselect_to').append(
+                $("<option value='" + usedPrivileges[k] + "'>" + usedPrivileges[k] + "</option>"));
+          }
+          $('#privilege').modal('show');
+        }
+      },
+      error: function (errorMsg) {
+        alert("error!")
+      }
+    });
+  }
+
+  function edit(id) {
+    $('#myModalLabelh').html("编辑组");
+    $.ajax({
+      type: 'GET',
+      url: '${base}/authority/group/edit?id=' + id,
+      dataType: 'json',
+      success: function (data) {
+        if (data.code == 0) {
+          var ob=data.data;
+          //console.log(ob)
+          $('#groupName').val(ob.groupName);
+          $('#description').val(ob.description);
+          $('#hiddenName').val(id);
+          $('#gsForm').validator('cleanUp');
+          $('#addGroup').modal('show');
+
+        }
+      },
+      error: function (errorMsg) {
+        alert("error!")
+      }
+    });
+  }
+
+</script>
+</body>
+</html>

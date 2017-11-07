@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+[#include "/layout/header.html"/]
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>插件管理1</title>
+<!-- Bootstrap3 -->
+<link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- <link href="../resources/lib/assets/css/animate.min.css" rel="stylesheet"> -->
+<!-- <link href="/lib/assets/css/paper-dashboard.css" rel="stylesheet"> -->
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/jurisdiction.css">
+</head>
+<body class="yHdfsBody">
+[#include "/layout/top.html"/]
+<div class="yHeader">
+  <!-- <span>HDFS(Cluster1)</span> -->
+  <!-- <span class="hb">HDFS(Cluster1)</span> -->
+  <!-- <span class="hi">HDFS(Cluster1)</span> -->
+  <span class="ga">HDFS(Cluster1)</span>
+</div>
+<div class="yMain">
+  <div class="fl">
+      <ul class="nav nav-pills nav-stacked yPlugNav">
+          <li class="active"><a data-toggle="tab" href="#">HDFS</a></li>
+          <li><a data-toggle="tab" href="#">HBACE</a></li>
+          <li><a data-toggle="tab" href="#">Hive</a></li>
+          <li><a data-toggle="tab" href="#">Gateway</a></li>
+      </ul>
+  </div>
+  <div class="fr massges">
+      <div class="panel panel-default toptitle">
+        <p class="panel-heading">用户管理</p>
+      </div>
+      <div class="contBox clearfix">
+        <div class="searcch">
+          <form action="/jurisdiction/findbyuname" method="post" class="gs_table_form" id="formSearch">
+          <div class="input-group">
+            <input type="text" class="form-control" name="name" value="${param['name']}"/>
+              <span class="input-group-btn">
+                  <button class="btn btn-default" type="submit">查询</button>
+              </span>
+          </div>
+          </form>
+        </div>
+        <a href="javascript:;" data-toggle="modal" data-target="#myModal">添加用户</a>
+      </div>
+      <div class="tables">
+        <table class="table table-hover">
+                      <thead>
+                      <tr>
+                          <th>用户名</th>
+                          <th>备注</th>
+                          <th>组</th>
+                          <th>创建时间</th>
+                          <th>操作</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      [#list hdpAppUserPage.content as hdpAppUserVo]
+                      [#list hdpAppUserVo.hdpAppUserList as appUser]
+                      <tr>
+                          <td>${appUser.uName}</td>
+                          <td>${appUser.remarks}</td>
+                          <td>
+                            [#list appUser.groupNameList as groupName]
+                            ${groupName}
+                            [/#list]
+                          </td>
+                          <td>
+                            [@p.formatDate value="${appUser.createTime}"/]
+                          </td>
+                          <td>
+                            <a href="/jurisdiction">修改</a>
+                            <a href="/jurisdiction/deleteu.html?name=${appUser.uName}">删除</a>
+                          </td>
+                      </tr>
+                      [/#list]
+                      [/#list]
+                      <tr>
+                          <td>Users</td>
+                          <td>公司ceo，权限最大</td>
+                          <td>root1，root2，root3</td>
+                          <td>2013-01-02</td>
+                          <td>
+                            <a href="#">详情</a>
+                            <a href="#">禁用</a>
+                            <a href="#">删除</a>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Users</td>
+                          <td>公司ceo，权限最大</td>
+                          <td>root1，root2，root3</td>
+                          <td>2013-01-02</td>
+                          <td>
+                            <a href="#">详情</a>
+                            <a href="#">禁用</a>
+                            <a href="#">删除</a>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Users</td>
+                          <td>公司ceo，权限最大</td>
+                          <td>root1，root2，root3</td>
+                          <td>2013-01-02</td>
+                          <td>
+                            <a href="#">详情</a>
+                            <a href="#">禁用</a>
+                            <a href="#">删除</a>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Users</td>
+                          <td>公司ceo，权限最大</td>
+                          <td>root1，root2，root3</td>
+                          <td>2013-01-02</td>
+                          <td>
+                            <a href="#">详情</a>
+                            <a href="#">禁用</a>
+                            <a href="#">删除</a>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Users</td>
+                          <td>公司ceo，权限最大</td>
+                          <td>root1，root2，root3</td>
+                          <td>2013-01-02</td>
+                          <td>
+                            <a href="#">详情</a>
+                            <a href="#">禁用</a>
+                            <a href="#">删除</a>
+                          </td>
+                      </tr>
+                      </tbody>
+                  </table>
+      </div>
+  </div>
+</div>
+<!-- 模态框 -->
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h6 class="modal-title" id="myModalLabel">加入群组</h6>
+            </div>
+            <div class="modal-body">
+              <div class="alert alert-info modaltitle">添加授权策略后，该账户即具有该条策略的权限，同一条授权策略不能被重复添加。</div>
+              <div class="row myoption">
+                <div class="col-xs-5 myleftoption">
+                  <p class="panel panel-default">群组选择</p>
+                  <input type="text" placeholder="请输入关键词查询">
+                  <select name="from" id="multiselect" class="form-control" multiple="multiple">
+                    <option value="1">Item 1</option>
+                    <option value="2">Item 5</option>
+                    <option value="2">Item 2</option>
+                    <option value="2">Item 4</option>
+                    <option value="3">Item 3</option>
+                  </select>
+                </div>
+                <div class="col-xs-2 btn-magrin">
+                  <!-- <button type="button" id="multiselect_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button> -->
+                  <button type="button" id="multiselect_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                  <button type="button" id="multiselect_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                 <!--  <button type="button" id="multiselect_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button> -->
+                </div>
+                <div class="col-xs-5 myrightoption">
+                  <p class="panel panel-default">群组选择</p>
+                  <select name="to" id="multiselect_to" class="form-control" size="8" multiple="multiple"></select>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer footerBtn">
+                <button type="button" class="btn btn-primary">确认</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<script src="../../resources/lib/jquery.js"></script>
+<script src="../../resources/lib/bootstrap/js/bootstrap.js"></script>
+<script src="../../resources/js/all.js"></script>
+<script src="../../resources/js/hdfsPlug.js"></script>
+<script type="text/javascript" src="../../resources/lib/multiselect.js"></script>
+<script type="text/javascript">
+  $(function(){
+    $('#multiselect').multiselect();
+  });
+</script>
+[@p.page value=hdpAppUserPage form="formSearch"/]
+</body>
+</html>

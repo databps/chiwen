@@ -1,0 +1,228 @@
+[#include "/include/header_index.html"]
+<body style='height: 100%;'>
+[#include "/include/navbar.html"]
+<div class="app-main">
+  <!-- 内容 -->
+  <div class="yHdfsBody jurisdiction">
+    <div class="yHeader">
+      <span class="ga">HBASE(Cluster1)</span>
+    </div>
+    <div class="yMain clearfix">
+      <div class="fl">
+        <ul class="nav nav-pills nav-stacked yPlugNav">
+          <li ><a  href="${base}/authority/hbase/user/list">用户管理</a></li>
+          <li class="active"><a href="${base}/hbase/role/list">角色管理</a></li>
+          <li ><a href="${base}/hbase/privilege/list">权限管理</a></li>
+        </ul>
+        </ul>
+      </div>
+      <div class="fr massges">
+        <div class="panel panel-default toptitle">
+          <p class="panel-heading">用户管理</p>
+        </div>
+        <div class="contBox clearfix">
+          <form action="${base}/hbase/role/list" method="get" class="gs_table_form" id="formSearch">
+            <input type="hidden" name="page" id="currentPage"   value="${page.currentPage}"/>
+            <div class="searcch">
+                <input type="text" name="name" placeholder="角色名" class="form-control">
+                      <button class="btn btn-default" type="submit">查询</button>
+            </div>
+          </form>
+          <a href="javascript:openRole();" >添加角色</a>
+
+        </div>
+        <div class="tables">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>角色名</th>
+              <th>备注</th>
+              <th>创建时间</th>
+              <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            [#list HbaseRoleVoList as group]
+            <tr>
+              <td>${group.name}</td>
+              <td>${group.description}</td>
+              <td>[@p.formatDate value="${group.createTime}"/]</td>
+
+              <td>
+
+                <a href="javascript:getPrivilege('${group._id}');" id="ajaxPri">授权</a>
+                <a href="javascript:edit('${group._id}');">编辑</a>
+                <a href="${base}/hbase/role/delete?roleIdEd=${group._id}" onclick="if(confirm('确定删除?')==false)return false;">删除</a>
+              </td>
+            </tr>
+            [/#list]
+            </tbody>
+          </table>
+        </div>
+        [@p.mongo_page value=page form="formSearch"/]
+
+      </div>
+    </div>
+    <!-- 模态框 -->
+    <!-- 模态框（Modal）添加用户 -->
+    <div class="modal fade jurisdicModal" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+            </button>
+            <h6 class="modal-title" id="myModalLabelh">添加角色</h6>
+          </div>
+          <form action="${base}/hbase/role/save" method="post">
+            <input type="hidden" value="" name="roleIdEd" id="roleIdEd">
+
+            <div class="modal-body modal-adduser">
+              <div class="modalAddgroup">
+                  <span class="userdata">
+                    <i>*</i>角色名
+                  </span>
+
+                <input type="text" name="name"  id="name" placeholder="请输入角色名" data-rule="required;name;remote[${base}/hbase/role/checkName, roleIdEd];" >
+              </div>
+              <div class="modalAddgroup addCont">
+                  <span class="userdata">
+                    <i>*</i>备注
+                  </span>
+                <textarea name="description"   id="description" placeholder="请输入需要备注的内容" data-rule="required;description;" ></textarea>
+              </div>
+            </div>
+            <div class="modal-footer footerBtn">
+              <button type="submit" class="btn btn-primary">保存</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+          </form>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal -->
+    </div>
+
+
+
+
+
+    <div class="modal fade jurisdicModal" id="privilege" tabindex="-1" role="dialog"
+         aria-labelledby="privilegelLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+            </button>
+            <h6 class="modal-title" id="myModalLabel">授权</h6>
+          </div>
+          <form action="${base}/hbase/role/privilege" method="post">
+            <input type="hidden" id="roleid" name="roleid" value="" />
+            <div class="modal-body">
+              <div class="row myoption">
+                <div class="col-xs-5 myleftoption">
+                  <p class="panel panel-default">权限选择</p>
+                  <select name="from" id="multiselect" class="form-control" multiple="multiple">
+                    <option value="1">Item 1</option>
+                    <option value="2">Item 5</option>
+                    <option value="2">Item 2</option>
+                    <option value="2">Item 4</option>
+                    <option value="3">Item 3</option>
+                  </select>
+                </div>
+                <div class="col-xs-2 btn-magrin">
+                  <!-- <button type="button" id="multiselect_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button> -->
+                  <button type="button" id="multiselect_rightSelected" class="btn btn-block"><i
+                          class="glyphicon glyphicon-chevron-right"></i></button>
+                  <button type="button" id="multiselect_leftSelected" class="btn btn-block"><i
+                          class="glyphicon glyphicon-chevron-left"></i></button>
+                  <!--  <button type="button" id="multiselect_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button> -->
+                </div>
+                <div class="col-xs-5 myrightoption">
+                  <p class="panel panel-default">已选择权限</p>
+                  <select name="names" id="multiselect_to" class="form-control" name="" size="8"
+                          multiple="multiple"></select>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer footerBtn">
+              <button type="submit" class="btn btn-primary">确认</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+          </form>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal -->
+    </div>
+  </div>
+</div>
+[#include "/include/footer_index.html"]
+<!-- jQuery (v2.2.4) -->
+<!-- bootstrap3 -->
+<script type="text/javascript" src="${base}/lib/multiselect.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        $('#multiselect').multiselect();
+    });
+    function openRole() {
+        $('#name').val('');
+        $('#description').val('');
+        $('#hiddenName').val('');
+        $('#gsForm').validator('cleanUp');
+        $('#myModalLabeh').html("添加角色");
+        $('#myModal2').modal('show');
+    }
+    function getPrivilege(roleid) {
+        $('#roleid').val(roleid);
+        $.ajax({
+            type: 'GET',
+            url: '${base}/hbase/role/udetail?roleid=' + roleid,
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == 0) {
+                    var usedPrivileges = data.data.usedHbasePrivilege;
+                    var notUsedPrivileges = data.data.notUsedHbasePrivilege;
+                    $('#multiselect').empty();
+                    $('#multiselect_to').empty();
+                    for (var k = 0, length = notUsedPrivileges.length; k < length; k++) {
+                        $('#multiselect').append(
+                            $("<option  value='" + notUsedPrivileges[k] + "'>" + notUsedPrivileges[k]
+                                + "</option> "));
+                    }
+                    for (var k = 0, length = usedPrivileges.length; k < length; k++) {
+                        $('#multiselect_to').append(
+                            $("<option value='" + usedPrivileges[k] + "'>" + usedPrivileges[k] + "</option>"));
+                    }
+                    $('#privilege').modal('show');
+                }
+            },
+            error: function (errorMsg) {
+                alert("error!")
+            }
+        });
+    }
+    function edit(id) {
+        $('#myModalLabelh').html("编辑角色");
+        $.ajax({
+            type: 'GET',
+            url: '${base}/hbase/role/getPolicy?roleIdEd=' + id,
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == 0) {
+                    var ob = data.data;
+                    //console.log(ob)
+                    $('#name').val(ob.name);
+                    $('#path').val(ob.path);
+                    $('#description').val(ob.description);
+                    $('#roleIdEd').val(id);
+                    $('#gsForm').validator('cleanUp');
+                    $('#myModal2').modal('show');
+
+                }
+            },
+            error: function (errorMsg) {
+                alert("error!")
+            }
+        });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+[#include "/layout/layout_top.html"]
+<div class="gs-index-table-box gs-margin-top" xmlns:c="http://www.w3.org/1999/XSL/Transform">
+    <div class="gs-index-info">
+        <div class="gs-info-title">
+            <span class="gs-info-title-text">授权时间
+            [#if _id == '_0']
+                所有用户
+            [/#if]
+            </span>
+        </div>
+        <form action="authorizeTimeSave" id="authorizeTimeForm" method="post" class="form" autocomplete="off">
+            <input type="hidden" name="userId" value="${_id}">
+
+            <div class="row">
+                <div class="row col-sm-10 gs-min-width form-item">
+                    <label class="col-sm-2 gs_table_label text-right">年:</label>
+                    <div class="col-sm-10">
+                        <div class="row">
+                            [#if at.year_type == '2']
+                                <input type="radio" name="year_type" class="col-sm-2" value="1"> <label class="col-sm-10 text-left">不限制</label>
+                                <input type="radio" name="year_type" class="col-sm-2" value="2" checked="checked"><label class="col-sm-2 text-left">周期</label>
+                            [#else]
+                                <input type="radio" name="year_type" class="col-sm-2" value="1" checked="checked"> <label class="col-sm-10 text-left">不限制</label>
+                                <input type="radio" name="year_type" class="col-sm-2" value="2"><label class="col-sm-2 text-left">周期</label>
+                            [/#if]
+                            <input type="text" name="start_year" value="${at.start_year}" class="col-sm-2" placeholder="2016-2099(2016年开始)" min="2016" max="2099" maxlength="4"/> <span class="col-sm-2 text-left"> 到 </span>
+                            <input type="text" name="end_year" value="${at.end_year}" class="col-sm-2" placeholder="2016-2099" min="2016" max="2099" maxlength="4"/><span class="col-sm-6"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+
+            <div class="row">
+                <div class="row col-sm-10 gs-min-width form-item">
+                    <label class="col-sm-2 gs_table_label text-right">月:</label>
+                    <div class="col-sm-10">
+                        <div class="row">
+                            [#if at.month_type == '2']
+                                <input type="radio" name="month_type" class="col-sm-2" value="1"> <label class="col-sm-10 text-left">不限制</label>
+                                <input type="radio" name="month_type" class="col-sm-2" value="2" checked="checked"><label class="col-sm-2 text-left">周期</label>
+                            [#else]
+                                <input type="radio" name="month_type" class="col-sm-2" value="1" checked="checked"> <label class="col-sm-10 text-left">不限制</label>
+                                <input type="radio" name="month_type" class="col-sm-2" value="2"><label class="col-sm-2 text-left">周期</label>
+                            [/#if]
+                            <input type="text" name="start_month" value="${at.start_month}" class="col-sm-2" placeholder="1-12(1月到12月)" min="1" max="12" maxlength="2"/> <span class="col-sm-2 text-left"> 到 </span>
+                            <input type="text" name="end_month" value="${at.end_month}" class="col-sm-2" placeholder="1-12(1月到12月)" min="1" max="12" maxlength="2"/><span class="col-sm-6"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr/>
+            <div class="row">
+                <div class="row col-sm-10 gs-min-width form-item">
+                    <label class="col-sm-2 gs_table_label text-right">日:</label>
+                    <div class="col-sm-10">
+                        <div class="row">
+                            [#if at.day_type == '2']
+                                <input type="radio" name="day_type" class="col-sm-2" value="1"> <label class="col-sm-10 text-left">不限制</label>
+                                <input type="radio" name="day_type" class="col-sm-2" value="2" checked="checked"><label class="col-sm-2 text-left">周期</label>
+                            [#else]
+                                <input type="radio" name="day_type" class="col-sm-2" value="1" checked="checked"> <label class="col-sm-10 text-left">不限制</label>
+                                <input type="radio" name="day_type" class="col-sm-2" value="2"><label class="col-sm-2 text-left">周期</label>
+                            [/#if]
+                            <input type="text" name="start_day" value="${at.start_day}" class="col-sm-2" placeholder="1-31(1日到31日)" min="1" max="31" maxlength="2"/> <span class="col-sm-2"> 到 </span>
+                            <input type="text" name="end_day" value="${at.end_day}" class="col-sm-2" placeholder="1-31(1日到31日)" min="1" max="31" maxlength="2"/><span class="col-sm-6"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr/>
+            <div class="row">
+                <div class="row col-sm-10 gs-min-width form-item">
+                    <label class="col-sm-2 gs_table_label text-right">周:</label>
+                    <div class="col-sm-10">
+                        <div class="row">
+                            [#if at.weekly_type == '2']
+                            <input type="radio" name="weekly_type" class="col-sm-2" value="1"> <label class="col-sm-10 text-left">不限制</label>
+                            <input type="radio" name="weekly_type" class="col-sm-2" value="2" checked="checked"><label class="col-sm-2 text-left">周期</label>
+                            [#else]
+                            <input type="radio" name="weekly_type" class="col-sm-2" value="1" checked="checked"> <label class="col-sm-10 text-left">不限制</label>
+                            <input type="radio" name="weekly_type" class="col-sm-2" value="2"><label class="col-sm-2 text-left">周期</label>
+                            [/#if]
+                            <input type="text" name="start_weekly" value="${at.start_weekly}" class="col-sm-2" placeholder="1-7(周一到周日)" min="1" max="7" maxlength="1"/> <span class="col-sm-2"> 到 </span>
+                            <input type="text" name="end_weekly" value="${at.end_weekly}" class="col-sm-2" placeholder="1-7(周一到周日)" min="1" max="7" maxlength="1"/><span class="col-sm-6"></span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <hr/>
+            <div class="row">
+                <div class="row col-sm-10 gs-min-width form-item">
+                    <label class="col-sm-2 gs_table_label text-right">小时:</label>
+                    <div class="col-sm-10">
+                        <div class="row">
+                            [#if at.hour_type == '2']
+                            <input type="radio" name="hour_type" class="col-sm-2" value="1"> <label class="col-sm-10 text-left">不限制</label>
+                            <input type="radio" name="hour_type" class="col-sm-2" value="2" checked="checked"><label class="col-sm-2 text-left">周期</label>
+                            [#else]
+                            <input type="radio" name="hour_type" class="col-sm-2" value="1" checked="checked"> <label class="col-sm-10 text-left">不限制</label>
+                            <input type="radio" name="hour_type" class="col-sm-2" value="2"><label class="col-sm-2 text-left">周期</label>
+                            [/#if]
+                            <input type="text" name="start_hour" value="${at.start_hour}" class="col-sm-2" placeholder="1-24(1小到24小时)" min="1" max="24" maxlength="1"/> <span class="col-sm-2"> 到 </span>
+                            <input type="text" name="end_hour" value="${at.end_hour}" class="col-sm-2" placeholder="1-24(1小到24小时)" min="1" max="24" maxlength="2"/><span class="col-sm-6"></span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+            <div class="row gs_input_form gs-min-width form-item">
+                <button type="button" class="btn btn-default btn-lg gs_save_btn" id="submit_button">保存</button>
+            </div>
+        </form>
+</div>
+<div class="gs_blank_gap"></div>
+</div>
+ [#include "/layout/layout_bottom.html"]
+
+<script type="text/javascript">
+    $(function(){
+
+        //提交校验
+        $('#submit_button').click(function(){
+
+            var yearType = $('input[type="radio"][name="year_type"]:checked').val();
+            var startYear = "";
+            var endYear = "";
+            if(yearType == "2") {
+                startYear = $('input[name="start_year"]').val();
+                endYear = $('input[name="end_year"]').val();
+                if(!validatorTime(startYear, endYear, 2016, 2099, '年')) {
+                   return false;
+                }
+            }
+
+            var monthType = $('input[type="radio"][name="month_type"]:checked').val();
+            var startMonth = "";
+            var endMonth = "";
+            if(monthType == "2") {
+                startMonth = $('input[name="start_month"]').val();
+                endMonth = $('input[name="end_month"]').val();
+                if(!validatorTime(startMonth, endMonth, 1, 12, '月')) {
+                   return false;
+                }
+            }
+
+            var dayType = $('input[type="radio"][name="day_type"]:checked').val();
+            var startDay = "";
+            var endDay = "";
+            if(dayType == "2") {
+                startDay = $('input[name="start_day"]').val();
+                endDay = $('input[name="end_day"]').val();
+                if(!validatorTime(startDay, endDay, 1, 31, '日')) {
+                   return false;
+                }
+            }
+
+            var weeklyType = $('input[type="radio"][name="weekly_type"]:checked').val();
+            var startWeekly = "";
+            var endWeekly = "";
+            if(weeklyType == "2") {
+                startWeekly = $('input[name="start_weekly"]').val();
+                endWeekly = $('input[name="end_weekly"]').val();
+                if(!validatorTime(startWeekly, endWeekly, 1, 7, '周')) {
+                   return false;
+                }
+            }
+
+            var hourType = $('input[type="radio"][name="hour_type"]:checked').val();
+            var startHour = "";
+            var endHour = "";
+            if(hourType == "2") {
+                startHour = $('input[name="start_hour"]').val();
+                endWeekly = $('input[name="end_hour"]').val();
+                if(!validatorTime(startHour, endHour, 1, 24, '小时')) {
+                   return false;
+                }
+            }
+
+            //提交
+            $('#authorizeTimeForm').submit();
+        });
+
+        //自能输入数字
+        $("input[type='text']").keypress(function(event) {
+            var keyCode = event.which;
+            if ((keyCode >= 48 && keyCode <=57) || keyCode == 8 || keyCode == 46)
+                return true;
+            else
+                return false;
+        }).focus(function() {
+            this.style.imeMode='disabled';
+        });
+
+    });
+
+    //时间校验
+    function validatorTime(start, end, startNum, endNum, str) {
+
+        if(start == "") {
+            alert("请输入开始" + str);
+            return false;
+        }
+
+        start = parseInt(start);
+        if( start < startNum || start > endNum) {
+            alert(str + "必须是" + startNum + " ~ " + endNum);
+            return false;
+        }
+
+        if(end != "") {
+
+            end = parseInt(end);
+            if(end < startNum || end > endNum) {
+                alert(str + "必须是" + startNum + " ~ " + endNum);
+                return false;
+            }
+
+            if(start > end) {
+                alert(str + "的开始时间不能大于结束时间");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+</script>

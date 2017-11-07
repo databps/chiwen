@@ -1,0 +1,316 @@
+[#include "/layout/layout_top.html"]
+<div class="col-xs-10 mainCont">
+  <div class="section main21">
+    <h2>访客动态(30分钟内)</h2>
+    <form action="list" method="get" id="formSearch">
+      <div class="text-right m-top25"> </div>
+      <input type="hidden" name="currentPage" id="currentPage"
+             value="${page.currentPage}" />
+      <div class="row">
+        <div class="row col-md-4 gs-min-width">
+          <label class="col-md-4 gs_table_label text-right">用户名称:</label>
+          <div class="col-sm-8">
+            <input type="text" id="flag" class="form-control" name="uname"
+                   value="${uname}" placeholder="" />
+          </div>
+        </div>
+        <div class="row col-md-2 gs-min-width">
+          <div class="row gs_input_form gs-min-width ">
+            <button type="submit" class="a-btn btn btn-default">
+              <img src="${base}/images/i-search.png" alt="" width="18"><span
+                class="v-mid">搜索</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  <div class="table-responsive m-top15">
+    <table class="table table-hover table-blue table22">
+      <thead>
+      <tr>
+        <th>访问客()用户@ip)</th>
+        <th>初次访问时间</th>
+        <th>最后访问时间</th>
+        <th>访问次数</th>
+        <th>访问资源数量</th>
+      </tr>
+      </thead>
+      <tbody>
+      [#list vuList as cuser]
+      <tr>
+        <td>${cuser.uname}@${cuser.ip}</td>
+        <td>${cuser.firstTime}</td>
+        <td>${cuser.lastTime}</td>
+        <td>${cuser.total}</td>
+        <td>
+          <button class="btn btn-default detail" data-id="${cuser._id}" type="button" style="width:100px">
+            详情 <span class="badge">${cuser.resourceNum}</span>
+          </button>
+        </td>
+      </tr>
+      [/#list]
+      </tbody>
+    </table>
+    <div class="text-center">
+      [@p.page value=page form="formSearch"/]
+    </div>
+  </div>
+
+  <input type="hidden" value="${startTime}" id="start_time">
+  <input type="hidden" value="${endTime}" id="end_time">
+</div>
+[#include "/layout/layout_bottom.html"]
+
+<div class="row">
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+       aria-labelledby="myModalLabel" aria-hidden="true" style="top:8%">
+    <div class="modal-dialog modal-lg">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"
+                  aria-hidden="true">关闭 </button> </div>
+        <div class="modal-body">
+
+          <input type="hidden" id="curr_user_id">
+          <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+              <th>访问ip</th>
+              <th>资源名称</th>
+              <th>操作</th>
+              <th>结果说明</th>
+              <th>访问类型</th>
+              <th>操作时间</th>
+            </tr>
+            </thead>
+            <tbody id="detail_list">
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer" >
+          <div class="text-center" id="modal_paging"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="${base}/js/pagination.js"></script>
+<script type="text/javascript">
+    $(function() {
+
+        $('button.detail').click(function(){
+            var userId = $(this).attr('data-id');
+            var startTime = $('#start_time').val();
+            var endTime = $('#end_time').val();
+
+            page(userId, 1, startTime, endTime);
+
+            modalShow();
+
+        });
+
+        $('body').on("click", "#modal_paging li", function(){
+            if($(this).hasClass('active') || $(this).hasClass('disabled')) {
+                return false;
+            }
+            var toPage = $(this).attr('data-id');
+
+            var userId = $('#curr_user_id').val();
+
+            var startTime = $('#start_time').val();
+            var endTime = $('#end_time').val();
+
+            page(userId, toPage, startTime, endTime);
+
+        });
+
+    });
+
+    function page(userId, currPage, startTime, endTime) {
+        $('#detail_list tr').remove();
+        $('#modal_paging ul').remove();
+        $('#curr_user_id').val(userId);
+        var isFirstPage = false;
+        $.ajax({
+            url : 'details',
+            method: 'POST',
+            data: {userId: userId, startTime: startTime, endTime: endTime, currentPage: currPage},
+            dataType: 'json',
+            async: false,
+            success: function(data){
+                var page = data.page;
+                var list = data.list;
+
+                var arr = [];
+                $.each(list, function(i, obj) {
+
+                    arr.push('<tr>');
+                    arr.push('<td>');
+                    arr.push(obj.ip);
+                    arr.push('</td>');
+
+                    var serviceType = obj.service_name;
+                    if (serviceType == 'hdfs') {
+
+                    var uri = obj.directory;
+                    if(uri.length > 50) {
+                        arr.push('<td title="' + uri + '">');
+                        arr.push(uri.substring(0, 40));
+                    } else {
+
+                        arr.push('<td>');
+                        arr.push(uri);
+                    }
+
+                    arr.push('</td>');
+
+                    arr.push('<td>');
+                    arr.push(obj.resource_name);
+
+
+                    } else {
+
+                    var s = parseUrl(obj.resource_name);
+                    if(s.uri.length > 50) {
+                        arr.push('<td title="' + s.uri + '">');
+                        arr.push(s.uri.substring(0, 40));
+                    } else {
+
+                        arr.push('<td>');
+                        arr.push(s.uri);
+                    }
+
+                    arr.push('</td>');
+
+                    if(s.status.length > 50) {
+
+                      arr.push('<td title="' + s.status + '">');
+                      arr.push(s.status.substring(0, 40) + '...');
+                    } else {
+                      arr.push('<td>');
+                      arr.push(s.status);
+                    }
+                    }
+
+                    arr.push('</td>');
+
+                  if(obj.message.length > 50) {
+
+                    arr.push('<td title="' + obj.message + '">');
+                    arr.push(obj.message.substring(0, 40) + '...');
+                  } else {
+
+                    arr.push('<td>');
+                    arr.push(obj.message);
+                  }
+                    arr.push('</td>');
+
+                    arr.push('<td>');
+                    arr.push(serviceType);
+                    arr.push('</td>');
+
+                    arr.push('<td>');
+                    arr.push(parseTime(obj.create_time));
+                    arr.push('</td>');
+
+                    arr.push('</tr>');
+                });
+
+                $('#detail_list').append(arr.join(''));
+                var html = createPagingHtml(page.currentPage, page.totalPage);
+                $('#modal_paging').append(html);
+
+            }
+
+        });
+
+    }
+
+    function parseUrl(str) {
+        var status = '';
+        var opIndex = str.indexOf('?op=');
+        if(opIndex > -1) {
+
+            var andIndex = str.indexOf('&');
+            if(andIndex == -1) {
+                status = str.substr(opIndex+ 4);
+            } else {
+                status = str.substring(str.indexOf('=')+ 1, andIndex);
+            }
+        }
+
+        var i = str.indexOf('?');
+        i =  (i== -1 ? str.length : i);
+
+        var webIndex = str.indexOf('/webhdfs/v');
+        var uri = '';
+        if(webIndex == -1) {
+
+            uri = str.substring(webIndex + 11, i);
+            var si = str.indexOf('/gateway-server/v');
+            if(si > -1) {
+
+                uri = str.substring(si + 18, i);
+            } else {
+
+                si = str.indexOf('/gateway/v');
+                if(si != -1) {
+
+                    uri = str.substring(si + 11, i);
+                } else {
+
+                    uri = str.substring(0, i);
+                }
+            }
+        } else {
+
+            uri = str.substring(webIndex + 11, i);
+            var si = str.indexOf('/gateway-server/v');
+            if(si > -1) {
+
+                uri = str.substring(si + 19, i);
+            } else {
+
+                si = str.indexOf('/gateway/v');
+                if(si != -1) {
+
+                    uri = str.substring(si + 11, i);
+                }
+
+            }
+        }
+
+        return {uri: uri, status: status};
+    }
+
+    function parseTime(str) {
+
+        str = str.trim();
+        if (str == '') {
+            return "";
+        }
+
+        if (str.length == 17) {
+            return str.substring(0, 4) + "-" + str.substring(4, 6) + "-" + str.substring(6, 8)
+                    + " " + str.substring(8, 10) + ":" + str.substring(10, 12)
+                    + ":" + str.substring(12, 14);
+        }
+
+        return str;
+    }
+
+    function modalShow() {
+
+        $('#myModal').modal({
+            keyboard: false,
+            backdrop: 'static',
+        });
+    }
+
+    function modalClose() {
+        $('#myModal').modal('hide');
+    }
+
+</script>

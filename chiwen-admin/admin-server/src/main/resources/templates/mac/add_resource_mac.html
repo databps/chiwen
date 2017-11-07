@@ -1,0 +1,114 @@
+[#include "/layout/layout_top.html"]
+<div class="col-xs-10 mainCont">
+	<div class="section main21">
+		<h2>MAC资源管理</h2>
+		<form action="${base}/tmac/saveRrelMac" id="gsForm" method="post" autocomplete="off">
+			<div class="row">
+				<div class="row col-md-5 gs-min-width form-item">
+					<label class="col-md-4 gs_table_label text-right">标记名称:</label>
+					<div class="col-sm-5">
+						<div class="col-sm-8 gs_info_value">${macEntity.flag}</div>
+					</div>
+					<input id="flag" readonly="readonly" class="form-control"
+						type="hidden" name="flag" value="${macEntity.flag}">
+				</div>
+				<div class="row col-md-5 gs-min-width form-item">
+					<label class="col-md-4 gs_table_label text-right">级别:</label>
+					<div class="col-sm-5">
+						<div class="col-sm-8 gs_info_value">${macEntity.level}</div>
+					</div>
+					<input id="level" readonly="readonly" class="form-control"
+						type="hidden" name="level" value="${macEntity.level}">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="row col-md-10 gs-min-width form-item">
+					<label class="col-md-2 gs_table_label text-right"><span
+						class="glyphicon glyphicon-asterisk require_ico"></span>资源名称:</label>
+					<div class="col-sm-8">
+						<div class="form-group col-sm-25">
+							<textarea id="checkedPath" class="form-control" rows="2" readonly="true" name="path" data-rule="required;path;" placeholder="请勾选下面的目录"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row gs_input_form gs-min-width form-item">
+				<button type="submit" class="btn btn-default  gs_save_btn">保存</button>
+			</div>
+			<div class="text-right m-top25"> </div>
+		</form>
+	</div>
+
+	<div class="section main21">
+		<div class="gs-info-title">
+			HDFS文件列表
+		</div>
+		<div class="container">
+		
+			<div class="row">
+				<div class="col-xs-3 col-sm-12">
+					<form onsubmit="return false;">
+						<div class="input-group">
+							<input type="text" class="form-control" id="directory" /> <span
+								class="input-group-btn"><button class="btn btn-default"
+									type="submit" id="btn-nav-directory">查询</button></span>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="alert alert-danger" id="alert-panel"
+				style="display: none" role="alert">
+				<button type="button" class="close"
+					onclick="$('#alert-panel').hide();">&times;</button>
+				<div class="alert-body" id="alert-panel-body"></div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<h5>
+						<a id="root_dir" style="cursor: pointer">根目录</a> <a id="last_dir"
+							style="cursor: pointer">上级目录</a>
+					</h5>
+				</div>
+			</div>
+			<div class="clearfix gs_table_box">
+				<div id="panel"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+[#include "/layout/layout_bottom.html"]
+<script type="text/x-dust-template" id="tmpl-explorer">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+			<th class="active">选择</th>
+            <th class="active">名称</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#FileStatus}
+          <tr class="active">
+			<td class="active">
+					<input  type="checkbox" inode-type="{type}" inode-path="{pathSuffix}"  /></td>
+            <td class="active"><a style="cursor:pointer" inode-type="{type}" class="explorer-browse-links" inode-path="{pathSuffix}">{pathSuffix}</a></td>
+          </tr>
+          {/FileStatus}
+        </tbody>
+      </table>
+</script>
+
+
+
+<script type="text/javascript"
+	src="${base}/js/dust/dust-full-2.0.0.min.js">
+	
+</script>
+<script type="text/javascript" src="${base}/js/dust/dust-helpers.min.js">
+	
+</script>
+<script type="text/javascript" src="${base}/js/hdfs/explorer-checkbox.js">
+	
+</script>

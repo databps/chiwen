@@ -1,0 +1,210 @@
+[#include "/layout/layout_top.html"]
+<div class="col-xs-10 mainCont">
+	<div class="section main21" style="margin-bottom:0px">
+			<h2>hadoop配置</h2>
+		<form action="${base}/hconfig/update" id="gsForm" method="post"
+			class="form" autocomplete="off">
+			<input type="hidden" id="webhdfs_url"  name="webhdfsUrl" value="${webHdfsUrl}">
+			<input type="hidden" id="rpc_url"  name="rpcUrl" value="${rpcUrl}">
+			<input type="hidden" id="rm_rpc_url"  name="rmRpcUrl" value="${rmRpcUrl}">
+			[#if code=="2000" && msg != "" ]
+			<div id="myAlert" class="alert  alert-success"  style="padding-bottom:10px;margin-bottom:10px">
+  <strong>${msg}</strong> 
+  <script type="text/javascript">
+		 $("#myAlert").fadeTo("slow", 1).slideUp(1000, function(){
+			$("#myAlert").hide();
+		}); 
+	</script>
+</div>
+[/#if]
+[#if msg != "" && code!="2000"]
+<div class="alert  alert-danger" role="alert" style="padding-bottom:10px">
+  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+  <strong>${msg}</strong>
+  </div>
+[/#if]
+<br/>
+			<div class="row">
+					<label class="col-md-3 gs_table_label text-right"><span
+						class="glyphicon glyphicon-asterisk require_ico"></span>主Namenode_WEBHDFS_ADDRESS:</label>
+					<div class="col-sm-5">
+						<input id="masterurl" class="form-control" type="text"
+							 value=""
+							data-rule="required;">
+					</div>
+					<span id="helpBlock" class="help-block"><h5>&nbsp;&nbsp;例：http://192.168.1.212:50070</h5></span>
+			</div>
+			<br/>
+			<div class="row">
+					<label class="col-md-3 gs_table_label text-right"><span
+						class="glyphicon glyphicon-asterisk require_ico"></span>副Namenode_WEBHDFS_ADDRESS:</label>
+					<div class="col-sm-5">
+						<input id="slaveurl" class="form-control" type="text" value="">
+					</div>
+					<span id="helpBlock" class="help-block helpBlock_gs"><h5>&nbsp;&nbsp;例：http://192.168.1.213:50070</h5></span>
+			</div>
+			<br/>
+			<br/>
+			<div class="row">
+					<label class="col-md-3 gs_table_label text-right"><span
+						class="glyphicon glyphicon-asterisk require_ico"></span>主Namenode_RPC_ADDRESS:</label>
+					<div class="col-sm-5">
+						<input id="rpc_masterurl" class="form-control" type="text"
+							 value=""
+							data-rule="required;">
+					</div>
+					<span id="helpBlock" class="help-block"><h5>&nbsp;&nbsp;例：hdfs://192.168.1.212:8020</h5></span>
+			</div>
+			<br/>
+			<div class="row">
+					<label class="col-md-3 gs_table_label text-right"><span
+						class="glyphicon glyphicon-asterisk require_ico"></span>副Namenode_RPC_ADDRESS:</label>
+					<div class="col-sm-5">
+						<input id="rpc_slaveurl" class="form-control" type="text" value="">
+					</div>
+					<span id="helpBlock" class="help-block"><h5>&nbsp;&nbsp;例：hdfs://192.168.1.213:8020</h5></span>
+			</div>
+				<br/>
+			<div class="row">
+					<label class="col-md-3 gs_table_label text-right"><span
+						class="glyphicon glyphicon-asterisk require_ico"></span>主RM_RPC_ADDRESS:</label>
+					<div class="col-sm-5">
+						<input id="rm_rpc_masterurl" class="form-control" type="text"
+							 value=""
+							data-rule="required;">
+					</div>
+					<span id="helpBlock" class="help-block"><h5>&nbsp;&nbsp;例：192.168.1.212:8032</h5></span>
+			</div>
+			<br/>
+			<div class="row">
+					<label class="col-md-3 gs_table_label text-right"><span
+						class="glyphicon glyphicon-asterisk require_ico"></span>副RM_RPC_ADDRESS:</label>
+					<div class="col-sm-5">
+						<input id="rm_rpc_slaveurl" class="form-control" type="text" value="">
+					</div>
+					<span id="helpBlock" class="help-block"><h5>&nbsp;&nbsp;例：192.168.1.213:8032</h5></span>
+			</div>
+			</div>
+		<div class="section main21" style="height:460px;margin-top:0px">
+			<h2>hosts配置</h2>
+			
+			<div class="row" style="margin-left:200px">
+			
+				<p class="text-left"><font color="red">注：</font> 一行一个host, ip跟hostname用空格间隔, 多个hostname用逗号隔开.</p>
+				<dl class="dl-horizontal">
+				  <dt style="width:20px">例:</dt>
+				   <dd style="margin-left:30px">192.168.1.1 host1</dd>
+				   <dd style="margin-left:30px">192.168.1.6 host2,host3</dd>
+				</dl>
+				<textarea id="hostmap_text" class="col-sm-4" rows="10" name="hostmap" placeholder="一行一个host, ip跟hostname用空格间隔, 多个hostname用逗号隔开">[#list hostmap as host]${host.name} ${host.value}
+[/#list]
+				</textarea>
+				
+			</div>
+
+			<div class="row gs_input_form gs-min-width ">
+                 	  <button type="button" class="btn btn-default btn-lg gs_save_btn" id="submit_button">保存</button>
+            </div>
+		</form>
+	</div>
+</div>
+
+
+[#include "/layout/layout_bottom.html"]
+<script type="text/javascript">
+	$(function(){
+		var webhdfs_url = $('#webhdfs_url').val();
+		if(webhdfs_url != ""){
+			var urls = webhdfs_url.split(",");
+			$('#masterurl').val(urls[0]);
+			$('#slaveurl').val(urls[1]);
+		}
+		var rpc_url = $('#rpc_url').val();
+		if(rpc_url != ""){
+			var urls = rpc_url.split(",");
+			$('#rpc_masterurl').val(urls[0]);
+			$('#rpc_slaveurl').val(urls[1]);
+		}
+		var rm_rpc_url = $('#rm_rpc_url').val();
+		if(rm_rpc_url != ""){
+			var urls = rm_rpc_url.split(",");
+			$('#rm_rpc_masterurl').val(urls[0]);
+			$('#rm_rpc_slaveurl').val(urls[1]);
+		}
+		$('#submit_button').click(function(){
+			
+			//，分割webhdfs_url
+			var masterVal = $('#masterurl').val();
+			var slaveVal = $('#slaveurl').val();
+			if(slaveVal != ""){
+				$('#webhdfs_url').val(masterVal+","+slaveVal);
+			}else{
+				$('#webhdfs_url').val(masterVal);
+			}
+			//，分割rpc_url
+			var rpc_masterVal = $('#rpc_masterurl').val();
+			var rpc_slaveVal = $('#rpc_slaveurl').val();
+			if(rpc_slaveVal != ""){
+				$('#rpc_url').val(rpc_masterVal+","+rpc_slaveVal);
+			}else{
+				$('#rpc_url').val(rpc_masterVal);
+			}
+			//，分割rm_rpc_url
+			var rm_rpc_masterVal = $('#rm_rpc_masterurl').val();
+			var rm_rpc_slaveVal = $('#rm_rpc_slaveurl').val();
+			if(rm_rpc_slaveVal != ""){
+				$('#rm_rpc_url').val(rm_rpc_masterVal+","+rm_rpc_slaveVal);
+			}else{
+				$('#rm_rpc_url').val(rm_rpc_masterVal);
+			}
+			
+			var text = $('#hostmap_text').val().trim();
+			var arr = text.split(/[\r\n]/);
+			arr.forEach(function(str){
+                var ip = str.trim();
+                if(ip != '') {
+                	var host = ip.split(/\s/);
+                	if(host.length != 2) {
+                		alert("host不正确: " + ip);
+                		return false;
+                	}
+
+                	if(!checkIp(host[0])) {
+                		alert('host ip不正确: ' + ip);
+                		return false;
+                	}
+
+                }
+			});
+            $('#hostmap_text').val(text);
+
+
+            //提交
+            $('#gsForm').submit();
+
+        });
+
+        <!--//只能输入ip-->
+        <!--$("#hostmap_text").keypress(function(event) {-->
+            <!--var keyCode = event.which;-->
+            <!--alert(keyCode);-->
+            <!--if ((keyCode >= 48 && keyCode <=57) || (keyCode >= 65 && keyCode <= 90) || keyCode == 20 || keyCode == 16-->
+                <!--|| keyCode == 32 || keyCode == 13 || keyCode == 8 || keyCode == 46 || keyCode == 110 || keyCode == 190) {-->
+
+                <!--return true;-->
+			<!--} else {-->
+
+                <!--return false;-->
+			<!--}-->
+        <!--}).focus(function() {-->
+            <!--this.style.imeMode='disabled';-->
+        <!--});-->
+	});
+
+	function checkIp(ipStr)　{
+		var reg = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+
+		return reg.test(ipStr);
+	}
+
+</script>

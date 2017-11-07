@@ -1,0 +1,55 @@
+[#include "/layout/layout_top.html"]
+<div class="col-xs-10 mainCont">
+  <div class="section main21">
+    <h2>访客动态(30分钟内)</h2>
+    <form action="list" method="get" id="formSearch">
+      <div class="text-right m-top25"> </div>
+      <input type="hidden" name="currentPage" id="currentPage"
+             value="${page.currentPage}" />
+      <div class="row">
+        <div class="row col-md-4 gs-min-width">
+          <label class="col-md-4 gs_table_label text-right">资源名称:</label>
+          <div class="col-sm-8">
+            <input type="text" id="flag" class="form-control" name="path"
+                   value="${path}" placeholder="" />
+          </div>
+        </div>
+        <div class="row col-md-2 gs-min-width">
+          <div class="row gs_input_form gs-min-width ">
+            <button type="submit" class="a-btn btn btn-default">
+              <img src="${base}/images/i-search.png" alt="" width="18"><span
+                class="v-mid">搜索</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  <div class="table-responsive m-top15">
+    <table class="table table-hover table-blue table22">
+      <thead>
+      <tr>
+        <th>资源(类型:path)</th>
+        <th>初次被访问时间</th>
+        <th>最后被访问时间</th>
+        <th>访问次数</th>
+        <th>访客数</th>
+      </tr>
+      </thead>
+      <tbody>
+      [#list vrList as cuser]
+      <tr>
+        <td>${cuser.resourceName}</td>
+        <td>${cuser.firstTime}</td>
+        <td>${cuser.lastTime}</td>
+        <td>${cuser.total}</td>
+        <td>${cuser.userNum}</td>
+      </tr>
+      [/#list]
+      </tbody>
+    </table>
+    <div class="text-center">[@p.page value=page
+      form="formSearch"/]</div>
+  </div>
+</div>
+</div>
+[#include "/layout/layout_bottom.html"]

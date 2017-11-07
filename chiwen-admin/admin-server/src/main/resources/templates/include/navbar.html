@@ -1,0 +1,153 @@
+<div class="navbar violet">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar bar1"></span>
+        <span class="icon-bar bar2"></span>
+        <span class="icon-bar bar3"></span>
+      </button>
+      <a class="navbar-brand" href="/home/list" data-url='**.html'><img src="${base}/img/logo.png"></a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav nav-left-list">
+        <ul class="dropMenu clearfix">
+          [@authorize role="ROLE_ADMIN" ]
+          <li [#if t?index_of("/home")!=-1]class="active"[/#if]><a href="/home/list" data-url='./overview/overview.html' >概览</a></li>
+          [/@authorize]
+          [@authorize role="ROLE_ADMIN" ]
+          <li [#if t?index_of("/services")!=-1]class="active"[/#if]>
+            <a href="javascript:;">插件 <i class="glyphicon glyphicon-menu-down"></i></a>
+            <ul class="onemenu">
+              <li>
+                <ul class="twomenu">
+                  <li><a href="/services/list" data-url='/services/list'>HDFS</a></li>
+                  <li><a href="/services/hbase/list" data-url='/services/hbase/list'>HBASE</a></li>
+                  <li><a href="/services/hive/list" data-url='/services/hive/list'>HIVE</a></li>
+                  <li><a href="/services/gateway/list" data-url='/services/gateway/list'>GATEWAY</a></li>
+                </ul>
+              </li>
+              <li>
+                <!--<a href="javascript:;">cluster2 <i class="glyphicon glyphicon-menu-down"></i></a>-->
+                <ul class="twomenu">
+                  <li><a href="/services/list" data-url='/services/list'>HDFS2</a></li>
+                  <!--<li><a href="/services/list" data-url='**.html'>Zookeeper2</a></li>-->
+                  <!--<li><a href="/services/list" data-url='**.html'>Job2</a></li>-->
+                  <li><a href="/api/gateway/list" data-url='**.html'>GATEWAY</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          [/@authorize]
+          [@authorize role="ROLE_ADMIN" ]
+          <li [#if t?index_of("/authority")!=-1]class="active"[/#if]>
+            <a href="javascript:;" data-url='**.html'>权限 <i class="glyphicon glyphicon-menu-down"></i></a>
+            <ul class="onemenu">
+              <li>
+                <ul class="twomenu">
+                  <li><a href="/authority/user/list" data-url='**.html'>HDFS</a></li>
+                  <li><a href="/authority/hbase/user/list" data-url='**.html'>HBASE</a></li>
+                  <li><a href="/authority/gateway/list" data-url='**.html'>GATEWAY</a></li>
+                  <li><a href="/authority/hive/user/list" data-url='**.html'>HIVE</a></li>
+                  <!--<li><a href="/user/list;" data-url='**.html'>Zookeeper</a></li>-->
+                  <!--<li><a href="/user/list;" data-url='**.html'>Job</a></li>-->
+                </ul>
+              </li>
+              <li>
+                <ul class="twomenu">
+                  <li><a href="javascript:;" data-url='**.html'>HDFS2</a></li>
+                  <li><a href="javascript:;" data-url='**.html'>Zookeeper2</a></li>
+                  <li><a href="javascript:;" data-url='**.html'>Job2</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          [/@authorize]
+          [@authorize role="ROLE_ADMIN" ]
+          <li [#if t?index_of("/security")!=-1]class="active"[/#if]>
+            <a href="javascript:;">安全 <i class="glyphicon glyphicon-menu-down"></i></a>
+            <ul class="onemenu">
+              <li>
+                <ul class="twomenu">
+                  <li><a href="/security/sendbox/index" >JOB</a></li>
+                  <li><a href="/security/settings/list" >管理设置</a></li>
+                  <li><a href="/kerberos/list" >Kerberos</a></li>
+                </ul>
+              </li>
+              <li>
+                <ul class="twomenu">
+                  <li><a href="javascript:;" data-url='./security/administrator.html'>系统管理员</a></li>
+                  <li><a href="javascript:;" data-url='./security/subscribe.html'>消息订阅</a></li>
+                  <li><a href="javascript:;" data-url='./security/subscription.html'>消息列表</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          [/@authorize]
+          [@authorize role="ROLE_ADMIN" ]
+          <li><a href="[@loophole /]"  target="_blank" data-url='**.html'>漏洞</a></li>
+          [/@authorize]
+          [@authorize role="ROLE_ADMIN" ]
+          <li [#if t?index_of("/backup")!=-1]class="active"[/#if]><a href="${base}/backup/audit/list" >数据</a></li>
+          [/@authorize]
+          [@authorize role="ROLE_ADMIN" ]
+          <li [#if t?index_of("/browse")!=-1]class="active"[/#if]>
+            <a href="javascript:;">浏览 <i class="glyphicon glyphicon-menu-down"></i></a>
+            <ul class="onemenu">
+              <li>
+                <ul class="twomenu">
+                  <li><a href="/browse/list?path=" data-url='./browse/HDFS.html'>HDFS</a></li>
+                </ul>
+              </li>
+              <li>
+                <ul class="twomenu">
+                  <li><a href="/browse/list" data-url='./browse/browse.html'>消息列表</a></li>
+                  <li><a href="javascript:;" data-url='**.html'>Zookeeper2</a></li>
+                  <li><a href="javascript:;" data-url='**.html'>Job2</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          [/@authorize]
+          [@authorize role="ROLE_AUDITOR" ]
+          <li class="active">
+            <a href="javascript:;">审计 <i class="glyphicon glyphicon-menu-down"></i></a>
+            <ul class="onemenu">
+              <li>
+                <ul class="twomenu">
+                  <li><a href="${base}/audit/list?startDate=[@startDate /]&endDate=[@endDate /]" >HDFS</a></li>
+                  <li><a href="/audit/admin/list" >ADMIN</a></li>
+                  <li><a href="/audit/hbase/list" >HBASE</a></li>
+                  <li ><a  href="/audit/gateway/list">GATEWAY日志</a></li>
+                  <!--<li><a href="/api/list" data-url='./browse/Zookeeper.html'>Zookeeper</a></li>-->
+                  <!--<li><a href="/api/list" data-url='./browse/job.html'>Job</a></li>-->
+                </ul>
+              </li>
+              <li>
+                <ul class="twomenu">
+                  <li><a href="/browse/list" data-url='./browse/browse.html'>消息列表</a></li>
+                  <li><a href="javascript:;" data-url='**.html'>Zookeeper2</a></li>
+                  <li><a href="javascript:;" data-url='**.html'>Job2</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          [/@authorize]
+        </ul>
+      </ul>
+      <ul class="nav navbar-nav navbar-right nav-recast">
+        <!--<li><a href="javascript:;" data-url='**.html'><i class="glyphicon glyphicon-tips"></i><i class="glyphicon glyphicon-newsNumber">999</i></a></li>-->
+        <!--<li><a href="javascript:;" data-url='**.html'><i class="glyphicon glyphicon-notice"></i></a></li>-->
+        <li class="dropdown">
+          <a href="javascript:;" data-url='**.html' class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">[@authentication property="principal.username" /]<i class="glyphicon glyphicon-triangle-bottom"></i></a>
+          <ul class="dropdown-menu">
+
+            <li><a href="${base}/updatepwd" >修改密码</a></li>
+            <li><a href="${base}/admin/list" >添加管理员</a></li>
+            <li><a href="${base}/logout2" >退出</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

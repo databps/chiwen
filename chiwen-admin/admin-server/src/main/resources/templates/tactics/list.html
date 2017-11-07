@@ -1,0 +1,80 @@
+[#include "/layout/layout_top.html"]
+    <div class="col-xs-10 mainCont">
+        <div class="section">
+                <h2>时间策略</h2>
+            <div class="text-right m-top25"> </div>
+             <form action="list" method="get" id="formSearch">
+            	<input type="hidden" name="currentPage" id="currentPage" value="${page.currentPage}"/>
+            	<!-- <div class="row">
+                    <div class="row col-md-4 gs-min-width">
+                        <label class="col-md-4 gs_table_label text-right">用户名称:</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="uname" class="form-control" name="uname" value="${param["uname"]}" placeholder=""/>
+                        </div>
+                    </div>
+                </div> -->
+
+                 <div class="row">
+                     <div class="row col-md-4 gs-min-width">
+                         <label class="col-md-4 gs_table_label text-right">用户名称:</label>
+                         <div class="col-sm-8">
+                             <input type="text" id="flag" class="form-control" name="uname"
+                                    value="${uname}" placeholder="" />
+                         </div>
+                     </div>
+                     <div class="row col-md-2 gs-min-width">
+                         <div class="row gs_input_form gs-min-width ">
+                             <button type="submit" class="a-btn btn btn-default">
+                                 <img src="${base}/images/i-search.png" alt="" width="18"><span
+                                 class="v-mid">搜索</span>
+                             </button>
+                         </div>
+                     </div>
+                 </div>
+            </form>
+            <div class="table-responsive m-top25">
+                <table class="table table-blue">
+                    <thead>
+                       <tr>
+                       	   <th>用户名称</th>
+                           <th>IP白名单</th>
+                           <th>授权时间</th>
+                       	   <th>操作</th>
+                       </tr>
+                    </thead>
+                    <tbody>
+                    	[#list userList as tkUser]
+                        [#if tkUser._id == '_0']
+                        <tr class="danger">
+                            <td>${tkUser.uname}</td>
+                            <td title="${tkUser.whiteIp}" style="text-align:left;padding-left:20px;">${tkUser.whiteIpShort}</td>
+                            <td style="text-align:left;padding-left:20px;">
+                                ${tkUser.authorizeTimeStr}
+                            </td>
+                            <td>
+                                <a type="button" href="edit?userId=${tkUser._id}" class="btn btn-default">编辑</a>
+                                <!--<a type="button" href="whiteip?userId=${tkUser._id}" class="btn btn-default">IP白名单编辑</a>-->
+                            </td>
+                        </tr>
+                        [#else]
+                        <tr>
+                            <td>${tkUser.uname}</td>
+                            <td title="${tkUser.whiteIp}" style="text-align:left;padding-left:20px;">${tkUser.whiteIpShort}</td>
+                            <td style="text-align:left;padding-left:20px;">
+                                ${tkUser.authorizeTimeStr}
+                            </td>
+
+                            <td>
+                                <a type="button" href="edit?userId=${tkUser._id}" class="btn btn-default">编辑</a></td>
+                        </tr>
+                        [/#if]
+                        [/#list]
+                    </tbody>
+                </table>
+                <div class="text-center">
+                    [@p.page value=page form="formSearch"/]
+                </div>
+            </div>
+        </div>
+    </div>
+    [#include "/layout/layout_bottom.html"]

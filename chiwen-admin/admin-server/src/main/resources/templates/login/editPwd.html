@@ -1,0 +1,50 @@
+[#include "/include/header_index.html"]
+<body style='height: 100%;'>
+[#include "/include/navbar.html"]
+<div class="app-main">
+  <!-- 内容 -->
+
+  <div class="panel panel-default mar15">
+    <div class="panel-body">
+      <h6 class="text-center title-color">修改密码</h6>
+      <div class="line1 mar15"></div>
+
+      <form class="form-horizontal" role="form" action="${base}/updatepwd" id="gsForm" method="post" autocomplete="off">
+        [#if code=='0']
+        <div class="form-group">
+          <label class="control-label col-sm-5"></label>
+          <div class="col-sm-3" >
+            <div class="alert alert-success" role="alert">${message}</div>
+          </div>
+        </div>
+        [/#if]
+        <div class="form-group">
+          <label for="oldpassword" class="control-label col-sm-5">原始密码</label>
+          <div class="col-sm-3">
+            <input type="password" class="form-control" name="oldpassword" id="oldpassword"  data-rule="required;oldpassword;remote[${base}/checkPwd];" >
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password" class="control-label col-sm-5">新密码</label>
+          <div class="col-sm-3">
+            <input type="password" class="form-control" name="password"  id="password" data-rule="密码: required;password;">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="newpassword" class="control-label col-sm-5">确认密码</label>
+          <div class="col-sm-3">
+            <input type="password" class="form-control" name="newpassword" id="newpassword" data-rule="required;newpassword;match(password);" >
+          </div>
+        </div>
+        <div class="form-group subscribe">
+          <div class="col-sm-offset-5 col-sm-5">
+            <button type="submit">保存</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+[#include "/include/footer_index.html"]
+</body>
+</html>

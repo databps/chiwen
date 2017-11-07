@@ -1,0 +1,80 @@
+[#include "/layout/layout_top.html"]
+<div class="col-xs-10 mainCont">
+	<div class="section main21">
+		<h2>Hadoop权限用户列表</h2>
+		<form action="list" method="get" class="gs_table_form" id="formSearch">
+			<input type="hidden" name="currentPage" id="currentPage"
+				value="${page.currentPage}" />
+			<div class="row">
+				<div class="row col-md-5 gs-min-width">
+					<label class="col-md-6 gs_table_label text-right">kerberos主体:</label>
+					<div class="col-sm-6">
+						<input type="text" id="flag" class="form-control" name="uname"
+							value="${param['uname']}" placeholder="" />
+					</div>
+				</div>
+				<div class="row col-md-2 gs-min-width">
+					<div class="row gs_input_form gs-min-width ">
+						<button type="submit" class="a-btn btn btn-default">
+							<img src="${base}/images/i-search.png" alt="" width="18"><span
+								class="v-mid">搜索</span>
+						</button>
+					</div>
+				</div>
+				
+			</div>
+		</form>
+<div class=" text-right">
+	<a href="${base}/tkdcu/combine" class="a-btn-gs btn btn-default"><span class="v-mid">keytab合并</span></a>
+	<a href="${base}/tkdcu/add" class="a-btn-gs btn btn-default"><img
+			src="${base}/images/i-add.png" alt=""><span class="v-mid">添加</span></a>
+</div>
+		<div class="table-responsive m-top15">
+				
+			<table class="table table-hover table-blue table22">
+				<thead>
+					<tr>
+						<th width='50%'>kerberos主体</th>
+						<th width='15%'>类型</th>
+						<th width='15%'>创建时间</th>
+						<th width='20%'>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					[#list kdcList as kdc]
+					<tr>
+						<td ><div style="float:left;text-align:right;width:70%">${kdc.uname}</div></td>
+						<td>
+						[#if kdc.flag="1"]
+							个人
+						 [#elseif kdc.flag="2"]
+						 	系统
+						 [/#if] 
+						 </td>
+						
+						<td>${kdc.create_time?datetime("yyyyMMddHHmmssSSS")}</td>
+						<td>
+						<a href="${base}/tkdcu/download?kdcname=${kdc.uname}"
+							class="handle"><img src="${base}/images/i-save.png" alt=""><span>下载keytab文件</span></a>
+						<a
+							href="javascript:deletes('${kdc.uname}','${kdc._id}');"
+							class="handle"><img alt="" src="${base}/images/i-del.png"><span>删除</span></a></td>
+
+					</tr>
+					[/#list]
+				</tbody>
+			</table>
+			<div class="text-center">[@p.page value=page
+				form="formSearch"/]</div>
+		</div>
+	</div>
+</div>
+[#include "/layout/layout_bottom.html"]
+
+<script type="text/javascript">
+	function deletes(arg1, id) {
+		if (confirm("确定删除 " + arg1 + " 吗？\n")) {
+			window.location.href = "${base}/tkdcu/delete?id=" + id+"&name="+arg1;
+		}
+	}
+</script>

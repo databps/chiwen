@@ -1,0 +1,194 @@
+body{background-color:#f7fafd;}
+.managementBox{
+	margin: 0px 40px;
+}
+.breadcrumb{
+	padding: 10px 0px;
+}
+.breadcrumb a{
+	color: #999999;
+	font-size: 16px;
+}
+div.switch {
+	line-height: 31px;
+	font-size: 14px;
+  	color: #34353f;
+  	margin-bottom: 30px;
+}
+b{
+	float: left;
+	display: inline-block;
+	width: 51px;
+	height: 31px;
+	background: url(/img/Off.png)no-repeat;
+	margin-right: 10px;
+}
+b.on{
+	background: url(/img/On.png)no-repeat;
+}
+.panel-default>.panel-heading{
+	background-color: #ffffff;
+}
+.panel-title a{
+	display: block;
+  	font-size: 14px;
+  	color: #474c71;
+  	font-weight: normal;
+}
+.panel-title a>i{
+	margin-right: 5px;
+	font-size: 12px;
+}
+.panel-body div{
+	height: 45px;
+	line-height: 45px;
+}
+.panel-body div span{
+	display: inline-block;
+}
+.panel-body div input{
+	height: 30px;
+	width: 280px;
+	background-color: #fbfbfb;
+  	box-shadow: inset 0 1px 1px 0 rgba(0, 0, 0, 0.1), inset 1px 0 1px 0 rgba(0, 0, 0, 0.1);
+  	border: solid 0.5px #cccccc;
+  	font-size: 14px;
+  	color: #525252;
+  	padding:0px 5px;
+}
+.panel-body div input.somol{
+	width: 120px;
+}
+.panel-body div i{
+	font-size: 12px;
+  	color: #999999;
+  	margin-left: 10px;
+}
+.panel-body .dropdown{
+	display: inline-block;
+}
+.panel-body .dropdown button{
+	width: 80px;
+	height: 30px;
+	line-height: 17px;
+	text-align: left;
+}
+.panel-body .dropdown  button i{
+	float: right;
+	margin-top: 2px;
+}
+.panel-body .dropdown ul{
+	min-width: 80px;
+}
+.btn-default:hover{
+	background: none;
+	border: 1px solid #739dff;
+	outline:none;
+}
+.btn-default.active.focus, .btn-default.active:focus, .btn-default.active:hover, .btn-default:active.focus, .btn-default:active:focus, .btn-default:active:hover, .open>.dropdown-toggle.btn-default.focus, .open>.dropdown-toggle.btn-default:focus, .open>.dropdown-toggle.btn-default:hover{
+	background: none;
+	border: 1px solid #739dff;
+	outline:none;
+}
+.btn-default.focus, .btn-default:focus{
+	border: 1px solid #739dff;
+	background-color: #ffffff;
+}
+.panel-zdyone div span{
+	width: 265px;
+	font-size: 14px;
+	color: #34353f;
+}
+.panel-KRB5two div span{
+	width: 265px;
+	font-size: 14px;
+	color: #34353f;
+}
+.panel-kadtwree div span{
+	width: 45px;
+	font-size: 14px;
+	color: #34353f;
+	margin-right: 40px;
+}
+.panel-kadtwree div input{
+	width: 180px;
+}
+.panel-kadtwree div u{
+	text-decoration: none;
+	margin: 0 5px;
+	font-size: 14px;
+	color: #999999;
+}
+.panel-kadtwree div a{
+	display: inline-block;
+    width: 75px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: #ffffff;
+    font-size: 14px;
+    border: 1px solid #739dff;
+    background-color: #6593ff; 
+    margin-left: 10px;
+    border-radius: 2px;
+}
+.panel-kadtwree div s{
+	text-decoration: none;
+	font-size: 12px;
+	color: #43b592;
+	padding-left: 15px;
+	background: url(/img/yep.png)no-repeat left center;
+	margin-left: 10px;
+}
+.panel-kadtwree div s.prompt{
+	color: #f74646;
+	background: url(/img/knows.png)no-repeat left center;
+}
+.panel-Allfore div span{
+	width: 125px;
+	font-size: 14px;
+	color: #34353f;
+	margin-right: 40px;
+}
+.panel-Bigfive div span{
+	width: 158px;
+	font-size: 14px;
+	color: #34353f;
+	margin-right: 20px;
+}
+.panel-body b{
+	margin-top: 10px
+}
+.btn-divsive{
+	text-align: center;
+}
+.btn-divsive a{
+	width: 120px;
+	height: 34px;
+	border-radius: 0px;
+	font-size: 14px;
+	background: #6593ff;
+	border-color: #6593ff;
+}
+.btn-divsive a:hover,.btn-primary.focus, .btn-primary:focus,.btn-primary:active,.btn-primary:active:focus, .btn-primary:active:hover{
+	background: #6593ff;
+	border-color: #6593ff;
+}
+/*详情信息*/
+.modal-management p{
+	font-size: 14px;
+  	color: #34353f;
+  	line-height: 35px;
+}
+.modal .btn{
+	background-color: #6593ff;
+	width: 80px;
+	border-radius: 0px;
+	color: #ffffff;
+	border-color: #6593ff;
+}
+.modal-footer .btn+.btn{
+	background-color: #fbfbfb;
+  	border: solid 1px #cccccc;
+  	color: #34353f;
+}

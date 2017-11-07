@@ -1,0 +1,70 @@
+[#include "/include/header_index.html"]
+<body style='height: 100%;'>
+[#include "/include/navbar.html"]
+
+
+<div class="app-main">
+  <!-- 内容 -->
+  <ol class="breadcrumb">
+    <li ><span>浏览</span></li>
+    <li class="active grey3">HDFS</li>
+    [#if path ?? && path?length >0]
+    <li >${path}</li>
+    [#else]
+    <li >/</li>
+    [/#if]
+    </ol>
+
+  <div class="panel panel-default mar15">
+
+    <div class="table-responsive">
+
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>Name</th>
+          <th>Size</th>
+          <th>Last Modified</th>
+          <th>Owner</th>
+          <th>Group</th>
+          <th>Permission</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr class="resetTd">
+          <td colspan="6">
+            [#if errors ??]
+            <div class="yGoPlug"><i></i>${errors}<a href="${base}/services/list">去配置</a></div>
+            [#else]
+
+            [/#if]
+
+            [#if path ?? && path?length >0]
+            <a href="javascript:window.history.go(-1);" class="col-sm-12 back-file" ><i><img src="/img/back.png"></i></a>
+            [/#if]
+          </td>
+        </tr>
+
+
+        [#list files as file]
+        <tr>
+          <td><i ><img class="fileimg" src="/img/file.png"></i><a href="/browse/list?path=${path}/${file.pathSuffix}"> ${file.pathSuffix}</a> </td>
+          <td>${file.blockSize}</td>
+          <td>[@p.formatDate value="${file.modificationTime}"/]</td>
+          <td>${file.owner}</td>
+          <td>${file.group}</td>
+          <td>${file.permission}</td>
+        </tr>
+        [/#list]
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>
+
+
+[#include "/include/footer_index.html"]
+</body>
+</html>

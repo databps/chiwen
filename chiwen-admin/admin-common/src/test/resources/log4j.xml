@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+
+    <appender name="console" class="org.apache.log4j.ConsoleAppender">
+        <param name="target" value="System.err" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ISO8601} %-5p [%t] %c{2}: %m%n" />
+        </layout>
+    </appender>
+
+    <!--
+    <appender name="ChiWen_perf_appender" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="file" value="./ChiWen_admin_perf.log" />
+        <param name="datePattern" value="'.'yyyy-MM-dd" />
+        <param name="append" value="true" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %m%n" />
+        </layout>
+    </appender>
+
+    <logger name="org.apache.ChiWen.perf.policyengine" additivity="false">
+        <level value="debug" />
+        <appender-ref ref="ChiWen_perf_appender" />
+    </logger>
+
+    <logger name="org.apache.ChiWen.perf.policy" additivity="false">
+        <level value="debug" />
+        <appender-ref ref="ChiWen_perf_appender" />
+    </logger>
+
+    <logger name="org.apache.ChiWen.perf.policyitem" additivity="false">
+        <level value="debug" />
+        <appender-ref ref="ChiWen_perf_appender" />
+    </logger>
+
+    <logger name="org.apache.ChiWen.perf.contextenricher" additivity="false">
+        <level value="debug" />
+        <appender-ref ref="ChiWen_perf_appender" />
+    </logger>
+
+    <logger name="org.apache.ChiWen.perf.policycondition" additivity="false">
+        <level value="debug" />
+        <appender-ref ref="ChiWen_perf_appender" />
+    </logger>
+
+    <logger name="org.apache.ChiWen.perf.db" additivity="false">
+        <level value="debug" />
+        <appender-ref ref="ChiWen_perf_appender" />
+    </logger>
+
+    <logger name="org.apache.ChiWen.perf.rest.ServiceREST" additivity="false">
+        <level value="debug" />
+        <appender-ref ref="ChiWen_perf_appender" />
+    </logger>
+    -->
+
+    <root>
+        <level value="warn" />
+        <appender-ref ref="console" />
+    </root>
+
+</log4j:configuration>

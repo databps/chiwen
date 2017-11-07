@@ -1,0 +1,138 @@
+[#include "/layout/layout_top.html"]
+<div class="col-xs-10 mainCont">
+	<div class="section ">
+		<div class="gs-info-title">RBAC资源与权限配置</div>
+		<div class="row">
+			<div class="row col-md-5 gs-min-width form-item">
+				<label class="col-md-4 gs_table_label text-right">角色名称:</label>
+				<div class="col-sm-5">
+					<div class="col-sm-8 gs_info_value">${role.rolename}</div>
+					<input id="rolenameDiv" readonly="readonly" class="form-control"
+						type="hidden" name="rolenameDiv" value="${role.rolename}"
+						data-rule="required;rolename;">
+				</div>
+			</div>
+		</div>
+		<form action="${base}/tkrole/saveResource" name="gsform" id="gsForm"
+			method="post" class="form" autocomplete="off">
+			<input type="hidden" name="roleId" value="${role._id}"> <input
+				type="hidden" name="roleName" value="${role.rolename}"> <input
+				type="hidden" id="viewName" name="viewName" value=''>
+			<div class="row">
+				<div class="row col-sm-10 gs-min-width form-item">
+					<label class="col-sm-2 gs_table_label text-right"><span
+						class="glyphicon glyphicon-asterisk require_ico"></span>权限:</label>
+					<div class="col-sm-10">[@p.checkboxlist listKey="code"
+						listValue="view_name" list=hdfsOpList name="ops"/]</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="row col-md-10 gs-min-width form-item">
+					<label class="col-md-2 gs_table_label text-right"><span
+						class="glyphicon glyphicon-asterisk require_ico"></span>资源名称:</label>
+					<div class="col-sm-8">
+						<div class="form-group col-sm-25">
+							<textarea id="checkedPath" class="form-control" rows="2"
+								readonly="true" name="path" data-rule="required;path;"
+								placeholder="请勾选下面的目录"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row gs_input_form gs-min-width form-item">
+				<button type="button" class="btn btn-default  gs_save_btn"
+					onclick="save()">保存</button>
+			</div>
+			<div class="row gs_input_form gs-min-width form-item"></div>
+		</form>
+	</div>
+	<div class="section ">
+		<div class="gs-info-title">HDFS文件列表</div>
+		<div class="row">
+			<div class="col-xs-3 col-sm-12">
+				<form onsubmit="return false;">
+					<div class="input-group">
+						<input type="text" class="form-control" id="directory" /> <span
+							class="input-group-btn"><button class="btn btn-default"
+								type="submit" id="btn-nav-directory">查询</button></span>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="alert alert-danger" id="alert-panel" style="display: none"
+			role="alert">
+			<button type="button" class="close"
+				onclick="$('#alert-panel').hide();">&times;</button>
+			<div class="alert-body" id="alert-panel-body"></div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<h5>
+					<a id="root_dir" style="cursor: pointer">根目录</a> <a id="last_dir"
+						style="cursor: pointer">上级目录</a>
+				</h5>
+			</div>
+		</div>
+		<div class="clearfix gs_table_box">
+			<div id="panel"></div>
+		</div>
+	</div>
+</div>
+[#include "/layout/layout_bottom.html"]
+
+
+<script type="text/javascript">
+	function save() {
+		var view_name_post = "";
+		$('input[name="ops"]:checked').each(function() {
+			var viewName = $(this).attr('view-name');
+			view_name_post += viewName + ",";
+		});
+
+		if('' == view_name_post) {
+			alert('权限至少选一个！');
+			return false;
+		}
+		var path = $('#checkedPath').val().trim();
+		if('' == path) {
+			alert('资源不能为空');
+			return false;
+		}
+		$("#viewName").val(
+				view_name_post.substring(0, view_name_post.length - 1));
+		document.gsform.submit();
+	}
+</script>
+<script type="text/x-dust-template" id="tmpl-explorer">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+			<th class="active">选择</th>
+            <th class="active">名称</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#FileStatus}
+          <tr class="active">
+			<td class="active">
+					<input  type="checkbox" inode-type="{type}" inode-path="{pathSuffix}"  /></td>
+            <td class="active"><a style="cursor:pointer" inode-type="{type}" class="explorer-browse-links" inode-path="{pathSuffix}">{pathSuffix}</a></td>
+          </tr>
+          {/FileStatus}
+        </tbody>
+      </table>
+</script>
+
+
+
+<script type="text/javascript"
+	src="${base}/js/dust/dust-full-2.0.0.min.js">
+	
+</script>
+<script type="text/javascript" src="${base}/js/dust/dust-helpers.min.js">
+	
+</script>
+<script type="text/javascript"
+	src="${base}/js/hdfs/explorer-checkbox.js">
+	
+</script>

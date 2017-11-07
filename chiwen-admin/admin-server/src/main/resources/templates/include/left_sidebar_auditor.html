@@ -1,0 +1,41 @@
+<div class="col-xs-2">
+	<div class="aside col-xs-2">
+		<div class="panel-group" id="accordion" role="tablist"
+			aria-multiselectable="true">
+			<div class="panel panel-default panel-one">
+				<div class="panel-heading" role="tab" id="headingTwo">
+					<h4 class="panel-title">
+						<a href="javascript:;"><img src="${base}/images/aside-i0.png"
+							alt=""></a>
+					</h4>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="headingTwo">
+					<h4 class="panel-title">
+						<a class="collapsed" data-toggle="collapse"
+							data-parent="#accordion" href="#collapseThree"
+							aria-expanded="false" aria-controls="collapseTwo"><img
+							src="${base}/images/aside-i3.png" alt=""><span
+							class="v-mid">审计日志</span></a>
+					</h4>
+				</div>
+				<div id="collapseThree" class="panel-collapse collapse"
+					role="tabpanel" aria-labelledby="headingTwo">
+					<div class="panel-body">
+						<ul>
+						<li class="menus" navUrl="/tresourcelog" param="authentication" ><a 
+								href="${base}/tresourcelog/list?action=authentication">hadoop认证日志</a></li>
+							<li class="menus" navUrl="/tresourcelog" param="dispatch"><a
+								
+								href="${base}/tresourcelog/list?action=dispatch">Hadoop操作日志</a></li>
+							<li class="menus" navUrl="/tuserlog" param="null"><a
+								href="${base}/tuserlog/list">Admin操作日志</a></li>
+	
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

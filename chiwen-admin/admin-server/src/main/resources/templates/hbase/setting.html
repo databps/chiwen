@@ -1,0 +1,189 @@
+[#include "/layout/layout_top.html"]
+<div class="col-xs-10 mainCont">
+  <div class="section main21" style="margin-bottom:0px">
+    <h2>HBase配置</h2>
+      <div id="myAlert" class="alert  alert-success"  style="padding-bottom:10px;margin-bottom:10px" hidden="hidden">
+        <strong>编辑成功</strong>
+      </div>
+      <div class="alert  alert-danger" role="alert" style="padding-bottom:10px" hidden="hidden" id="alertError">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+        <strong>${errorMsg}</strong>
+      </div>
+      <br/>
+      <div class="row">
+        <label class="col-md-3 gs_table_label text-right"><span
+            class="glyphicon glyphicon-asterisk require_ico"></span>Hbase Acl 状态</label>
+        <div class="col-sm-5">
+          <label for="acl_on">开启: </label>
+          <input id="acl_on" name="isAcl" type="radio" value="1">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <label for="acl_off">关闭: </label>
+          <input id="acl_off" name="isAcl" type="radio" value="0">
+        </div>
+      </div>
+      <br/>
+      <div class="row">
+        <label class="col-md-3 gs_table_label text-right"><span
+            class="glyphicon glyphicon-asterisk require_ico"></span>Zookeeper 集群IP:</label>
+        <div class="col-sm-5">
+          <input id="zk_ips" class="form-control" type="text" value="${acl.zk_ips}" data-rule="required;">
+        </div>
+        <span class="help-block"><h5>例：用逗号隔开：192.168.1.50,192.168.1.51,192.168.1.52</h5></span>
+      </div>
+     <br/>
+      <div class="row">
+        <label class="col-md-3 gs_table_label text-right"><span class="glyphicon glyphicon-asterisk require_ico"></span>Zookeeper客户端口: </label>
+        <div class="col-sm-5">
+          <input id="zk_port" class="form-control" type="text" value="${acl.zk_port}">
+        </div>
+        <span id="helpBlock" class="help-block"><h5>例：2181</h5></span>
+      </div>
+    <br/>
+    <div class="row">
+      <label class="col-md-3 gs_table_label text-right"><span
+          class="glyphicon glyphicon-asterisk require_ico"></span>Zookeeper znode 目录:</label>
+      <div class="col-sm-5">
+        <input id="zk_node" class="form-control" type="text" value="${acl.zk_node}">
+      </div>
+      <span class="help-block helpBlock_gs"><h5>zookeeper.znode.parent值, 例：/hbase-unsecure</h5></span>
+    </div>
+    <br/>
+    <div class="row">
+      <label class="col-md-3 gs_table_label text-right"></span>hbase master principal: </label>
+      <div class="col-sm-5">
+        <input id="masterPrincipal" class="form-control" type="text" value="${acl.master_principal}">
+      </div>
+      <span class="help-block"><h5>例：hbase/_HOST@GS.COM (kerberos模式下必须填写)</h5></span>
+    </div>
+
+      <div class="row gs_input_form gs-min-width "> <button type="button" class="btn btn-default btn-lg gs_save_btn" id="submit_button">保存</button> </div>
+
+    <div class="gs_blank_gap"></div>
+  </div>
+</div>
+
+  [#include "/layout/layout_bottom.html"]
+  <script type="text/javascript">
+  $(function(){
+    var errorMsg = '${errorMsg}';
+    if(null != errorMsg && errorMsg != '') {
+      $('#alertError').show();
+    }
+
+    var acl_status = '${acl.status}';
+    if(acl_status == '1') {
+      $('#acl_on').click();
+    } else {
+      $('#acl_off').click();
+    }
+    $('#submit_button').click(function(){
+
+      var aclStat = $('input[name="isAcl"]:checked').val();
+
+      if(aclStat != '1') {
+        var r = confirm('确认关闭Hbase ACL管理?');
+        if(!r) {
+          return;
+        } else {
+          $.ajax({
+            type : "POST",
+            async : false,
+            url : "${base}/hbaseAcl/edit",
+            data : {isAcl:0},
+            dataType : "json",//返回数据形式为json
+            success : function(data) {
+              var result = data.result;
+              if(result == '1') {
+                showAlert();
+              }
+            }
+          });
+
+        }
+        return;
+      }
+
+      var zkNode = $('#zk_node').val().trim();
+      if(zkNode == '' || !zkNode.startsWith('/')) {
+        alert('zookeeper znode不正确!');
+        return false;
+      }
+
+      var zkIps = $('#zk_ips').val().trim();
+      flg = checkSameIps(zkIps, 'Zookeeper');
+      if(!flg) {
+        return false;
+      }
+
+      var zkPort = $('#zk_port').val().trim();
+      if('' == zkPort) {
+        alert('Zookeeper端口不能为空!');
+        return;
+      }
+      var port = parseInt(zkPort);
+      if(port > 0 && port > 65535) {
+        alert('端口不正确');
+        return false;
+      }
+      var principal = $('#masterPrincipal').val().trim();
+      $.ajax({
+        type : "POST",
+        async : false,
+        url : "${base}/hbaseAcl/edit",
+        data : {isAcl:1, zkPort:zkPort,zkNode:zkNode,zkIps:zkIps, principal:principal},
+        dataType : "json",//返回数据形式为json
+        success : function(data) {
+          var result = data.result;
+          if(result == '1') {
+            showAlert();
+          }
+        }
+      });
+    });
+  });
+
+  function checkIp(ipStr) {
+    var reg = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+
+    return reg.test(ipStr);
+  }
+
+  function checkSameIps(str, com) {
+    if(null == str || '' == str) {
+      alert(com + '不能为空!');
+      return false;
+    }
+    var arr = str.split(',');
+    var map = {};
+    var count = 0;
+    $.each(arr, function(i, o) {
+      if(checkIp(o)) {
+        var tmp = map[o];
+        if('' == tmp) {
+          alert(com + ' ip重复了!');
+        } else {
+          map[o] = '';
+        }
+      } else {
+        alert(com + ' ip不正确!');
+        return false;
+      }
+      count++;
+
+    });
+
+    if(count % 2 == 0) {
+      alert(com + ' IP 必须为基数个');
+      return false;
+    }
+    return true;
+
+  }
+
+  function showAlert() {
+     $("#myAlert").fadeTo("slow", 1).slideUp(1000, function(){
+      $("#myAlert").hide();
+    });
+  }
+
+</script>
