@@ -61,7 +61,7 @@ public class ChiWenAdminRESTClient implements ChiWenAdminClient {
     boolean isSecureMode = user != null && UserGroupInformation.isSecurityEnabled();
     String ht=restClient.toJson(request);
 //    WebResource webResource = createWebResource(REST_URL_SECURE_SERVICE_REVOKE_ACCESS + serviceId)
-//        .queryParam(RangerRESTUtils.REST_PARAM_PLUGIN_ID, pluginId);
+//        .queryParam(ChiWenRESTUtils.REST_PARAM_PLUGIN_ID, pluginId);
 //    response = webResource.accept("application/json").type("application/json").post(ClientResponse.class, restClient.toJson(request));
 
 //   if(response != null && response.getStatus() != 200) {

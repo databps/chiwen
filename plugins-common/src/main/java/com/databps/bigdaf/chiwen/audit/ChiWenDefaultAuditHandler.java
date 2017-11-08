@@ -23,7 +23,7 @@ public class ChiWenDefaultAuditHandler implements ChiWenAccessResultProcessor {
   private static String UUID 	= MiscUtil.generateUniqueId();
 
   public static final String YYYYMMDDHHMMSSSSS = "yyyyMMddHHmmssSSS";
-  //protected static final String RangerModuleName =  ChiWenConfiguration.getInstance().get(RangerHadoopConstants.AUDITLOG_RANGER_MODULE_ACL_NAME_PROP , RangerHadoopConstants.DEFAULT_RANGER_MODULE_ACL_NAME);
+  //protected static final String ChiWenModuleName =  ChiWenConfiguration.getInstance().get(ChiWenHadoopConstants.AUDITLOG_CHIWEN_MODULE_ACL_NAME_PROP , ChiWenHadoopConstants.DEFAULT_CHIWEN_MODULE_ACL_NAME);
 
 
   public void logAuthzAudit(AuthzAuditEvent auditEvent) {

@@ -27,7 +27,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /*
- * This utility class deals with service-defs embedded in ranger-plugins-common
+ * This utility class deals with service-defs embedded in chiwen-plugins-common
  * library (hdfs/hbase/hive/knox/storm/..). If any of these service-defs
  * don't exist in the given service store, they will be created in the store
  * using the embedded definitions.
@@ -40,7 +40,7 @@ public class EmbeddedServiceDefsUtil {
 
 
 	private static final String DEFAULT_BOOTSTRAP_SERVICEDEF_LIST = "tag,hdfs,hbase,hive,kms,knox,storm,yarn,kafka,solr,atlas,nifi";
-	private static final String PROPERTY_SUPPORTED_SERVICE_DEFS = "ranger.supportedcomponents";
+	private static final String PROPERTY_SUPPORTED_SERVICE_DEFS = "chiwen.supportedcomponents";
 	private Set<String> supportedServiceDefs;
 	public static final String EMBEDDED_SERVICEDEF_TAG_NAME  = "tag";
 	public static final String EMBEDDED_SERVICEDEF_HDFS_NAME  = "hdfs";
@@ -56,19 +56,19 @@ public class EmbeddedServiceDefsUtil {
 	public static final String EMBEDDED_SERVICEDEF_ATLAS_NAME  = "atlas";
 	public static final String EMBEDDED_SERVICEDEF_WASB_NAME  = "wasb";
 
-	public static final String PROPERTY_CREATE_EMBEDDED_SERVICE_DEFS = "ranger.service.store.create.embedded.service-defs";
+	public static final String PROPERTY_CREATE_EMBEDDED_SERVICE_DEFS = "chiwen.service.store.create.embedded.service-defs";
 
-	public static final String HDFS_IMPL_CLASS_NAME  = "org.apache.ranger.services.hdfs.RangerServiceHdfs";
-	public static final String HBASE_IMPL_CLASS_NAME = "org.apache.ranger.services.hbase.RangerServiceHBase";
-	public static final String HIVE_IMPL_CLASS_NAME  = "org.apache.ranger.services.hive.RangerServiceHive";
-	public static final String KMS_IMPL_CLASS_NAME   = "org.apache.ranger.services.kms.RangerServiceKMS";
-	public static final String KNOX_IMPL_CLASS_NAME  = "org.apache.ranger.services.knox.RangerServiceKnox";
-	public static final String STORM_IMPL_CLASS_NAME = "org.apache.ranger.services.storm.RangerServiceStorm";
-	public static final String YARN_IMPL_CLASS_NAME  = "org.apache.ranger.services.yarn.RangerServiceYarn";
-	public static final String KAFKA_IMPL_CLASS_NAME = "org.apache.ranger.services.kafka.RangerServiceKafka";
-	public static final String SOLR_IMPL_CLASS_NAME  = "org.apache.ranger.services.solr.RangerServiceSolr";
-	public static final String NIFI_IMPL_CLASS_NAME  = "org.apache.ranger.services.nifi.RangerServiceNiFi";
-	public static final String ATLAS_IMPL_CLASS_NAME  = "org.apache.ranger.services.atlas.RangerServiceAtlas";
+	public static final String HDFS_IMPL_CLASS_NAME  = "org.apache.chiwen.services.hdfs.ChiWenServiceHdfs";
+	public static final String HBASE_IMPL_CLASS_NAME = "org.apache.chiwen.services.hbase.ChiWenServiceHBase";
+	public static final String HIVE_IMPL_CLASS_NAME  = "org.apache.chiwen.services.hive.ChiWenServiceHive";
+	public static final String KMS_IMPL_CLASS_NAME   = "org.apache.chiwen.services.kms.ChiWenServiceKMS";
+	public static final String KNOX_IMPL_CLASS_NAME  = "org.apache.chiwen.services.knox.ChiWenServiceKnox";
+	public static final String STORM_IMPL_CLASS_NAME = "org.apache.chiwen.services.storm.ChiWenServiceStorm";
+	public static final String YARN_IMPL_CLASS_NAME  = "org.apache.chiwen.services.yarn.ChiWenServiceYarn";
+	public static final String KAFKA_IMPL_CLASS_NAME = "org.apache.chiwen.services.kafka.ChiWenServiceKafka";
+	public static final String SOLR_IMPL_CLASS_NAME  = "org.apache.chiwen.services.solr.ChiWenServiceSolr";
+	public static final String NIFI_IMPL_CLASS_NAME  = "org.apache.chiwen.services.nifi.ChiWenServiceNiFi";
+	public static final String ATLAS_IMPL_CLASS_NAME  = "org.apache.chiwen.services.atlas.ChiWenServiceAtlas";
 
 	private static EmbeddedServiceDefsUtil instance = new EmbeddedServiceDefsUtil();
 

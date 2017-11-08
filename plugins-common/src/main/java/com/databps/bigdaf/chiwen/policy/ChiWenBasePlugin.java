@@ -160,20 +160,20 @@ public class ChiWenBasePlugin {
   }
 
 
-  public static ChiWenAdminClient createAdminClient(String rangerServiceName,String applicationId) {
+  public static ChiWenAdminClient createAdminClient(String chiwenServiceName,String applicationId) {
 
     ChiWenAdminClient ret = null;
 
     if (ret == null) {
       ret = new ChiWenAdminRESTClient();
     }
-    ret.init(rangerServiceName, applicationId);
+    ret.init(chiwenServiceName, applicationId);
     return ret;
   }
 
   public void revokeAccess(GrantRevokeRequest request, ChiWenAccessResultProcessor resultProcessor) throws Exception {
     if(LOG.isDebugEnabled()) {
-      LOG.debug("==> RangerBasePlugin.revokeAccess(" + request + ")");
+      LOG.debug("==> ChiWenBasePlugin.revokeAccess(" + request + ")");
     }
 
     PolicyRefresher   refresher = this.refresher;
@@ -182,7 +182,7 @@ public class ChiWenBasePlugin {
 
     try {
       if(admin == null) {
-        throw new Exception("ranger-admin client is null");
+        throw new Exception("chiwen-admin client is null");
       }
 
       admin.revokeAccess(request);
@@ -193,7 +193,7 @@ public class ChiWenBasePlugin {
     }
 
     if(LOG.isDebugEnabled()) {
-      LOG.debug("<== RangerBasePlugin.revokeAccess(" + request + ")");
+      LOG.debug("<== ChiWenBasePlugin.revokeAccess(" + request + ")");
     }
   }
 

@@ -74,7 +74,7 @@ public class ChiWenPolicyEngineImpl implements ChiWenPolicyEngine {
     if (resource instanceof ChiWenMutableResource) {
       ChiWenMutableResource mutable = (ChiWenMutableResource) resource;
     } else {
-      LOG.debug("ChiWenPolicyEngineImpl.setResourceServiceDef(): Cannot set ServiceDef in RangerMutableResource.");
+      LOG.debug("ChiWenPolicyEngineImpl.setResourceServiceDef(): Cannot set ServiceDef in ChiWenMutableResource.");
     }
   }
 

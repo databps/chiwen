@@ -36,8 +36,8 @@ public class ChiWenConfiguration extends Configuration {
 	}
 
 	public void addResourcesForServiceType(String serviceType) {
-		String auditCfg    = "ranger-" + serviceType + "-audit.xml";
-		String securityCfg = "ranger-" + serviceType + "-security.xml";
+		String auditCfg    = "chiwen-" + serviceType + "-audit.xml";
+		String securityCfg = "chiwen-" + serviceType + "-security.xml";
 		
 		if ( !addResourceIfReadable(auditCfg)) {
 			addAuditResource(serviceType);
@@ -49,8 +49,8 @@ public class ChiWenConfiguration extends Configuration {
 	}
 
 	public boolean addAdminResources() {
-		String defaultCfg = "ranger-admin-default-site.xml";
-		String addlCfg = "ranger-admin-site.xml";
+		String defaultCfg = "chiwen-admin-default-site.xml";
+		String addlCfg = "chiwen-admin-site.xml";
 		String coreCfg = "core-site.xml";
 
 		if(LOG.isDebugEnabled()) {
@@ -162,10 +162,10 @@ public class ChiWenConfiguration extends Configuration {
 			LOG.debug("==> addSecurityResource(Service Type: " + serviceType );
 		}
 
-		Configuration rangerConf = ChiWenLegacyConfigBuilder.getSecurityConfig(serviceType);
+		Configuration chiwenConf = ChiWenLegacyConfigBuilder.getSecurityConfig(serviceType);
 
-		if ( rangerConf != null ) {
-			addResource(rangerConf);
+		if ( chiwenConf != null ) {
+			addResource(chiwenConf);
 		} else {
 			if(LOG.isDebugEnabled()) {
 				LOG.debug("Unable to add the Security Config for " + serviceType + ". Plugin won't be enabled!");

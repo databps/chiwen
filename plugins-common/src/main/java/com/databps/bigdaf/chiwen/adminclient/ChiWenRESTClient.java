@@ -51,7 +51,7 @@ public class ChiWenRESTClient {
 
 	private static final Log LOG = LogFactory.getLog(ChiWenRESTClient.class);
 
-	public static final String RANGER_SSL_CONTEXT_ALGO_TYPE					     = "SSL";
+	public static final String CHIWEN_SSL_CONTEXT_ALGO_TYPE					     = "SSL";
 
 	private String  mUrl;
 	private String  mUsername;
@@ -131,14 +131,14 @@ public class ChiWenRESTClient {
 
 	public WebResource getResource(String relativeUrl) {
 		WebResource ret = getClient().resource(getUrl() + relativeUrl);
-		
+
 		return ret;
 	}
 
 	public String toJson(Object obj) {
-		return gsonBuilder.toJson(obj);		
+		return gsonBuilder.toJson(obj);
 	}
-	
+
 	public <T> T fromJson(String json, Class<T> cls) {
 		return gsonBuilder.fromJson(json, cls);
 	}
@@ -229,7 +229,7 @@ public class ChiWenRESTClient {
 	private SSLContext getSSLContext(KeyManager[] kmList, TrustManager[] tmList) {
 	        Validate.notNull(tmList, "TrustManager is not specified");
 		try {
-			SSLContext sslContext = SSLContext.getInstance(RANGER_SSL_CONTEXT_ALGO_TYPE);
+			SSLContext sslContext = SSLContext.getInstance(CHIWEN_SSL_CONTEXT_ALGO_TYPE);
 
 			sslContext.init(kmList, tmList, new SecureRandom());
 
