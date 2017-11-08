@@ -15,6 +15,7 @@
     <module>hdfs-agent</module>
     <module>hbase-plugin</module>
     <module>plugins-common</module>
+    <module>hive-plugin</module>
   </modules>
 
   <parent>

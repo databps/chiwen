@@ -87,6 +87,15 @@ public class PolicyRefresher extends Thread {
   }
 
 
+  private void switchPolicy(){
+    if(serviceType.equals("hdfs")){
+      loadPolicy();
+    }else if(serviceType.equals("hbase")|| serviceType.equals("hive")){
+      loadHbasePolicy();
+    }
+  }
+
+
   public void run() {
 
     if(LOG.isDebugEnabled()) {
@@ -94,11 +103,7 @@ public class PolicyRefresher extends Thread {
     }
 
     while(true) {
-      if(serviceType.equals("hdfs")){
-        loadPolicy();
-      }else if(serviceType.equals("hbase")){
-        loadHbasePolicy();
-      }
+      switchPolicy();
 
       try {
         Thread.sleep(pollingIntervalMs);
@@ -536,13 +541,16 @@ public class PolicyRefresher extends Thread {
     }
   }
 
-
-  public void startRefresher() {
+  public void switchResult(){
     if(serviceType.equals("hdfds")){
       loadPolicy();
-    }else if(serviceType.equals("hbase")){
+    }else if(serviceType.equals("hbase")||serviceType.equals("hive")){
       loadHbasePolicy();
     }
+  }
+
+  public void startRefresher() {
+    switchResult();
 
     super.start();
   }

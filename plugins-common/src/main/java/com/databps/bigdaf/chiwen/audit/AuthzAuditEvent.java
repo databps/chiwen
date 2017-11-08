@@ -39,6 +39,10 @@ public class AuthzAuditEvent {
   }
 
 
+  public String  getAccessResult(){
+    return this.accessResult;
+  }
+
   protected String accessResult = "failure"; // 0 - failure; 1 - success; HTTP return
   // code
 
