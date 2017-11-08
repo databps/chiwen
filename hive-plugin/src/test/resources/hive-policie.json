@@ -7,13 +7,13 @@
 
     {
       "service": "cl1_hive",
-      "name": "Delagate admin-allowed on rangerauthzx",
+      "name": "Delagate admin-allowed on chiwenauthzx",
       "policyType": 0,
       "isAuditEnabled": true,
       "resources": {
         "database": {
           "values": [
-            "rangerauthzx"
+            "chiwenauthzx"
           ],
           "isExcludes": false,
           "isRecursive": false
@@ -89,7 +89,7 @@
   ],
   "serviceDef": {
     "name": "hive",
-    "implClass": "org.apache.ranger.services.hive.RangerServiceHive",
+    "implClass": "org.apache.chiwen.services.hive.ChiWenServiceHive",
     "label": "Hive Server2",
     "description": "Hive Server2",
     "options": {},
@@ -116,7 +116,7 @@
         "lookupSupported": false,
         "recursiveSupported": true,
         "excludesSupported": false,
-        "matcher": "org.apache.ranger.plugin.resourcematcher.RangerPathResourceMatcher",
+        "matcher": "org.apache.chiwen.plugin.resourcematcher.ChiWenPathResourceMatcher",
         "matcherOptions": { "wildCard":true, "ignoreCase":false },
         "validationRegEx":"",
         "validationMessage": "",
@@ -174,7 +174,7 @@
           "lookupSupported": true,
           "recursiveSupported": false,
           "excludesSupported": false,
-          "matcher": "org.apache.ranger.plugin.resourcematcher.RangerDefaultResourceMatcher",
+          "matcher": "org.apache.chiwen.plugin.resourcematcher.ChiWenDefaultResourceMatcher",
           "matcherOptions": {
             "wildCard": "false",
             "ignoreCase": "true"
@@ -208,7 +208,7 @@
           "lookupSupported": true,
           "recursiveSupported": false,
           "excludesSupported": false,
-          "matcher": "org.apache.ranger.plugin.resourcematcher.RangerDefaultResourceMatcher",
+          "matcher": "org.apache.chiwen.plugin.resourcematcher.ChiWenDefaultResourceMatcher",
           "matcherOptions": {
             "wildCard": "false",
             "ignoreCase": "true"
@@ -241,7 +241,7 @@
 
     "serviceDef": {
       "name": "tag",
-      "implClass": "org.apache.ranger.services.tag.RangerServiceTag",
+      "implClass": "org.apache.chiwen.services.tag.ChiWenServiceTag",
       "label": "TAG",
       "description": "TAG Service Definition",
       "options": {
@@ -258,7 +258,7 @@
           "lookupSupported": true,
           "recursiveSupported": false,
           "excludesSupported": false,
-          "matcher": "org.apache.ranger.plugin.resourcematcher.RangerDefaultResourceMatcher",
+          "matcher": "org.apache.chiwen.plugin.resourcematcher.ChiWenDefaultResourceMatcher",
           "matcherOptions": {
             "wildCard": "false",
             "ignoreCase": "false"
@@ -275,7 +275,7 @@
         {
           "itemId": 1,
           "name": "accessed-after-expiry",
-          "evaluator": "org.apache.ranger.plugin.conditionevaluator.RangerScriptTemplateConditionEvaluator",
+          "evaluator": "org.apache.chiwen.plugin.conditionevaluator.ChiWenScriptTemplateConditionEvaluator",
           "evaluatorOptions": {
             "scriptTemplate": "ctx.isAccessedAfter(\u0027expiry_date\u0027);"
           },
@@ -288,9 +288,9 @@
         {
           "itemId": 1,
           "name": "TagEnricher",
-          "enricher": "org.apache.ranger.plugin.contextenricher.RangerTagEnricher",
+          "enricher": "org.apache.chiwen.plugin.contextenricher.ChiWenTagEnricher",
           "enricherOptions": {
-            "tagRetrieverClassName": "org.apache.ranger.plugin.contextenricher.RangerAdminTagRetriever",
+            "tagRetrieverClassName": "org.apache.chiwen.plugin.contextenricher.ChiWenAdminTagRetriever",
             "tagRefresherPollingInterval": "60000"
           }
         }

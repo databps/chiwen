@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.ranger.services.hive;
+package org.apache.chiwen.services.hive;
 
 import org.apache.hadoop.fs.FileUtil;
 import org.apache.hadoop.hive.conf.HiveConf;
@@ -36,26 +36,26 @@ import java.sql.*;
 
 /**
  *
- * Here we plug the Ranger ChiWenHiveAuthorizerFactory into HIVE.
+ * Here we plug the ChiWen ChiWenHiveAuthorizerFactory into HIVE.
  *
- * A custom RangerAdminClient is plugged into Ranger in turn, which loads security policies from a local file. These policies were
- * generated in the Ranger Admin UI for a service called "HIVETest":
+ * A custom ChiWenAdminClient is plugged into ChiWen in turn, which loads security policies from a local file. These policies were
+ * generated in the ChiWen Admin UI for a service called "HIVETest":
  *
  * a) A user "bob" can do a select/update on the table "words"
  * b) A group called "IT" can do a select only on the "count" column in "words"
  * c) "bob" can create any database
  * d) "dave" can do a select on the table "words" but only if the "count" column is >= 80
  * e) "jane" can do a select on the table "words", but only get a "hash" of the word, and not the word itself.
- * f) "da_test_user" is delegate admin for rangerauthz database.
+ * f) "da_test_user" is delegate admin for chiwenauthz database.
  * g) "tom" has all permissions on database "test1" and has all permissions on all databases with regard to UDF
  *
- * In addition we have some TAG based policies created in Atlas and synced into Ranger:
+ * In addition we have some TAG based policies created in Atlas and synced into ChiWen:
  *
  * a) The tag "HiveTableTag" is associated with "select" permission to the "dev" group to the "words" table in the "hivetable" database.
  * b) The tag "HiveDatabaseTag" is associated with "create" permission to the "dev" group to the "hivetable" database.
  * c) The tag "HiveColumnTag" is associated with "select" permission to the "frank" user to the "word" column of the "words" table.
  */
-public class HIVERangerAuthorizerTest {
+public class HIVEChiWenAuthorizerTest {
 
     private static final File hdfsBaseDir = new File("./target/hdfs/").getAbsoluteFile();
     private static HiveServer2 hiveServer;
@@ -81,7 +81,7 @@ public class HIVERangerAuthorizerTest {
         conf.set("hive.exec.scratchdir", scratchDir.getPath());
 
         // Create a temporary directory for the Hive metastore
-        File metastoreDir = new File("target/rangerauthzmetastore/").getAbsoluteFile();
+        File metastoreDir = new File("target/chiwenauthzmetastore/").getAbsoluteFile();
         conf.set(HiveConf.ConfVars.METASTORECONNECTURLKEY.varname,
                  String.format("jdbc:derby:;databaseName=default;create=true",  metastoreDir.getPath()));
 
@@ -102,13 +102,13 @@ public class HIVERangerAuthorizerTest {
         Connection connection = DriverManager.getConnection(initialUrl, "bob", "bob!");
         Statement statement = connection.createStatement();
 
-        statement.execute("CREATE DATABASE IF NOT EXISTS rangerauthz");
+        statement.execute("CREATE DATABASE IF NOT EXISTS chiwenauthz");
 
         statement.close();
         connection.close();
 
         // Load data into HIVE
-        String url = "jdbc:hive2://localhost:" + port + "/rangerauthz";
+        String url = "jdbc:hive2://localhost:" + port + "/chiwenauthz";
         connection = DriverManager.getConnection(initialUrl, "bob", "bob!");
         statement = connection.createStatement();
         statement.execute("DROP TABLE WORDS");
@@ -116,7 +116,7 @@ public class HIVERangerAuthorizerTest {
         statement.execute("create table if not exists words (word STRING, count INT) row format delimited fields terminated by '\t' stored as textfile");
 
         // Copy "wordcount.txt" to "target" to avoid overwriting it during load
-        File inputFile = new File(HIVERangerAuthorizerTest.class.getResource("../../../../../wordcount.txt").toURI());
+        File inputFile = new File(HIVEChiWenAuthorizerTest.class.getResource("../../../../../wordcount.txt").toURI());
         Path outputPath = Paths.get(inputFile.toPath().getParent().getParent().toString() + File.separator + "wordcountout.txt");
         Files.copy(inputFile.toPath(), outputPath);
 
@@ -137,7 +137,7 @@ public class HIVERangerAuthorizerTest {
         statement.close();
         connection.close();
 
-        // Enable ranger authorization after the initial db setup and table creating is done.
+        // Enable chiwen authorization after the initial db setup and table creating is done.
         conf.set(HiveConf.ConfVars.HIVE_AUTHORIZATION_ENABLED.varname, "true");
         conf.set(HiveConf.ConfVars.HIVE_SERVER2_ENABLE_DOAS.varname, "true");
         conf.set(HiveConf.ConfVars.HIVE_AUTHORIZATION_MANAGER.varname,
@@ -160,7 +160,7 @@ public class HIVERangerAuthorizerTest {
             conf.set("hive.exec.scratchdir", scratchDir.getPath());
 
             // Create a temporary directory for the Hive metastore
-            File metastoreDir = new File("target/rangerauthzmetastore/").getAbsoluteFile();
+            File metastoreDir = new File("target/chiwenauthzmetastore/").getAbsoluteFile();
             conf.set(HiveConf.ConfVars.METASTORECONNECTURLKEY.varname,
                     String.format("jdbc:derby:;databaseName=default;create=true",  metastoreDir.getPath()));
 
@@ -181,13 +181,13 @@ public class HIVERangerAuthorizerTest {
             Connection connection = DriverManager.getConnection(initialUrl, "temp", "databpsPass4you!");
             Statement statement = connection.createStatement();
 
-            //statement.execute("CREATE DATABASE IF NOT EXISTS rangerauthz");
+            //statement.execute("CREATE DATABASE IF NOT EXISTS chiwenauthz");
 
             statement.close();
             connection.close();
 
             // Load data into HIVE
-            String url = "jdbc:hive2://localhost:" + port + "/rangerauthz";
+            String url = "jdbc:hive2://localhost:" + port + "/chiwenauthz";
             connection = DriverManager.getConnection(initialUrl, "temp", "databpsPass4you!");
             statement = connection.createStatement();
             //statement.execute("DROP TABLE WORDS");
@@ -195,7 +195,7 @@ public class HIVERangerAuthorizerTest {
             //statement.execute("create table if not exists words (word STRING, count INT) row format delimited fields terminated by '\t' stored as textfile");
 
             // Copy "wordcount.txt" to "target" to avoid overwriting it during load
-            //File inputFile = new File(HIVERangerAuthorizerTest.class.getResource("../../../../../wordcount.txt").toURI());
+            //File inputFile = new File(HIVEChiWenAuthorizerTest.class.getResource("../../../../../wordcount.txt").toURI());
             //Path outputPath = Paths.get(inputFile.toPath().getParent().getParent().toString() + File.separator + "wordcountout.txt");
             //Files.copy(inputFile.toPath(), outputPath);
 
@@ -211,7 +211,7 @@ public class HIVERangerAuthorizerTest {
 
             statement.close();
             connection.close();
-            // Enable ranger authorization after the initial db setup and table creating is done.
+            // Enable chiwen authorization after the initial db setup and table creating is done.
             conf.set(HiveConf.ConfVars.HIVE_AUTHORIZATION_ENABLED.varname, "true");
             conf.set(HiveConf.ConfVars.HIVE_SERVER2_ENABLE_DOAS.varname, "true");
             conf.set(HiveConf.ConfVars.HIVE_AUTHORIZATION_MANAGER.varname,
@@ -231,7 +231,7 @@ public class HIVERangerAuthorizerTest {
     public static void cleanup() throws Exception {
         //hiveServer.stop();
         FileUtil.fullyDelete(hdfsBaseDir);
-        File metastoreDir = new File("./target/rangerauthzmetastore/").getAbsoluteFile();
+        File metastoreDir = new File("./target/chiwenauthzmetastore/").getAbsoluteFile();
         FileUtil.fullyDelete(metastoreDir);
     }
 
@@ -239,7 +239,7 @@ public class HIVERangerAuthorizerTest {
 //    @Test
 //    public void testHiveSelectAllAsBob() throws Exception {
 //
-//        String url = "jdbc:hive2://localhost:" + port + "/rangerauthz";
+//        String url = "jdbc:hive2://localhost:" + port + "/chiwenauthz";
 //        Connection connection = DriverManager.getConnection(url, "bob", "bob");
 //        Statement statement = connection.createStatement();
 //
@@ -263,7 +263,7 @@ public class HIVERangerAuthorizerTest {
 //        UserGroupInformation ugi = UserGroupInformation.createUserForTesting("alice", new String[] {"IT"});
 //        ugi.doAs(new PrivilegedExceptionAction<Void>() {
 //            public Void run() throws Exception {
-//                String url = "jdbc:hive2://localhost:" + port + "/rangerauthz";
+//                String url = "jdbc:hive2://localhost:" + port + "/chiwenauthz";
 //                Connection connection = DriverManager.getConnection(url, "alice", "alice");
 //                Statement statement = connection.createStatement();
 //
@@ -285,7 +285,7 @@ public class HIVERangerAuthorizerTest {
 //    @Test
 //    public void testHiveSelectSpecificColumnAsBob() throws Exception {
 //
-//        String url = "jdbc:hive2://localhost:" + port + "/rangerauthz";
+//        String url = "jdbc:hive2://localhost:" + port + "/chiwenauthz";
 //        Connection connection = DriverManager.getConnection(url, "bob", "bob");
 //        Statement statement = connection.createStatement();
 //
@@ -308,7 +308,7 @@ public class HIVERangerAuthorizerTest {
 //        ugi.doAs(new PrivilegedExceptionAction<Void>() {
 //
 //            public Void run() throws Exception {
-//                String url = "jdbc:hive2://localhost:" + port + "/rangerauthz";
+//                String url = "jdbc:hive2://localhost:" + port + "/chiwenauthz";
 //                Connection connection = DriverManager.getConnection(url, "alice", "alice");
 //                Statement statement = connection.createStatement();
 //
@@ -330,7 +330,7 @@ public class HIVERangerAuthorizerTest {
 //    @Test
 //    public void testHiveSelectSpecificColumnAsEve() throws Exception {
 //
-//        String url = "jdbc:hive2://localhost:" + port + "/rangerauthz";
+//        String url = "jdbc:hive2://localhost:" + port + "/chiwenauthz";
 //        Connection connection = DriverManager.getConnection(url, "eve", "eve");
 //        Statement statement = connection.createStatement();
 //
@@ -353,7 +353,7 @@ public class HIVERangerAuthorizerTest {
 //        ugi.doAs(new PrivilegedExceptionAction<Void>() {
 //
 //            public Void run() throws Exception {
-//                String url = "jdbc:hive2://localhost:" + port + "/rangerauthz";
+//                String url = "jdbc:hive2://localhost:" + port + "/chiwenauthz";
 //                Connection connection = DriverManager.getConnection(url, "alice", "alice");
 //                Statement statement = connection.createStatement();
 //
@@ -375,7 +375,7 @@ public class HIVERangerAuthorizerTest {
 //    @Test
 //    public void testHiveUpdateAllAsBob() throws Exception {
 //
-//        String url = "jdbc:hive2://localhost:" + port + "/rangerauthz";
+//        String url = "jdbc:hive2://localhost:" + port + "/chiwenauthz";
 //        Connection connection = DriverManager.getConnection(url, "bob", "bob");
 //        Statement statement = connection.createStatement();
 //
@@ -399,12 +399,12 @@ public class HIVERangerAuthorizerTest {
         UserGroupInformation ugi = UserGroupInformation.createUserForTesting("alice", new String[] {"IT"});
         ugi.doAs(new PrivilegedExceptionAction<Void>() {
             public Void run() throws Exception {
-                String url = "jdbc:hive2://localhost:" + port + "/rangerauthz";
+                String url = "jdbc:hive2://localhost:" + port + "/chiwenauthz";
                 Connection connection = DriverManager.getConnection(url, "alice", "alice");
                 Statement statement = connection.createStatement();
 
                 try {
-                    statement.execute("CREATE DATABASE rangerauthz");
+                    statement.execute("CREATE DATABASE chiwenauthz");
                     statement.execute("create table  words (word STRING, count INT) row format delimited fields terminated by '\t' stored as textfile");
                     //statement.execute("insert into words (word, count) values ('newword2', 5)");
                     Assert.fail("Failure expected on an unauthorized call");
@@ -424,8 +424,8 @@ public class HIVERangerAuthorizerTest {
 //    public void testHiveUdfCreateOnWildcardDatabase() throws Exception {
 //		String url = "jdbc:hive2://localhost:" + port;
 //		// "tom" has:
-//		// ranger permissions to create/read/update/drop the database
-//		// ranger permissions to create/read/update/drop UDFs on test1 database
+//		// chiwen permissions to create/read/update/drop the database
+//		// chiwen permissions to create/read/update/drop UDFs on test1 database
 //		try (	Connection connection = DriverManager.getConnection(url, "tom", "tom");
 //				Statement statement = connection.createStatement()) {
 //			statement.execute("DROP DATABASE IF EXISTS test1");
@@ -546,8 +546,8 @@ public class HIVERangerAuthorizerTest {
 //    @Test
 //    public void testBobSelectOnDifferentTables() throws Exception {
 //
-//        // Create a "words2" table in "rangerauthz"
-//        String url = "jdbc:hive2://localhost:" + port + "/rangerauthz";
+//        // Create a "words2" table in "chiwenauthz"
+//        String url = "jdbc:hive2://localhost:" + port + "/chiwenauthz";
 //        Connection connection = DriverManager.getConnection(url, "admin", "admin");
 //        Statement statement = connection.createStatement();
 //        statement.execute("CREATE TABLE if not exists WORDS2 (word STRING, count INT)");
@@ -582,7 +582,7 @@ public class HIVERangerAuthorizerTest {
 //    @Test
 //    public void testBobAlter() throws Exception {
 //
-//        String url = "jdbc:hive2://localhost:" + port + "/rangerauthz";
+//        String url = "jdbc:hive2://localhost:" + port + "/chiwenauthz";
 //
 //        // Create a new table as admin
 //        Connection connection = DriverManager.getConnection(url, "admin", "admin");
@@ -593,7 +593,7 @@ public class HIVERangerAuthorizerTest {
 //        connection.close();
 //
 //        // Try to add a new column in words as "bob" - this should fail
-//        url = "jdbc:hive2://localhost:" + port + "/rangerauthz";
+//        url = "jdbc:hive2://localhost:" + port + "/chiwenauthz";
 //        connection = DriverManager.getConnection(url, "bob", "bob");
 //        statement = connection.createStatement();
 //
@@ -653,7 +653,7 @@ public class HIVERangerAuthorizerTest {
 //    public void testHiveRowFilter() throws Exception {
 //
 //        // dave can do a select where the count is >= 80
-//        String url = "jdbc:hive2://localhost:" + port + "/rangerauthz";
+//        String url = "jdbc:hive2://localhost:" + port + "/chiwenauthz";
 //        Connection connection = DriverManager.getConnection(url, "dave", "dave");
 //        Statement statement = connection.createStatement();
 //
@@ -693,7 +693,7 @@ public class HIVERangerAuthorizerTest {
 //    @Test
 //    public void testHiveDataMasking() throws Exception {
 //
-//        String url = "jdbc:hive2://localhost:" + port + "/rangerauthz";
+//        String url = "jdbc:hive2://localhost:" + port + "/chiwenauthz";
 //        Connection connection = DriverManager.getConnection(url, "jane", "jane");
 //        Statement statement = connection.createStatement();
 //
@@ -715,21 +715,21 @@ public class HIVERangerAuthorizerTest {
 //        String initialUrl = "jdbc:hive2://localhost:" + port;
 //        Connection connection = DriverManager.getConnection(initialUrl, "admin", "admin");
 //        Statement statement = connection.createStatement();
-//        statement.execute("CREATE DATABASE IF NOT EXISTS rangerauthz2");
+//        statement.execute("CREATE DATABASE IF NOT EXISTS chiwenauthz2");
 //
 //        statement.close();
 //        connection.close();
 //
 //        // Load data into HIVE
-//        String url = "jdbc:hive2://localhost:" + port + "/rangerauthz2";
+//        String url = "jdbc:hive2://localhost:" + port + "/chiwenauthz2";
 //        connection = DriverManager.getConnection(url, "admin", "admin");
 //        statement = connection.createStatement();
 //
-//        statement.execute("create table if not exists rangerauthz2.macro_testing (a INT, b INT)");
-//        statement.execute("insert into rangerauthz2.macro_testing (a, b) values (4, 5)");
-//        statement.execute("insert into rangerauthz2.macro_testing (a, b) values (3, 5)");
+//        statement.execute("create table if not exists chiwenauthz2.macro_testing (a INT, b INT)");
+//        statement.execute("insert into chiwenauthz2.macro_testing (a, b) values (4, 5)");
+//        statement.execute("insert into chiwenauthz2.macro_testing (a, b) values (3, 5)");
 //
-//        ResultSet resultSet = statement.executeQuery("SELECT * FROM rangerauthz2.macro_testing where b == '5'");
+//        ResultSet resultSet = statement.executeQuery("SELECT * FROM chiwenauthz2.macro_testing where b == '5'");
 //        //Verify Table Created And Contains Data
 //
 //        if (resultSet.next()) {
@@ -739,7 +739,7 @@ public class HIVERangerAuthorizerTest {
 //        }
 //
 //        statement.execute("create temporary macro math_cube(x int) x*x*x");
-//        ResultSet resultSet2 = statement.executeQuery("select math_cube(b) from rangerauthz2.macro_testing");
+//        ResultSet resultSet2 = statement.executeQuery("select math_cube(b) from chiwenauthz2.macro_testing");
 //
 //        if (resultSet2.next()) {
 //            Assert.assertEquals(125, resultSet2.getInt(1));
@@ -750,15 +750,15 @@ public class HIVERangerAuthorizerTest {
 //        statement.execute("drop temporary macro math_cube");
 //
 //        try{
-//            statement.executeQuery("select math_cube(b) from rangerauthz2.macro_testing");
+//            statement.executeQuery("select math_cube(b) from chiwenauthz2.macro_testing");
 //            Assert.fail("macro deleted already");
 //        }
 //        catch(SQLException ex){
 //            //expected
 //        }
 //
-//        statement.execute("DROP TABLE rangerauthz2.macro_testing");
-//        statement.execute("DROP DATABASE rangerauthz2");
+//        statement.execute("DROP TABLE chiwenauthz2.macro_testing");
+//        statement.execute("DROP DATABASE chiwenauthz2");
 //
 //        statement.close();
 //        connection.close();
@@ -770,16 +770,16 @@ public class HIVERangerAuthorizerTest {
 //        Connection connection = DriverManager.getConnection(initialUrl, "admin", "admin");
 //        Statement statement = connection.createStatement();
 //
-//        statement.execute("CREATE DATABASE IF NOT EXISTS rangerauthz3");
+//        statement.execute("CREATE DATABASE IF NOT EXISTS chiwenauthz3");
 //        statement.close();
 //        connection.close();
 //
-//        String url = "jdbc:hive2://localhost:" + port + "/rangerauthz3";
+//        String url = "jdbc:hive2://localhost:" + port + "/chiwenauthz3";
 //        connection = DriverManager.getConnection(url, "admin", "admin");
 //        statement = connection.createStatement();
-//        statement.execute("CREATE TABLE if not exists rangerauthz3.function_testing (a DOUBLE, b DOUBLE)");
-//        statement.execute("insert into rangerauthz3.function_testing (a, b) values (4.54845, 5.5487)");
-//        ResultSet resultSet2 = statement.executeQuery("select round(b) from rangerauthz3.function_testing");
+//        statement.execute("CREATE TABLE if not exists chiwenauthz3.function_testing (a DOUBLE, b DOUBLE)");
+//        statement.execute("insert into chiwenauthz3.function_testing (a, b) values (4.54845, 5.5487)");
+//        ResultSet resultSet2 = statement.executeQuery("select round(b) from chiwenauthz3.function_testing");
 //
 //        if (resultSet2.next()) {
 //            Assert.assertEquals(6, resultSet2.getInt(1));
@@ -787,8 +787,8 @@ public class HIVERangerAuthorizerTest {
 //            Assert.fail("No Resultset Found");
 //        }
 //
-//        statement.execute("DROP TABLE rangerauthz3.function_testing");
-//        statement.execute("DROP DATABASE rangerauthz3");
+//        statement.execute("DROP TABLE chiwenauthz3.function_testing");
+//        statement.execute("DROP DATABASE chiwenauthz3");
 //
 //        statement.close();
 //        connection.close();
@@ -797,7 +797,7 @@ public class HIVERangerAuthorizerTest {
 //    // S3 location URI authorization (by the policy - user bob)
 //    @Test
 //    public void testS3URIAuthorization() throws Exception {
-//        String url = "jdbc:hive2://localhost:" + port + "/rangerauthz";
+//        String url = "jdbc:hive2://localhost:" + port + "/chiwenauthz";
 //        Connection connection = null;
 //        Statement statement   = null;
 //        try {
@@ -819,9 +819,9 @@ public class HIVERangerAuthorizerTest {
 //        String initialUrl = "jdbc:hive2://localhost:" + port;
 //        Connection connection = DriverManager.getConnection(initialUrl, "admin", "admin");
 //        Statement statement = connection.createStatement();
-//        statement.execute("CREATE DATABASE IF NOT EXISTS rangerauthzx");
-//        statement.execute("use rangerauthzx");
-//        statement.execute("CREATE TABLE rangerauthzx.tbl1 (a INT, b INT)");
+//        statement.execute("CREATE DATABASE IF NOT EXISTS chiwenauthzx");
+//        statement.execute("use chiwenauthzx");
+//        statement.execute("CREATE TABLE chiwenauthzx.tbl1 (a INT, b INT)");
 //        statement.close();
 //        connection.close();
 //
@@ -829,8 +829,8 @@ public class HIVERangerAuthorizerTest {
 //        connection = DriverManager.getConnection(url, "dave", "dave");
 //        statement = connection.createStatement();
 //        try{
-//            statement.execute("use rangerauthzx");
-//            statement.execute("grant select ON TABLE rangerauthzx.tbl1 to USER jane with grant option");
+//            statement.execute("use chiwenauthzx");
+//            statement.execute("grant select ON TABLE chiwenauthzx.tbl1 to USER jane with grant option");
 //            Assert.fail("access should not have been granted");
 //        }
 //        catch(SQLException ex){
@@ -840,8 +840,8 @@ public class HIVERangerAuthorizerTest {
 //        connection = DriverManager.getConnection(url, "da_test_user", "da_test_user");
 //        statement = connection.createStatement();
 //        try{
-//            statement.execute("use rangerauthzx");
-//            statement.execute("grant select ON TABLE rangerauthzx.tbl1 to USER jane with grant option");
+//            statement.execute("use chiwenauthzx");
+//            statement.execute("grant select ON TABLE chiwenauthzx.tbl1 to USER jane with grant option");
 //        }
 //        catch(SQLException ex){
 //            Assert.fail("access should have been granted to da_test_user");
@@ -851,7 +851,7 @@ public class HIVERangerAuthorizerTest {
 //
 //        connection = DriverManager.getConnection(url, "admin", "admin");
 //        statement = connection.createStatement();
-//        statement.execute("DROP TABLE rangerauthzx.tbl1");
+//        statement.execute("DROP TABLE chiwenauthzx.tbl1");
 //    }
 //
 //    @Test
@@ -1033,7 +1033,7 @@ public class HIVERangerAuthorizerTest {
     @Test
     public void testHiveSelectSpecificColumnAsBob() throws Exception {
 
-        String url = "jdbc:hive2://localhost:" + port + "/rangerauthz";
+        String url = "jdbc:hive2://localhost:" + port + "/chiwenauthz";
         Connection connection = DriverManager.getConnection(url, "bob", "bob");
         Statement statement = connection.createStatement();
 

@@ -123,7 +123,7 @@ public class ChiWenHiveAuditHandler extends ChiWenDefaultAuditHandler {
 
   /**
    * This method is expected to be called ONLY to process the results for multiple-columns in a table.
-   * To ensure this, RangerHiveAuthorizer should call isAccessAllowed(Collection<requests>) only for this condition
+   * To ensure this, ChiWenHiveAuthorizer should call isAccessAllowed(Collection<requests>) only for this condition
    */
   @Override
   public void processResults(Collection<ChiWenAccessResult> results) {

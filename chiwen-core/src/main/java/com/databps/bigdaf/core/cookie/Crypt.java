@@ -91,12 +91,10 @@ public class Crypt {
         //debug = true;
         // byte[] key = getKey();
         //byte[] key = "好好学习".getBytes();
-        //System.out.println(key.length);
         // decode(encode("", "simonesi"), "simonesi");
         //decode("664A1D0200F0F62C2716EABF808EFFA7A018EED2306A5906021D6E1C02BFB95486B005B14A510816", "QYDWTSGT");
         // md5("测试加密".getBytes());
         //md5("A".getBytes());
         String str="401744CACFF25DE98472AD121594907C";
-        System.out.println(Crypt.decode(str, "CHAOXING"));
     }*/
 }
