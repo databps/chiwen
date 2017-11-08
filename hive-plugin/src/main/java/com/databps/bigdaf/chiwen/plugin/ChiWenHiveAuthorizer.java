@@ -19,7 +19,6 @@
 
 package com.databps.bigdaf.chiwen.plugin;
 
-import com.databps.bigdaf.chiwen.audit.ChiWenDefaultAuditHandler;
 import com.databps.bigdaf.chiwen.common.ChiWenHadoopConstants;
 import com.databps.bigdaf.chiwen.config.ChiWenConfiguration;
 import com.databps.bigdaf.chiwen.policy.ChiWenAccessRequest;
@@ -58,7 +57,6 @@ public class ChiWenHiveAuthorizer extends ChiWenHiveAuthorizerBase {
 
   private static final Log LOG = LogFactory.getLog(ChiWenHiveAuthorizer.class);
 
-  //private static final Log PERF_HIVEAUTH_REQUEST_LOG = ChiwenPerfTracer.getPerfLogger("hiveauth.request");
 
   private static final char COLUMN_SEP = ',';
 
