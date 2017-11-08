@@ -18,7 +18,7 @@ public class AuditVo {
 
   private String pluginIp;
 
-  private String clientIPAddress;
+  private String clientIPAddress="0.0.0.0";
   private String accessType;//原生请求
   private String resourcePath;
   private String user;
@@ -35,6 +35,7 @@ public class AuditVo {
   private String eventId = null;
   private long seqNum = 0;
   private String accessResult;
+  private String requestData="";
 
   public String getCmpyId() {
     return cmpyId;
@@ -202,6 +203,14 @@ public class AuditVo {
 
   public void setResourceType(String resourceType) {
     this.resourceType = resourceType;
+  }
+
+  public String getRequestData() {
+    return requestData;
+  }
+
+  public void setRequestData(String requestData) {
+    this.requestData = requestData;
   }
 
   @Override

@@ -142,7 +142,7 @@ public class AuditServiceImpl implements AuditService {
     audit.setAction(auditVo.getAction());
     audit.setEventId(auditVo.getEventId());
     audit.setUserGroups(auditVo.getUserGroups());
-
+    audit.setRequestData(auditVo.getRequestData());
     auditDao.insert(audit);
   }
 

@@ -31,7 +31,7 @@ public class ChiWenBasePlugin {
   private ChiWenAccessResultProcessor resultProcessor;
   private String appId;
   private String PolicyName;
-  private String serviceName;
+  private String serviceId;
   private String serviceType;
   private PolicyRefresher policyRefresher;
   private ChiWenPolicyEngine policyEngine;
@@ -39,7 +39,6 @@ public class ChiWenBasePlugin {
   private Timer policyEngineRefreshTimer;
 
   private String clusterName = "";
-  //private ChiWenhbasePluginHeartBeat chiWenhbasePluginHeartBeat;
 
   public ChiWenBasePlugin(String serviceType, String PolicyName,String appId) {
     this.serviceType = serviceType;//此plugin中的值为hbases
@@ -126,12 +125,12 @@ public class ChiWenBasePlugin {
     this.policyRefresher = policyRefresher;
   }
 
-  public String getServiceName() {
-    return serviceName;
+  public String getServiceId() {
+    return serviceId;
   }
 
-  public void setServiceName(String serviceName) {
-    this.serviceName = serviceName;
+  public void setServiceId(String serviceId) {
+    this.serviceId = serviceId;
   }
 
   public String getClusterName() {
@@ -145,7 +144,7 @@ public class ChiWenBasePlugin {
 
   public void init() {
     cleanup();
-    ChiWenAdminClient adminClient = createAdminClient(serviceName,appId);
+    ChiWenAdminClient adminClient = createAdminClient(serviceType,appId);
     ChiWenConfiguration chiWenConfiguration = ChiWenConfiguration.getInstance();
     chiWenConfiguration.addResourcesForServiceType(serviceType);
 
@@ -167,14 +166,14 @@ public class ChiWenBasePlugin {
   }
 
 
-  public static ChiWenAdminClient createAdminClient(String chiwenServiceName,String applicationId) {
+  public static ChiWenAdminClient createAdminClient(String serviceTye,String applicationId) {
 
     ChiWenAdminClient ret = null;
 
     if (ret == null) {
       ret = new ChiWenAdminRESTClient();
     }
-    ret.init(chiwenServiceName, applicationId);
+    ret.init(serviceTye, applicationId);
     return ret;
   }
 
@@ -357,15 +356,5 @@ public class ChiWenBasePlugin {
   }
 
 
-  public int getServiceDefId() {
-    ChiWenServiceDef serviceDef = getServiceDef();
 
-    return serviceDef != null && serviceDef.getId() != null ? serviceDef.getId().intValue() : -1;
-  }
-
-  public ChiWenServiceDef getServiceDef() {
-    ChiWenPolicyEngine policyEngine = this.policyEngine;
-
-    return policyEngine != null ? policyEngine.getServiceDef() : null;
-  }
 }

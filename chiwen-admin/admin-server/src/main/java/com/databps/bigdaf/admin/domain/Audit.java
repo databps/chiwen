@@ -39,6 +39,10 @@ public class Audit implements Serializable {
   @Field("resource_type")
   private String resourceType;
 
+  @Field("request_data")
+  private String requestData;
+
+
 
   @Field("user")
   private String user;
@@ -225,6 +229,13 @@ public class Audit implements Serializable {
     this.action = action;
   }
 
+  public String getRequestData() {
+    return requestData;
+  }
+
+  public void setRequestData(String requestData) {
+    this.requestData = requestData;
+  }
 
   public String getId() {
     return id;

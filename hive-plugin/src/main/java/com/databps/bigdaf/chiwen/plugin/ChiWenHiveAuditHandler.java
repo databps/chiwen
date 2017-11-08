@@ -133,7 +133,7 @@ public class ChiWenHiveAuditHandler extends ChiWenDefaultAuditHandler {
     }
   }
 
-  public void logAuditEventForDfs(String userName, String dfsCommand, boolean accessGranted, int repositoryType, String repositoryName) {
+  public void logAuditEventForDfs(String userName, String dfsCommand, boolean accessGranted, String serviceId) {
     AuthzAuditEvent auditEvent = new AuthzAuditEvent();
 
     auditEvent.setAclEnforcer("chiwen-acl");
@@ -144,7 +144,8 @@ public class ChiWenHiveAuditHandler extends ChiWenDefaultAuditHandler {
     auditEvent.setAccessResult((accessGranted ? "success": "failure"));
     auditEvent.setAccessTime(new Date());
     auditEvent.setRequestData(dfsCommand);
-
+    auditEvent.setServiceId(serviceId);
+    auditEvent.setServiceType("hive");
     auditEvent.setResourcePath(dfsCommand);
 
     addAuthzAuditEvent(auditEvent);

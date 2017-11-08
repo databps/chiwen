@@ -1,6 +1,7 @@
 package com.databps.bigdaf.chiwen.audit;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -13,7 +14,7 @@ public class AuthzAuditEvent {
   private String serviceId;
   private String accessType;
   private String user;
-  private Set<String> userGroups;
+  private Set<String> userGroups=new HashSet<>();
   private Date accessTime;
   private String clientIPAddress;
   private String clientType="NONE";

@@ -31,10 +31,10 @@ public class ChiWenAdminRESTClient implements ChiWenAdminClient {
   public String REST_URL;//"http://localhost:8080/";//"http://www.ChiWenAdmin.com/";
   public final String REST_URL_ATTIBUTE = "chiwen.plugin.hbase.policy.rest.url";
   private ChiWenRESTClient restClient;
-  private String  serviceName;
+  private String  serviceTye;
 
   @Override
-  public void init(String serviceName, String appId) {
+  public void init(String serviceTye, String appId) {
     int restClientConnTimeOutMs = 120 * 1000;
     int restClientReadTimeOutMs = 30 * 1000;
     String REST_URL = System.getenv("ADMIN_URL");
@@ -89,7 +89,7 @@ public class ChiWenAdminRESTClient implements ChiWenAdminClient {
   }
 
   @Override
-  public ChiWenPolicyPluginVo getHdfsServicePoliciesIfUpdated(String serviceName, String chiWenUUID)
+  public ChiWenPolicyPluginVo getHdfsServicePoliciesIfUpdated(String serviceTye, String chiWenUUID)
       throws Exception {
 
     ClientResponse response = null;
@@ -112,7 +112,7 @@ public class ChiWenAdminRESTClient implements ChiWenAdminClient {
         if (LOG.isDebugEnabled()) {
           LOG.debug(
               "No change in policies. " + "response=" + resp.getMsg() + ", serviceName="
-                  + serviceName);
+                  + serviceTye);
         }
       }
       ret = null;
@@ -126,17 +126,17 @@ public class ChiWenAdminRESTClient implements ChiWenAdminClient {
     } else if (response.getStatus() == HttpServletResponse.SC_NOT_FOUND) {
       LOG.error(
           "Error getting policies; service not found. "
-              + ", response=" + response.getStatus() + ", serviceName=" + serviceName);
+              + ", response=" + response.getStatus() + ", serviceTye=" + serviceTye);
       String exceptionMsg = response.hasEntity() ? response.getEntity(String.class) : null;
 
-      ChiWenServiceNotFoundException.throwExceptionIfServiceNotFound(serviceName, exceptionMsg);
+      ChiWenServiceNotFoundException.throwExceptionIfServiceNotFound(serviceTye, exceptionMsg);
 
       LOG.warn("Received 404 error code with body:[" + exceptionMsg + "], Ignoring");
     } else {
       ResponseJson resp = ResponseJson.fromClientResponse(response);
       LOG.warn(
           "Error getting policies. response="
-              + resp.getMsg() + ", serviceName=" + serviceName);
+              + resp.getMsg() + ", serviceTye=" + serviceTye);
       ret = null;
     }
 
@@ -144,7 +144,7 @@ public class ChiWenAdminRESTClient implements ChiWenAdminClient {
   }
 
   @Override
-  public ChiWenPolicyHbaseVo getHbaseServicePoliciesIfUpdated(String serviceName, String chiWenUUID)
+  public ChiWenPolicyHbaseVo getHbaseServicePoliciesIfUpdated(String serviceTye, String chiWenUUID)
       throws Exception {
 
     ClientResponse response = null;
@@ -154,7 +154,7 @@ public class ChiWenAdminRESTClient implements ChiWenAdminClient {
           + chiWenUUID + ")");
     }
     ChiWenPolicyHbaseVo ret = null;
-    String urlString = "/api/v2/policy/pull/"+serviceName+"?chiWenUUID="+chiWenUUID;
+    String urlString = "/api/v2/policy/pull/"+serviceTye+"?chiWenUUID="+chiWenUUID;
 
     WebResource resource = restClient.getResource(urlString);
     response = resource.accept(MediaType.APPLICATION_JSON_TYPE)
@@ -167,7 +167,7 @@ public class ChiWenAdminRESTClient implements ChiWenAdminClient {
         if (LOG.isDebugEnabled()) {
           LOG.debug(
               "No change in policies. " + "response=" + resp.getMsg() + ", serviceName="
-                  + serviceName);
+                  + serviceTye);
         }
       }
       ret = null;
@@ -181,17 +181,17 @@ public class ChiWenAdminRESTClient implements ChiWenAdminClient {
     } else if (response.getStatus() == HttpServletResponse.SC_NOT_FOUND) {
       LOG.error(
           "Error getting policies; service not found. "
-              + ", response=" + response.getStatus() + ", serviceName=" + serviceName);
+              + ", response=" + response.getStatus() + ", serviceTye=" + serviceTye);
       String exceptionMsg = response.hasEntity() ? response.getEntity(String.class) : null;
 
-      ChiWenServiceNotFoundException.throwExceptionIfServiceNotFound(serviceName, exceptionMsg);
+      ChiWenServiceNotFoundException.throwExceptionIfServiceNotFound(serviceTye, exceptionMsg);
 
       LOG.warn("Received 404 error code with body:[" + exceptionMsg + "], Ignoring");
     } else {
       ResponseJson resp = ResponseJson.fromClientResponse(response);
       LOG.warn(
           "Error getting policies. response="
-              + resp.getMsg() + ", serviceName=" + serviceName);
+              + resp.getMsg() + ", serviceTye=" + serviceTye);
       ret = null;
     }
 
