@@ -457,7 +457,7 @@ public class ChiWenHiveAuthorizer extends ChiWenHiveAuthorizerBase {
           ChiWenAccessResult result = hivePlugin.isAccessAllowed(request);
           if (result == null) {
             LOG.error(
-                "filterListCmdObjects: Internal error: null RangerAccessResult object received back from isAccessAllowed()!");
+                "filterListCmdObjects: Internal error: null ChiWenAccessResult object received back from isAccessAllowed()!");
           } else if (!result.getIsAllowed()) {
             if (!LOG.isDebugEnabled()) {
               String path = resource.getAsString();
