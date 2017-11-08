@@ -154,7 +154,7 @@ public class ChiWenAdminRESTClient implements ChiWenAdminClient {
           + chiWenUUID + ")");
     }
     ChiWenPolicyHbaseVo ret = null;
-    String urlString = "/api/v2/policy/pull/hbase?chiWenUUID="+chiWenUUID;
+    String urlString = "/api/v2/policy/pull/"+serviceName+"?chiWenUUID="+chiWenUUID;
 
     WebResource resource = restClient.getResource(urlString);
     response = resource.accept(MediaType.APPLICATION_JSON_TYPE)

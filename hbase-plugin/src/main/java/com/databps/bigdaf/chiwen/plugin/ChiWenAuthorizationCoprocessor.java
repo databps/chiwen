@@ -228,7 +228,7 @@ public class ChiWenAuthorizationCoprocessor extends ChiWenAuthorizationCoprocess
       remoteAddr = RpcServer.getRemoteIp();
     }
 
-    String strAddr = remoteAddr != null ? remoteAddr.getHostAddress() : null;
+    String strAddr = remoteAddr != null ? remoteAddr.getHostAddress() : "0.0.0.0";
 
     return strAddr;
   }

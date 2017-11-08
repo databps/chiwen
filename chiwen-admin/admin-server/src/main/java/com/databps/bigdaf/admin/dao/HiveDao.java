@@ -1,5 +1,6 @@
 package com.databps.bigdaf.admin.dao;
 
+import com.databps.bigdaf.admin.domain.HbasePrivliege;
 import com.databps.bigdaf.admin.domain.HivePrivliege;
 import com.databps.bigdaf.admin.domain.HiveRole;
 import com.databps.bigdaf.admin.domain.HiveUser;
@@ -139,6 +140,16 @@ public class HiveDao {
     JsonArray privliegeJsonArray = new Gson().toJsonTree(privlieges, new TypeToken<List<HivePrivliege>>() {}.getType()).getAsJsonArray();
     return privliegeJsonArray;
   }
+
+
+  public List<HivePrivliege> getPrivilege2(String cmpyId ,String roleName) {
+    Query query = new Query();
+    query.addCriteria(Criteria.where("cmpy_id").is(cmpyId).and("roles_name").is(roleName));
+    List<HivePrivliege> privlieges = mongoOperations.find(query , HivePrivliege.class,COLLECTIO_HIVE_PRIVILEGE);
+    return privlieges;
+  }
+
+
 
   public long countUser(String cmpyId) {
     Query query =new Query();
