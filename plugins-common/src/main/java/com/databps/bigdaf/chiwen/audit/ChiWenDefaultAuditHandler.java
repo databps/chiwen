@@ -67,12 +67,12 @@ public class ChiWenDefaultAuditHandler implements ChiWenAccessResultProcessor {
   }
 
   public String getAdditionalInfo(ChiWenAccessRequest request) {
-    if (StringUtils.isBlank(request.getRemoteIPAddress()) && CollectionUtils
+    if (StringUtils.isBlank(request.getClientIPAddress()) && CollectionUtils
         .isEmpty(request.getForwardedAddresses())) {
       return null;
     }
     StringBuilder sb = new StringBuilder();
-    sb.append("{\"remote-ip-address\":").append(request.getRemoteIPAddress())
+    sb.append("{\"remote-ip-address\":").append(request.getClientIPAddress())
         .append(", \"forwarded-ip-addresses\":[")
         .append(StringUtils.join(request.getForwardedAddresses(), ", ")).append("]");
 

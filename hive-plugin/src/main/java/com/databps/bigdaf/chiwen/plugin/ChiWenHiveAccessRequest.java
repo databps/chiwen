@@ -38,7 +38,7 @@ public class ChiWenHiveAccessRequest extends ChiWenAccessRequestImpl {
     if(context != null) {
       this.setRequestData(context.getCommandString());
       //this.setForwardedAddresses(context.getForwardedAddresses());
-      this.setRemoteIPAddress(context.getIpAddress());
+      this.setClientIPAddress(context.getIpAddress());
     }
 
     if(sessionContext != null) {
@@ -88,7 +88,6 @@ public class ChiWenHiveAccessRequest extends ChiWenAccessRequestImpl {
     ret.setAccessTime(getAccessTime());
     ret.setAction(getAction());
     ret.setClientIPAddress(getClientIPAddress());
-    ret.setRemoteIPAddress(getRemoteIPAddress());
     ret.setForwardedAddresses(getForwardedAddresses());
     ret.setRequestData(getRequestData());
     ret.setClientType(getClientType());

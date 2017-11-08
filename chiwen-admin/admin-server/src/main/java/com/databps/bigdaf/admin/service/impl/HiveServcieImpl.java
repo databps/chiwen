@@ -78,7 +78,7 @@ public class HiveServcieImpl implements HiveService {
     vo.setLastVersion(1L);
     vo.setAudited(true);
     vo.setUpdateTime(DateUtils.formatDateNow());
-    vo.setServiceType(AuditType.HIVE.getName());
+    vo.setServiceType(agenttype);
 
     List<HiveRole> roles=hiveDao.getHiveRoles(cmpyId);
     List<HivePolicyVo.HiveRoleResponse> rolesVo=new ArrayList<>();

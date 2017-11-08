@@ -33,7 +33,6 @@ public class ChiWenAccessRequestImpl implements ChiWenAccessRequest {
   }
 
   private List<String> forwardedAddresses = null;
-  private String remoteIPAddress = null;
   private String clientType = null;
   private String action = null;
   private Map<String, Object> context;
@@ -63,7 +62,7 @@ public class ChiWenAccessRequestImpl implements ChiWenAccessRequest {
 
     // set remaining fields to default value
     setAccessTime(null);
-    setRemoteIPAddress(null);
+    setClientIPAddress(null);
     setClientType(null);
     setAction(null);
     setRequestData(null);
@@ -188,13 +187,7 @@ public class ChiWenAccessRequestImpl implements ChiWenAccessRequest {
     this.forwardedAddresses = forwardedAddresses;
   }
 
-  public String getRemoteIPAddress() {
-    return remoteIPAddress;
-  }
 
-  public void setRemoteIPAddress(String remoteIPAddress) {
-    this.remoteIPAddress = remoteIPAddress;
-  }
 
   @Override
   public boolean isAccessTypeDelegatedAdmin() {
@@ -218,7 +211,6 @@ public class ChiWenAccessRequestImpl implements ChiWenAccessRequest {
         ", accessTime=" + accessTime +
         ", clientIPAddress='" + clientIPAddress + '\'' +
         ", forwardedAddresses=" + forwardedAddresses +
-        ", remoteIPAddress='" + remoteIPAddress + '\'' +
         ", clientType='" + clientType + '\'' +
         ", action='" + action + '\'' +
         ", context=" + context +

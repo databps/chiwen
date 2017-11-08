@@ -15,7 +15,7 @@ public class AuditVo {
   private String cmpyId;
 
   private String resourceType;
-
+  private String clientType="NONE";
   private String pluginIp;
 
   private String clientIPAddress="0.0.0.0";
@@ -211,6 +211,14 @@ public class AuditVo {
 
   public void setRequestData(String requestData) {
     this.requestData = requestData;
+  }
+
+  public String getClientType() {
+    return clientType;
+  }
+
+  public void setClientType(String clientType) {
+    this.clientType = clientType;
   }
 
   @Override
