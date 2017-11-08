@@ -19,26 +19,26 @@
 <configuration xmlns:xi="http://www.w3.org/2001/XInclude">
 
 	<property>
-		<name>ranger.plugin.hive.service.name</name>
+		<name>chiwen.plugin.hive.service.name</name>
 		<value>cl1_hive</value>
 		<description>
-			Name of the Ranger service containing policies for this SampleApp instance
+			Name of the ChiWen service containing policies for this SampleApp instance
 		</description>
 	</property>
 
 	<property>
-        <name>ranger.plugin.hive.policy.source.impl</name>
-        <value>org.apache.ranger.services.hive.RangerAdminClientImpl</value>
+        <name>chiwen.plugin.hive.policy.source.impl</name>
+        <value>org.apache.chiwen.services.hive.ChiWenAdminClientImpl</value>
         <description>
             Policy source.
         </description>
     </property>
     
 	<property>
-		<name>ranger.plugin.hive.policy.cache.dir</name>
+		<name>chiwen.plugin.hive.policy.cache.dir</name>
 		<value>${project.build.directory}</value>
 		<description>
-			Directory where Ranger policies are cached after successful retrieval from the source
+			Directory where ChiWen policies are cached after successful retrieval from the source
 		</description>
 	</property>
 

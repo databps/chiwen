@@ -55,11 +55,11 @@ public abstract class ChiWenHiveAuthorizerBase implements HiveAuthorizer {
 		mUgi = userName == null ? null : UserGroupInformation.createRemoteUser(userName);
 
 		if(mHiveAuthenticator == null) {
-			LOG.warn("RangerHiveAuthorizerBase.RangerHiveAuthorizerBase(): hiveAuthenticator is null");
+			LOG.warn("ChiWenHiveAuthorizerBase.ChiWenHiveAuthorizerBase(): hiveAuthenticator is null");
 		} else if(StringUtil.isEmpty(userName)) {
-			LOG.warn("RangerHiveAuthorizerBase.RangerHiveAuthorizerBase(): hiveAuthenticator.getUserName() returned null/empty");
+			LOG.warn("ChiWenHiveAuthorizerBase.ChiWenHiveAuthorizerBase(): hiveAuthenticator.getUserName() returned null/empty");
 		} else if(mUgi == null) {
-			LOG.warn(String.format("RangerHiveAuthorizerBase.RangerHiveAuthorizerBase(): UserGroupInformation.createRemoteUser(%s) returned null", userName));
+			LOG.warn(String.format("ChiWenHiveAuthorizerBase.ChiWenHiveAuthorizerBase(): UserGroupInformation.createRemoteUser(%s) returned null", userName));
 		}
 	}
 
@@ -85,7 +85,7 @@ public abstract class ChiWenHiveAuthorizerBase implements HiveAuthorizer {
 
 	@Override
 	public void applyAuthorizationConfigPolicy(HiveConf hiveConf) throws HiveAuthzPluginException {
-		LOG.debug("RangerHiveAuthorizerBase.applyAuthorizationConfigPolicy()");
+		LOG.debug("ChiWenHiveAuthorizerBase.applyAuthorizationConfigPolicy()");
 
 		// from SQLStdHiveAccessController.applyAuthorizationConfigPolicy()
 		if (mSessionContext != null && mSessionContext.getClientType() == CLIENT_TYPE.HIVESERVER2) {
@@ -114,7 +114,7 @@ public abstract class ChiWenHiveAuthorizerBase implements HiveAuthorizer {
 	@Override
 	public List<HivePrivilegeInfo> showPrivileges(HivePrincipal principal, HivePrivilegeObject privObj)
 			throws HiveAuthzPluginException, HiveAccessControlException {
-		LOG.debug("RangerHiveAuthorizerBase.showPrivileges()");
+		LOG.debug("ChiWenHiveAuthorizerBase.showPrivileges()");
 
 		throwNotImplementedException("showPrivileges");
 
@@ -124,7 +124,7 @@ public abstract class ChiWenHiveAuthorizerBase implements HiveAuthorizer {
 	@Override
 	public void createRole(String roleName, HivePrincipal adminGrantor)
 			throws HiveAuthzPluginException, HiveAccessControlException {
-		LOG.debug("RangerHiveAuthorizerBase.createRole()");
+		LOG.debug("ChiWenHiveAuthorizerBase.createRole()");
 
 		throwNotImplementedException("createRole");
 	}
@@ -132,7 +132,7 @@ public abstract class ChiWenHiveAuthorizerBase implements HiveAuthorizer {
 	@Override
 	public void dropRole(String roleName)
 			throws HiveAuthzPluginException, HiveAccessControlException {
-		LOG.debug("RangerHiveAuthorizerBase.dropRole()");
+		LOG.debug("ChiWenHiveAuthorizerBase.dropRole()");
 
 		throwNotImplementedException("dropRole");
 	}
@@ -140,7 +140,7 @@ public abstract class ChiWenHiveAuthorizerBase implements HiveAuthorizer {
 	@Override
 	public List<String> getAllRoles()
 			throws HiveAuthzPluginException, HiveAccessControlException {
-		LOG.debug("RangerHiveAuthorizerBase.getAllRoles()");
+		LOG.debug("ChiWenHiveAuthorizerBase.getAllRoles()");
 
 		throwNotImplementedException("getAllRoles");
 
@@ -149,7 +149,7 @@ public abstract class ChiWenHiveAuthorizerBase implements HiveAuthorizer {
 
 	@Override
 	public List<String> getCurrentRoleNames() throws HiveAuthzPluginException {
-		LOG.debug("RangerHiveAuthorizerBase.getCurrentRoleNames()");
+		LOG.debug("ChiWenHiveAuthorizerBase.getCurrentRoleNames()");
 
 		throwNotImplementedException("getCurrentRoleNames");
 
@@ -159,7 +159,7 @@ public abstract class ChiWenHiveAuthorizerBase implements HiveAuthorizer {
 	@Override
 	public List<HiveRoleGrant> getPrincipalGrantInfoForRole(String roleName)
 			throws HiveAuthzPluginException, HiveAccessControlException {
-		LOG.debug("RangerHiveAuthorizerBase.getPrincipalGrantInfoForRole()");
+		LOG.debug("ChiWenHiveAuthorizerBase.getPrincipalGrantInfoForRole()");
 
 		throwNotImplementedException("getPrincipalGrantInfoForRole");
 
@@ -169,7 +169,7 @@ public abstract class ChiWenHiveAuthorizerBase implements HiveAuthorizer {
 	@Override
 	public List<HiveRoleGrant> getRoleGrantInfoForPrincipal(HivePrincipal principal)
 			throws HiveAuthzPluginException, HiveAccessControlException {
-		LOG.debug("RangerHiveAuthorizerBase.getRoleGrantInfoForPrincipal()");
+		LOG.debug("ChiWenHiveAuthorizerBase.getRoleGrantInfoForPrincipal()");
 
 		throwNotImplementedException("getRoleGrantInfoForPrincipal");
 
@@ -185,7 +185,7 @@ public abstract class ChiWenHiveAuthorizerBase implements HiveAuthorizer {
 	public void grantRole(List<HivePrincipal> hivePrincipals, List<String> roles,
 			boolean grantOption, HivePrincipal grantorPrinc)
 					throws HiveAuthzPluginException, HiveAccessControlException {
-		LOG.debug("RangerHiveAuthorizerBase.grantRole()");
+		LOG.debug("ChiWenHiveAuthorizerBase.grantRole()");
 
 		throwNotImplementedException("grantRole");
 	}
@@ -194,7 +194,7 @@ public abstract class ChiWenHiveAuthorizerBase implements HiveAuthorizer {
 	public void revokeRole(List<HivePrincipal> hivePrincipals, List<String> roles,
 			boolean grantOption, HivePrincipal grantorPrinc)
 					throws HiveAuthzPluginException, HiveAccessControlException {
-		LOG.debug("RangerHiveAuthorizerBase.revokeRole()");
+		LOG.debug("ChiWenHiveAuthorizerBase.revokeRole()");
 
 		throwNotImplementedException("revokeRole");
 	}
@@ -202,7 +202,7 @@ public abstract class ChiWenHiveAuthorizerBase implements HiveAuthorizer {
 	@Override
 	public void setCurrentRole(String roleName)
 			throws HiveAccessControlException, HiveAuthzPluginException {
-		LOG.debug("RangerHiveAuthorizerBase.setCurrentRole()");
+		LOG.debug("ChiWenHiveAuthorizerBase.setCurrentRole()");
 
 		throwNotImplementedException("setCurrentRole");
 	}
@@ -212,7 +212,7 @@ public abstract class ChiWenHiveAuthorizerBase implements HiveAuthorizer {
 	}
 
 	private void throwNotImplementedException(String method) throws HiveAuthzPluginException {
-		throw new HiveAuthzPluginException(method + "() not implemented in Ranger HiveAuthorizer");
+		throw new HiveAuthzPluginException(method + "() not implemented in ChiWen HiveAuthorizer");
 	}
 
 }

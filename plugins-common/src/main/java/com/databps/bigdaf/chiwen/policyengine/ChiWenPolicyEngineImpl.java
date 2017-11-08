@@ -152,7 +152,6 @@ public class ChiWenPolicyEngineImpl implements ChiWenPolicyEngine {
 //      _result.setAudited(true);
 //      _result.setReason("success");
 ////    LOG.info("=================> request:"+request.toString());
-//      System.out.println("ccccccccccc"+policy.getRoles().get(0).getRoleName());
 //
 //      boolean isEnabled = policy.isEnabled();
 //      if (isEnabled) {
