@@ -19,6 +19,7 @@
   </properties>
 
   <dependencies>
+
     <dependency>
       <groupId>com.databps.bigdaf</groupId>
       <artifactId>chiwen-core</artifactId>
@@ -199,6 +200,9 @@
         </exclusion>
       </exclusions>
     </dependency>
+
+
+
 
   </dependencies>
 
