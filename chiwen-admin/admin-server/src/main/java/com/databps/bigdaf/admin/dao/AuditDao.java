@@ -286,7 +286,7 @@ public class AuditDao {
           .format(DateUtils.parse(criteria.getStartDate()), DateUtils.YYYYMMDDHHMMSSSSS);
     } else if(StringUtils.isBlank(criteria.getStartDate()) && StringUtils
         .isBlank(criteria.getEndDate())){
-      startDate = DateUtils.formatLastDayDate(-2, DateUtils.YYYYMMDDHHMMSSSSS);
+      startDate = DateUtils.formatLastDayDate(-30, DateUtils.YYYYMMDDHHMMSSSSS);
       endDate = DateUtils.format(new Date(), DateUtils.YYYYMMDDHHMMSSSSS);
     }
 
@@ -297,13 +297,13 @@ public class AuditDao {
     }
 
     if (StringUtils.isNotBlank(criteria.getResult())) {
-      cr.and("is_allowed").is(criteria.getResult());
+      cr.and("access_result").is(criteria.getResult());
     }
     if (StringUtils.isNotBlank(criteria.getUsername())) {
       cr.and("user").is(criteria.getUsername());
     }
-    if (StringUtils.isNotBlank(criteria.getClientType())) {
-      cr.and("client_type").is(criteria.getClientType());
+    if (StringUtils.isNotBlank(criteria.getServiceType())) {
+      cr.and("service_type").is(criteria.getServiceType());
     }
 //    if (StringUtils.isNotBlank(criteria.getStartDate()) && StringUtils
 //        .isNotBlank(criteria.getEndDate())) {

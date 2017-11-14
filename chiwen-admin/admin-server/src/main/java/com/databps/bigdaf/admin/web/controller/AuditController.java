@@ -53,7 +53,7 @@ public class AuditController extends BaseController {
   @RequestMapping(value = "/list", method = RequestMethod.GET)
   @Secured(AuthoritiesConstants.AUDITOR)
   public String list(LogQueryVo query, MongoPage page, Model model) {
-    query.setClientType("hdfs");
+    query.setServiceType("hdfs");
     List<AuditVo> auditPage = auditService.findAuditsPage(page, query);
     model.addAttribute("auditVoList", auditPage);
     model.addAttribute("page", page);
@@ -63,7 +63,7 @@ public class AuditController extends BaseController {
   @RequestMapping(value = "/hbase/list", method = RequestMethod.GET)
   @Secured(AuthoritiesConstants.AUDITOR)
   public String hbase(LogQueryVo query, MongoPage page, Model model) {
-    query.setClientType("hbase");
+    query.setServiceType("hbase");
     List<AuditVo> auditPage = auditService.findAuditsPage(page, query);
     model.addAttribute("auditVoList", auditPage);
     model.addAttribute("page", page);
@@ -73,7 +73,7 @@ public class AuditController extends BaseController {
   @RequestMapping(value = "/gateway/list", method = RequestMethod.GET)
   @Secured(AuthoritiesConstants.AUDITOR)
   public String gateway(LogQueryVo query, MongoPage page, Model model) {
-    query.setClientType("gateway");
+    query.setServiceType("gateway");
     List<AuditVo> auditPage = auditService.findAuditsPage(page, query);
     model.addAttribute("auditVoList", auditPage);
     model.addAttribute("page", page);

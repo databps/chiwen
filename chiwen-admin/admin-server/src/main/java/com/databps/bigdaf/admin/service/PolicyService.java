@@ -1,5 +1,6 @@
 package com.databps.bigdaf.admin.service;
 
+import com.databps.bigdaf.admin.domain.Policy;
 import com.databps.bigdaf.admin.vo.ChiWenPolicyPluginVo;
 import com.databps.bigdaf.admin.vo.PolicyFormVo;
 import com.databps.bigdaf.admin.vo.PolicyVo;
@@ -19,4 +20,8 @@ public interface PolicyService {
   void insert(PolicyFormVo vo);
 
   List<PolicyVo> findAllByName(Pageable pageable,String name);
+
+  Policy findStrategy(String type);
+
+  void editStrategy(Policy policy);
 }

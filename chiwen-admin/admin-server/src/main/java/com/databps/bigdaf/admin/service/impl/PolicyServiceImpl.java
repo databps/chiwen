@@ -4,6 +4,7 @@ import com.databps.bigdaf.admin.dao.ConfigDao;
 import com.databps.bigdaf.admin.dao.PluginsDao;
 import com.databps.bigdaf.admin.dao.PolicyDao;
 import com.databps.bigdaf.admin.domain.Config;
+import com.databps.bigdaf.admin.domain.Policy;
 import com.databps.bigdaf.admin.domain.model.ChiWenPolicy;
 import com.databps.bigdaf.admin.manager.PolicyManager;
 import com.databps.bigdaf.admin.service.PolicyService;
@@ -69,7 +70,7 @@ public class PolicyServiceImpl implements PolicyService {
     ChiWenPolicy policy=policyDao.getPolicy();
     ChiWenPolicyPluginVo vo=new ChiWenPolicyPluginVo();
     vo.setServiceType("hdfs");
-    vo.setAudited(false);
+    vo.setAudited(true);
     vo.setServiceId(chiWenUUID);
     Config config = configDao.findConfig("5968802a01cbaa46738eee3d");
     if(config!=null){
@@ -107,4 +108,14 @@ public class PolicyServiceImpl implements PolicyService {
 
     return null;
   }
+  @Override
+  public Policy findStrategy(String type) {
+    Policy policy = policyDao.findStrategy(type);
+    return policy;
+  }
+  @Override
+  public void editStrategy(Policy policy) {
+    policyDao.updateStrategy("hdfs",policy);
+  }
+
 }

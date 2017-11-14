@@ -11,15 +11,16 @@ public class LogQueryVo {
   private String endDate;
   private String accessType;
   private String result;
-  private String username;
-  private String clientType;
 
-  public String getClientType() {
-    return clientType;
+  public void setServiceType(String serviceType) {
+    this.serviceType = serviceType;
   }
 
-  public void setClientType(String clientType) {
-    this.clientType = clientType;
+  private String username;
+  private String serviceType;
+
+  public String getServiceType() {
+    return serviceType;
   }
 
   public String getStartDate() {
