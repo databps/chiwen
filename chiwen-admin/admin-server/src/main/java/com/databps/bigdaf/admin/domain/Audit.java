@@ -33,11 +33,20 @@ public class Audit implements Serializable {
   @Field("plugin_ip")
   private String pluginIp;
 
+  @Field("client_type")
+  private String clientType;
+
+
+
   @Field("resource_path")
   private String resourcePath;
 
   @Field("resource_type")
   private String resourceType;
+
+  @Field("request_data")
+  private String requestData;
+
 
 
   @Field("user")
@@ -225,6 +234,13 @@ public class Audit implements Serializable {
     this.action = action;
   }
 
+  public String getRequestData() {
+    return requestData;
+  }
+
+  public void setRequestData(String requestData) {
+    this.requestData = requestData;
+  }
 
   public String getId() {
     return id;
@@ -240,5 +256,13 @@ public class Audit implements Serializable {
 
   public void setPluginIp(String pluginIp) {
     this.pluginIp = pluginIp;
+  }
+
+  public String getClientType() {
+    return clientType;
+  }
+
+  public void setClientType(String clientType) {
+    this.clientType = clientType;
   }
 }

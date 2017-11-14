@@ -28,10 +28,10 @@ public class ChiWenBasePlugin {
 
 
 
-
+  private ChiWenAccessResultProcessor resultProcessor;
   private String appId;
   private String PolicyName;
-  private String serviceName;
+  private String serviceId;
   private String serviceType;
   private PolicyRefresher policyRefresher;
   private ChiWenPolicyEngine policyEngine;
@@ -39,7 +39,6 @@ public class ChiWenBasePlugin {
   private Timer policyEngineRefreshTimer;
 
   private String clusterName = "";
-  //private ChiWenhbasePluginHeartBeat chiWenhbasePluginHeartBeat;
 
   public ChiWenBasePlugin(String serviceType, String PolicyName,String appId) {
     this.serviceType = serviceType;//此plugin中的值为hbases
@@ -47,6 +46,9 @@ public class ChiWenBasePlugin {
     this.PolicyName = PolicyName;//此plugin中的值为hbase
   }
 
+  public void setResultProcessor(ChiWenAccessResultProcessor resultProcessor) {
+    this.resultProcessor = resultProcessor;
+  }
 
   public String getServiceType() {
     return serviceType;
@@ -60,6 +62,10 @@ public class ChiWenBasePlugin {
     return policyEngine;
   }
 
+
+  public ChiWenAccessResult isAccessAllowed(ChiWenAccessRequest request) {
+    return isAccessAllowed(request, resultProcessor);
+  }
 
   public Collection<ChiWenAccessResult> isAccessAllowed(Collection<ChiWenAccessRequest> requests,
       ChiWenAccessResultProcessor resultProcessor) {
@@ -119,12 +125,12 @@ public class ChiWenBasePlugin {
     this.policyRefresher = policyRefresher;
   }
 
-  public String getServiceName() {
-    return serviceName;
+  public String getServiceId() {
+    return serviceId;
   }
 
-  public void setServiceName(String serviceName) {
-    this.serviceName = serviceName;
+  public void setServiceId(String serviceId) {
+    this.serviceId = serviceId;
   }
 
   public String getClusterName() {
@@ -138,7 +144,7 @@ public class ChiWenBasePlugin {
 
   public void init() {
     cleanup();
-    ChiWenAdminClient adminClient = createAdminClient(serviceName,appId);
+    ChiWenAdminClient adminClient = createAdminClient(serviceType,appId);
     ChiWenConfiguration chiWenConfiguration = ChiWenConfiguration.getInstance();
     chiWenConfiguration.addResourcesForServiceType(serviceType);
 
@@ -160,20 +166,20 @@ public class ChiWenBasePlugin {
   }
 
 
-  public static ChiWenAdminClient createAdminClient(String rangerServiceName,String applicationId) {
+  public static ChiWenAdminClient createAdminClient(String serviceTye,String applicationId) {
 
     ChiWenAdminClient ret = null;
 
     if (ret == null) {
       ret = new ChiWenAdminRESTClient();
     }
-    ret.init(rangerServiceName, applicationId);
+    ret.init(serviceTye, applicationId);
     return ret;
   }
 
   public void revokeAccess(GrantRevokeRequest request, ChiWenAccessResultProcessor resultProcessor) throws Exception {
     if(LOG.isDebugEnabled()) {
-      LOG.debug("==> RangerBasePlugin.revokeAccess(" + request + ")");
+      LOG.debug("==> ChiWenBasePlugin.revokeAccess(" + request + ")");
     }
 
     PolicyRefresher   refresher = this.refresher;
@@ -182,7 +188,7 @@ public class ChiWenBasePlugin {
 
     try {
       if(admin == null) {
-        throw new Exception("ranger-admin client is null");
+        throw new Exception("chiwen-admin client is null");
       }
 
       admin.revokeAccess(request);
@@ -193,7 +199,7 @@ public class ChiWenBasePlugin {
     }
 
     if(LOG.isDebugEnabled()) {
-      LOG.debug("<== RangerBasePlugin.revokeAccess(" + request + ")");
+      LOG.debug("<== ChiWenBasePlugin.revokeAccess(" + request + ")");
     }
   }
 
@@ -350,15 +356,5 @@ public class ChiWenBasePlugin {
   }
 
 
-  public int getServiceDefId() {
-    ChiWenServiceDef serviceDef = getServiceDef();
 
-    return serviceDef != null && serviceDef.getId() != null ? serviceDef.getId().intValue() : -1;
-  }
-
-  public ChiWenServiceDef getServiceDef() {
-    ChiWenPolicyEngine policyEngine = this.policyEngine;
-
-    return policyEngine != null ? policyEngine.getServiceDef() : null;
-  }
 }

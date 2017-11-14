@@ -217,6 +217,5 @@ public class HttpsUtils {
 //  public static void main(String args[]) throws Exception {
 ////    String resString = HttpsUtils.post("https://kyfw.12306.cn/otn/login/init");
 //    String resString = HttpsUtils.get("http://192.168.1.131:50070/jmx");
-//    System.out.println(resString);
 //  }
 }

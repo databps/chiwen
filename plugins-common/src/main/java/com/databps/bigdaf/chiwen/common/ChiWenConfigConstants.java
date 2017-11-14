@@ -21,14 +21,14 @@ package com.databps.bigdaf.chiwen.common;
 
 public class ChiWenConfigConstants {
 	//SECURITY CONFIG DEFAULTS
-	public static final String  RANGER_SERVICE_NAME 							= "ranger.plugin.<ServiceType>.service.name";
-	public static final String  RANGER_PLUGIN_POLICY_SOURCE_IMPL 				= "ranger.plugin.<ServiceType>.policy.source.impl";
-	public static final String  RANGER_PLUGIN_POLICY_SOURCE_IMPL_DEFAULT 		= "org.apache.ranger.admin.client.RangerAdminRESTClient";
-	public static final String  RANGER_PLUGIN_POLICY_REST_URL					= "ranger.plugin.<ServiceType>.policy.rest.url";
-	public static final String 	RANGER_PLUGIN_REST_SSL_CONFIG_FILE				= "ranger.plugin.<ServiceType>.policy.rest.ssl.config.file";
-	public static final String 	RANGER_PLUGIN_POLICY_POLLINVETERVALMS			= "ranger.plugin.<ServiceType>.policy.pollIntervalMs";
-    public static final String	RANGER_PLUGIN_POLICY_CACHE_DIR					= "ranger.plugin.<ServiceType>.policy.cache.dir";
-    public static final	String 	RANGER_PLUGIN_ADD_HADDOOP_AUTHORIZATION			= "xasecure.add-hadoop-authorization";
+	public static final String  CHIWEN_SERVICE_NAME 							= "chiwen.plugin.<ServiceType>.service.name";
+	public static final String  CHIWEN_PLUGIN_POLICY_SOURCE_IMPL 				= "chiwen.plugin.<ServiceType>.policy.source.impl";
+	public static final String  CHIWEN_PLUGIN_POLICY_SOURCE_IMPL_DEFAULT 		= "org.apache.chiwen.admin.client.ChiWenAdminRESTClient";
+	public static final String  CHIWEN_PLUGIN_POLICY_REST_URL					= "chiwen.plugin.<ServiceType>.policy.rest.url";
+	public static final String 	CHIWEN_PLUGIN_REST_SSL_CONFIG_FILE				= "chiwen.plugin.<ServiceType>.policy.rest.ssl.config.file";
+	public static final String 	CHIWEN_PLUGIN_POLICY_POLLINVETERVALMS			= "chiwen.plugin.<ServiceType>.policy.pollIntervalMs";
+    public static final String	CHIWEN_PLUGIN_POLICY_CACHE_DIR					= "chiwen.plugin.<ServiceType>.policy.cache.dir";
+    public static final	String 	CHIWEN_PLUGIN_ADD_HADDOOP_AUTHORIZATION			= "xasecure.add-hadoop-authorization";
 
     //CHANGE MAP CONSTANTS
     public static final String	XASECURE_POLICYMGR_URL							= "xasecure.<ServiceType>.policymgr.url";
@@ -43,6 +43,6 @@ public class ChiWenConfigConstants {
     public static final String  XASECURE_POLICYMGR_SSL_FILE						= "/etc/<ServiceType>/conf/xasecure-policymgr-ssl.xml";
 
     //KNOX
-    public static final String  RANGER_KNOX_PLUGIN_POLICY_SOURCE_IMPL_DEFAULT   = "org.apache.ranger.admin.client.RangerAdminJersey2RESTClient";
+    public static final String  CHIWEN_KNOX_PLUGIN_POLICY_SOURCE_IMPL_DEFAULT   = "org.apache.chiwen.admin.client.ChiWenAdminJersey2RESTClient";
 }
 

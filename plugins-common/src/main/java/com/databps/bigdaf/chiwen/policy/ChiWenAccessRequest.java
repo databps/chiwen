@@ -12,7 +12,6 @@ public interface ChiWenAccessRequest {
 
   ChiWenAccessResource getResource();
 
-  String getRemoteIPAddress();
 
   List<String> getForwardedAddresses();
 

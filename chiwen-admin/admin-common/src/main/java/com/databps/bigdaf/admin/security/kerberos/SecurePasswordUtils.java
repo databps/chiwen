@@ -148,6 +148,5 @@ public class SecurePasswordUtils {
   
   public static void main(String args[]) {
 	  String password = new SecurePasswordUtils().createSecurePassword();
-	  System.out.println(password);
   }
 }

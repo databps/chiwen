@@ -83,7 +83,6 @@ public class KerberosHdfsTest1 {
     System.setProperty("HADOOP_USER_NAME", "test:123456");
     String ss = System.getProperty("HADOOP_USER_NAME");
 
-    System.out.println(ss);
     try {
       Token<?> token = fs.getDelegationToken("abc");
       byte[] pwd = token.getPassword();
@@ -97,7 +96,6 @@ public class KerberosHdfsTest1 {
       creds.writeTokenStorageFile(new Path(binaryTokenFile), conf);
       
 
-      System.out.println("请求1");
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -112,7 +110,7 @@ public class KerberosHdfsTest1 {
     try {
       FileStatus[] listStatus = fs.listStatus(new Path("/"));
       for (FileStatus status : listStatus) {
-        System.out.println(status.getPath());
+        status.getPath();
       }
       Assert.assertTrue(listStatus.length > 0);
     } catch (IOException e) {

@@ -51,9 +51,6 @@ public class HadoopAuthClassTransformer implements ClassFileTransformer {
       throws IllegalClassFormatException {
     byte[] ret = null;
 
-    System.out.println(
-        "Injection code is Invoked in JVM [" + Runtime.getRuntime() + "] for class [" + aClassName
-            + "] ....");
     try {
       CtClass curClass = getCtClass(aClassName.replaceAll("/", "."));
       CtClass stringClass = getCtClass("java.lang.String");
@@ -72,7 +69,6 @@ public class HadoopAuthClassTransformer implements ClassFileTransformer {
 
       if (checkMethod == null && curClass != null && inodeClass != null && fsActionClass != null) {
         try {
-          System.out.print("looking for check(INodeAttributes inode, String path, FsAction access)...");
 
           CtClass[] paramArgs = new CtClass[]{iNodeAttributes,stringClass, fsActionClass};
           //inodeclass 文件元信息 //fsActionClass 文件的请求操作信息（读/写）
@@ -80,15 +76,12 @@ public class HadoopAuthClassTransformer implements ClassFileTransformer {
 
           is3ParamsCheckMethod = true;
 
-          System.out.println("found");
         } catch (NotFoundException nfe) {
-          System.out.println("not found");
         }
       }
 
       if (checkMethod == null && curClass != null && inodeClass != null && fsActionClass != null) {
         try {
-          System.out.print("looking for check(INode, FsAction)...");
 
           CtClass[] paramArgs = new CtClass[]{inodeClass, fsActionClass};
 
@@ -96,17 +89,13 @@ public class HadoopAuthClassTransformer implements ClassFileTransformer {
 
           is3ParamsCheckMethod = false;
 
-          System.out.println("found");
         } catch (NotFoundException nfe) {
-          System.out.println("not found");
         }
       }
 
       if (checkPermissionMethod == null && curClass != null && inodesInPathClass != null
           && fsActionClass != null) {
         try {
-          System.out.print(
-              "looking for checkPermission(INodesInPath, boolean, FsAction, FsAction, FsAction, FsAction, boolean)...");
 
           CtClass[] paramArgs = new CtClass[]{inodesInPathClass,
               CtClass.booleanType,
@@ -119,17 +108,13 @@ public class HadoopAuthClassTransformer implements ClassFileTransformer {
 
           checkPermissionMethod = curClass.getDeclaredMethod("checkPermission", paramArgs);
 
-          System.out.println("found");
         } catch (NotFoundException nfe) {
-          System.out.println("not found");
         }
       }
 
       if (checkPermissionMethod == null && curClass != null && stringClass != null
           && fsDirClass != null && fsActionClass != null) {
         try {
-          System.out.print(
-              "looking for checkPermission(String, FSDirectory, boolean, FsAction, FsAction, FsAction, FsAction, boolean, boolean)...");
 
           CtClass[] paramArgs = new CtClass[]{stringClass,
               fsDirClass,
@@ -144,15 +129,12 @@ public class HadoopAuthClassTransformer implements ClassFileTransformer {
 
           checkPermissionMethod = curClass.getDeclaredMethod("checkPermission", paramArgs);
 
-          System.out.println("found");
         } catch (NotFoundException nfe) {
-          System.out.println("not found");
         }
       }
 
       if (curClass != null) {
         if (checkMethod != null) {
-          System.out.print("injecting check() hooks...");
 //
 //          checkMethod.insertAfter(
 //              "org.apache.hadoop.hdfs.server.namenode.ChiWenFSPermissionChecker.logHadoopEvent($1,true);");
@@ -167,10 +149,7 @@ public class HadoopAuthClassTransformer implements ClassFileTransformer {
                 "{ if ( com.databps.bigdaf.chiwen.hdfsagent.ChiWenFSPermissionChecker.check(this.callerUgi,groups,$1,$2) ) { return; } }");//取inode和FsAction
           }
 
-          System.out.println("done");
-
           if (checkPermissionMethod != null) {
-            System.out.print("injecting checkPermission() hooks...");
             //插入的checkPermissionPost等方法就是发送一些checkpermission的审计日志，hadoop里面checkPermission的方法调用的是check方法，checkPermission的逻辑是判断一些ancestor，parent的check先后逻辑，check方法做真正的acl等权限验证
             checkPermissionMethod.insertAfter(
                 "com.databps.bigdaf.chiwen.hdfsagent.ChiWenFSPermissionChecker.checkPermissionPost($1);");
@@ -180,19 +159,15 @@ public class HadoopAuthClassTransformer implements ClassFileTransformer {
             checkPermissionMethod.insertBefore(
                 "com.databps.bigdaf.chiwen.hdfsagent.ChiWenFSPermissionChecker.checkPermissionPre($1);");
 
-            System.out.println("done");
           }
 
           ret = curClass.toBytecode();
         } else {
-          System.out.println("Unable to identify check() method on class: [" + aClassName
-              + "]. Found following methods:");
 
           for (CtMethod m : curClass.getDeclaredMethods()) {
             System.err.println("  found Method: " + m);
           }
 
-          System.out.println("Injection failed. Continue without Injection");
         }
       }
     } catch (CannotCompileException e) {

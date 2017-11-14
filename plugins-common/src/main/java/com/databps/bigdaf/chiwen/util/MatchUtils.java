@@ -27,11 +27,10 @@ public class MatchUtils {
     return match(pattern, content, 0, 0);
   }
 
-  public static void main(String[] args) {
+/*  public static void main(String[] args) {
 //    match("tabl*","table");
 
       boolean isma = match("table1","table1,table3");
-    System.out.println(isma);
 //    test("g*ks", "geeks"); // Yes
 //    test("ge?ks*", "geeksforgeeks"); // Yes
 //    test("g*k", "gee");  // No because 'k' is not in second
@@ -42,5 +41,5 @@ public class MatchUtils {
 //    test("*?c*d", "abcd"); // Yes
 //    test("*?c***d", "abcd"); // Yes
 //    test("ge?ks**", "geeks"); // Yes
-  }
+  }*/
 }

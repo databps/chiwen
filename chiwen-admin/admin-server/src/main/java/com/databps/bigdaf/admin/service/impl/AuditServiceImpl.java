@@ -142,7 +142,8 @@ public class AuditServiceImpl implements AuditService {
     audit.setAction(auditVo.getAction());
     audit.setEventId(auditVo.getEventId());
     audit.setUserGroups(auditVo.getUserGroups());
-
+    audit.setRequestData(auditVo.getRequestData());
+    audit.setClientType(auditVo.getClientType());
     auditDao.insert(audit);
   }
 
@@ -265,7 +266,6 @@ public class AuditServiceImpl implements AuditService {
         return size;
       }
     } else {
-      System.out.println("文件或者文件夹不存在，请检查路径是否正确！");
       return 0.0;
     }
   }

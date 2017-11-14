@@ -31,7 +31,6 @@ public class MongodbCommandTest {
     SortOperation finalSo = Aggregation.sort(Sort.Direction.DESC, "_id");
     LimitOperation lo = Aggregation.limit(limit);
     Aggregation aggregation = Aggregation.newAggregation(mo, po, go, finalSo, lo);
-    System.out.println(aggregation);
   }
 
   @Test
@@ -42,7 +41,6 @@ public class MongodbCommandTest {
     GroupOperation go = Aggregation.group(groupColum).count().as("count").first(groupColum)
         .as(groupColum);
     Aggregation aggregation = Aggregation.newAggregation(mo, go);
-    System.out.println(aggregation);
   }
 
   @Test

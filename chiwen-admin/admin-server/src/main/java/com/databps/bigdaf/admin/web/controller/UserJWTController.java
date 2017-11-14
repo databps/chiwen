@@ -100,7 +100,6 @@ public class UserJWTController {
   private boolean imgvrifyControllerDefaultKaptcha(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse){
     String captchaId = (String) httpServletRequest.getSession().getAttribute("vrifyCode");
     String parameter = httpServletRequest.getParameter("vrifyCode");
-    System.out.println("Session  vrifyCode "+captchaId+" form vrifyCode "+parameter);
 
     if (!captchaId.equals(parameter)) {
       return false;

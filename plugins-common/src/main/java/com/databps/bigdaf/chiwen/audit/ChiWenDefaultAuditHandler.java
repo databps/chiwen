@@ -23,7 +23,7 @@ public class ChiWenDefaultAuditHandler implements ChiWenAccessResultProcessor {
   private static String UUID 	= MiscUtil.generateUniqueId();
 
   public static final String YYYYMMDDHHMMSSSSS = "yyyyMMddHHmmssSSS";
-  //protected static final String RangerModuleName =  ChiWenConfiguration.getInstance().get(RangerHadoopConstants.AUDITLOG_RANGER_MODULE_ACL_NAME_PROP , RangerHadoopConstants.DEFAULT_RANGER_MODULE_ACL_NAME);
+  //protected static final String ChiWenModuleName =  ChiWenConfiguration.getInstance().get(ChiWenHadoopConstants.AUDITLOG_CHIWEN_MODULE_ACL_NAME_PROP , ChiWenHadoopConstants.DEFAULT_CHIWEN_MODULE_ACL_NAME);
 
 
   public void logAuthzAudit(AuthzAuditEvent auditEvent) {
@@ -67,12 +67,12 @@ public class ChiWenDefaultAuditHandler implements ChiWenAccessResultProcessor {
   }
 
   public String getAdditionalInfo(ChiWenAccessRequest request) {
-    if (StringUtils.isBlank(request.getRemoteIPAddress()) && CollectionUtils
+    if (StringUtils.isBlank(request.getClientIPAddress()) && CollectionUtils
         .isEmpty(request.getForwardedAddresses())) {
       return null;
     }
     StringBuilder sb = new StringBuilder();
-    sb.append("{\"remote-ip-address\":").append(request.getRemoteIPAddress())
+    sb.append("{\"remote-ip-address\":").append(request.getClientIPAddress())
         .append(", \"forwarded-ip-addresses\":[")
         .append(StringUtils.join(request.getForwardedAddresses(), ", ")).append("]");
 

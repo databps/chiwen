@@ -11,10 +11,10 @@ public interface ChiWenAdminClient {
 
   void init(String serviceName, String appId);
 
-  ChiWenPolicyPluginVo getHdfsServicePoliciesIfUpdated(String serviceName, String chiWenUUID)
+  ChiWenPolicyPluginVo getHdfsServicePoliciesIfUpdated(String serviceTye, String chiWenUUID)
       throws Exception;
 
-  ChiWenPolicyHbaseVo getHbaseServicePoliciesIfUpdated(String serviceName, String chiWenUUID)
+  ChiWenPolicyHbaseVo getHbaseServicePoliciesIfUpdated(String serviceTye, String chiWenUUID)
       throws Exception;
 
   void grantAccess(GrantRevokeRequest request) throws Exception;

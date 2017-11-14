@@ -15,9 +15,7 @@ public class AppKeyUtil {
 
 		String ch = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-		// System.out.println(ch.length());
 
-		// System.out.println(random);
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < 32; i++) {
 			int random = new Random().nextInt(ch.length() - 1);

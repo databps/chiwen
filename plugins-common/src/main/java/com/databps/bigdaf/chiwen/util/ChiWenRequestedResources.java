@@ -21,8 +21,8 @@ package com.databps.bigdaf.chiwen.util;/*
 package com.databps.bigdaf.chiwen.util;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.ranger.plugin.policyengine.ChiWenAccessResource;
-import org.apache.ranger.plugin.policyresourcematcher.RangerPolicyResourceMatcher;
+import org.apache.chiwen.plugin.policyengine.ChiWenAccessResource;
+import org.apache.chiwen.plugin.policyresourcematcher.ChiWenPolicyResourceMatcher;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -40,10 +40,10 @@ import java.util.Map;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 
-public class RangerRequestedResources {
+public class ChiWenRequestedResources {
 	private List<ChiWenAccessResource> requestedResources = new ArrayList<>();
 
-	public RangerRequestedResources() {
+	public ChiWenRequestedResources() {
 	}
 
 	public void addRequestedResource(ChiWenAccessResource requestedResource) {
@@ -61,7 +61,7 @@ public class RangerRequestedResources {
 		}
 	}
 
-	public boolean isMutuallyExcluded(final List<RangerPolicyResourceMatcher> matchers, final Map<String, Object> evalContext) {
+	public boolean isMutuallyExcluded(final List<ChiWenPolicyResourceMatcher> matchers, final Map<String, Object> evalContext) {
 		boolean ret = true;
 
 		int matchedCount = 0;
@@ -70,7 +70,7 @@ public class RangerRequestedResources {
 
 			for (ChiWenAccessResource resource : requestedResources) {
 
-				for (RangerPolicyResourceMatcher matcher : matchers) {
+				for (ChiWenPolicyResourceMatcher matcher : matchers) {
 
 					if (matcher.isMatch(resource, evalContext) && matchedCount++ > 0) {
 						ret = false;

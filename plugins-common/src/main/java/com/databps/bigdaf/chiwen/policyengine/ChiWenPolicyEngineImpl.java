@@ -74,22 +74,26 @@ public class ChiWenPolicyEngineImpl implements ChiWenPolicyEngine {
     if (resource instanceof ChiWenMutableResource) {
       ChiWenMutableResource mutable = (ChiWenMutableResource) resource;
     } else {
-      LOG.debug("ChiWenPolicyEngineImpl.setResourceServiceDef(): Cannot set ServiceDef in RangerMutableResource.");
+      LOG.debug("ChiWenPolicyEngineImpl.setResourceServiceDef(): Cannot set ServiceDef in ChiWenMutableResource.");
     }
   }
 
-
+  private ChiWenAccessResult switchResult(ChiWenAccessRequest request){
+    ChiWenAccessResult ret =null;
+    if(serviceType.equals("hdfs")){//需要一个公共方法来判断是否是hdfs或者hbase请求
+      ret=isAccessAllowedNoAudit(request);
+    }else if (serviceType.equals("hbase")|| serviceType.equals("hive")){
+      ret=isHbaseAccessAllowedNoAudit(request);
+    }
+    return ret;
+  }
   @Override
   public ChiWenAccessResult isAccessAllowed(ChiWenAccessRequest request, ChiWenAccessResultProcessor resultProcessor) {
     if (LOG.isDebugEnabled()) {
       LOG.debug("==> ChiWenPolicyEngineImpl.isAccessAllowed(" + request + ")");
     }
-    ChiWenAccessResult ret =null;
-    if(serviceType.equals("hdfs")){//需要一个公共方法来判断是否是hdfs或者hbase请求
-      ret=isAccessAllowedNoAudit(request);
-    }else if (serviceType.equals("hbase")){
-      ret=isHbaseAccessAllowedNoAudit(request);
-    }
+    ChiWenAccessResult ret =switchResult(request);
+
 
 
     updatePolicyUsageCounts(request, ret);
@@ -148,7 +152,6 @@ public class ChiWenPolicyEngineImpl implements ChiWenPolicyEngine {
 //      _result.setAudited(true);
 //      _result.setReason("success");
 ////    LOG.info("=================> request:"+request.toString());
-//      System.out.println("ccccccccccc"+policy.getRoles().get(0).getRoleName());
 //
 //      boolean isEnabled = policy.isEnabled();
 //      if (isEnabled) {

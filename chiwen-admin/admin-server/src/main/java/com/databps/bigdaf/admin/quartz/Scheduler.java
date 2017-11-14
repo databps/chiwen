@@ -47,7 +47,6 @@ public class Scheduler {
            auditService.insertDailyAuditStatistics(map);
        }catch (Exception ex){
 //           ex.printStackTrace();
-//           System.out.print("+++++++++++++++++++++++++++++++++++++++++++++"+ ex.getCause());
        }
     }
 
@@ -70,7 +69,6 @@ public class Scheduler {
             auditService.inserDailyNull();
         }catch (Exception ex){
 //           ex.printStackTrace();
-//           System.out.print("+++++++++++++++++++++++++++++++++++++++++++++"+ ex.getCause());
         }
     }
 

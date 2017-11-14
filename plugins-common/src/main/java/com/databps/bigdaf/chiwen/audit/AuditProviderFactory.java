@@ -25,7 +25,6 @@ public class AuditProviderFactory {
 
   private AuditProviderFactory() {
     LOG.info("AuditProviderFactory: creating..");
-    System.out.print("AuditProviderFactory: creating..");
     mProvider = getDefaultProvider();
     mProvider.start();
   }
@@ -35,8 +34,6 @@ public class AuditProviderFactory {
       synchronized (AuditProviderFactory.class) {
         if (sFactory == null) {
           sFactory = new AuditProviderFactory();
-          System.out.print("new AuditProviderFactory() creating..");
-
         }
       }
     }

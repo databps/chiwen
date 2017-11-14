@@ -38,7 +38,7 @@ public class ServiceDefUtil {
         boolean ret = false;
 
         if(serviceDef != null) {
-            boolean enableDenyAndExceptionsInPoliciesHiddenOption = ChiWenConfiguration.getInstance().getBoolean("ranger.servicedef.enableDenyAndExceptionsInPolicies", true);
+            boolean enableDenyAndExceptionsInPoliciesHiddenOption = ChiWenConfiguration.getInstance().getBoolean("chiwen.servicedef.enableDenyAndExceptionsInPolicies", true);
             boolean defaultValue = enableDenyAndExceptionsInPoliciesHiddenOption || StringUtils.equalsIgnoreCase(serviceDef.getName(), EmbeddedServiceDefsUtil.EMBEDDED_SERVICEDEF_TAG_NAME);
 
             ret = ServiceDefUtil.getBooleanValue(serviceDef.getOptions(), ChiWenServiceDef.OPTION_ENABLE_DENY_AND_EXCEPTIONS_IN_POLICIES, defaultValue);

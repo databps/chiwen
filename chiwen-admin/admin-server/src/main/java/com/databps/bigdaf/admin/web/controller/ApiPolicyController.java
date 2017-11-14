@@ -3,9 +3,11 @@ package com.databps.bigdaf.admin.web.controller;
 import com.databps.bigdaf.admin.domain.model.ChiWenPolicy;
 import com.databps.bigdaf.admin.service.HbaseService;
 import com.databps.bigdaf.admin.service.HbaseUserService;
+import com.databps.bigdaf.admin.service.HiveService;
 import com.databps.bigdaf.admin.service.PolicyService;
 import com.databps.bigdaf.admin.vo.ChiWenPolicyPluginVo;
 import com.databps.bigdaf.admin.vo.HbasePolicyVo;
+import com.databps.bigdaf.admin.vo.HivePolicyVo;
 import com.databps.bigdaf.admin.vo.PolicyFormVo;
 import com.databps.bigdaf.admin.vo.PolicyVo;
 import com.databps.bigdaf.admin.web.controller.base.BaseController;
@@ -39,6 +41,9 @@ public class ApiPolicyController extends BaseController {
 
   @Autowired
   private HbaseService hbaseService;
+
+  @Autowired
+  private HiveService hiveService;
 
   @Autowired
   private PolicyService policyService;
@@ -92,6 +97,17 @@ public class ApiPolicyController extends BaseController {
     return policyVo;
 
   }
+
+  @RequestMapping(value = "/v2/policy/pull/hive", method = RequestMethod.GET)
+  @ResponseBody
+  public HivePolicyVo pullPolicyHive(@RequestParam(required = false)  String chiWenUUID, HttpServletRequest httpServletRequest) {
+    String cmpyId = "5968802a01cbaa46738eee3d";
+    HivePolicyVo policyVo = hiveService.getPolicy2(cmpyId, chiWenUUID, "hive", httpServletRequest);
+    return policyVo;
+
+  }
+
+
 
 
   @RequestMapping(value = "/policy/save", method = RequestMethod.POST)

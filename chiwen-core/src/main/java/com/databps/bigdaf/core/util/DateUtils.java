@@ -220,9 +220,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 
   public static void main(String args[]) {
 
-    //System.out.println(formatIntervalDate(123456789l));
     String date="2017-08-29 19:17";
-    System.out.print(formatLastWeekDate());
   }
 
 //  public static String randomDate() {

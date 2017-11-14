@@ -78,8 +78,6 @@ public class ChiWenAccessRequestReadOnly implements ChiWenAccessRequest {
 	@Override
 	public String getClientIPAddress() { return source.getClientIPAddress(); }
 
-	@Override
-	public String getRemoteIPAddress() { return source.getRemoteIPAddress(); }
 
 	@Override
 	public List<String> getForwardedAddresses() { return forwardedAddresses; }

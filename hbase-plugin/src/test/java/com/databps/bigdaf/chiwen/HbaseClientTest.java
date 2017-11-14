@@ -74,7 +74,6 @@ public class HbaseClientTest {
 
       if (!admin.tableExists(table)) {
 
-        System.out.println(tableName + " table not Exists");
 
         HTableDescriptor descriptor = new HTableDescriptor(table);
 
@@ -294,7 +293,6 @@ public class HbaseClientTest {
     }
     //查询数据2
     String original_data_value = getValueBySeries(rowKey1, "original_data");
-    System.out.println("original_data_value->" + original_data_value);
     //查看表中所有数据
     getValueByTable();
   }

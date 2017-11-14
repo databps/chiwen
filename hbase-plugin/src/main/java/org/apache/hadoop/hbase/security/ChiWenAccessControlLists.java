@@ -73,7 +73,6 @@ public class ChiWenAccessControlLists {
 
 
   private static void logInfo(String msg) {
-    // System.out.println(msg);
     LOG.info(msg);
   }
 

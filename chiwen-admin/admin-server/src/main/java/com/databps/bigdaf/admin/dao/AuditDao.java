@@ -245,7 +245,6 @@ public class AuditDao {
     AggregationResults aggregationResults = mongoOperations
         .aggregate(aggregation, COLLECTIO_1NNAME, AuditStatistics.class);
     long endTime1 = System.currentTimeMillis();
-    System.out.println("Dao程序运行时间："+(endTime1-startTime1)+"ms");
     List<AuditStatistics> list = aggregationResults.getMappedResults();
     return list;
   }

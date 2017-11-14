@@ -29,7 +29,6 @@ public class PolicyRefresher extends Thread {
   private ChiWenBasePlugin plugIn = null;
   private String serviceType = null;
   private String serviceId = null;
-  private String policyName = null;
   private ChiWenAdminClient chiwenAdmin = null;
   private boolean policiesSetInPlugin;
 
@@ -54,7 +53,7 @@ public class PolicyRefresher extends Thread {
 
   public PolicyRefresher(ChiWenBasePlugin policyEngine, String serviceType, String appId, ChiWenAdminClient chiwenAdmin, long pollingIntervalMs, String cacheDir) {
     if (LOG.isDebugEnabled()) {
-      LOG.debug("==> PolicyRefresher(policyName=" + policyName + ").PolicyRefresher()");
+      LOG.debug("==> PolicyRefresher(serviceType=" + serviceType + ").PolicyRefresher()");
     }
 
     this.plugIn = policyEngine;
@@ -78,12 +77,21 @@ public class PolicyRefresher extends Thread {
       LOG.fatal("PolicyRefresher(): failed to create GsonBuilder object", excp);
     }
     if (LOG.isDebugEnabled()) {
-      LOG.debug("<== PolicyRefresher(policyName=" + policyName + ").PolicyRefresher()");
+      LOG.debug("<== PolicyRefresher(serviceType=" + serviceType + ").PolicyRefresher()");
     }
   }
 
   public ChiWenAdminClient getChiWenAdminClient() {
     return chiwenAdmin;
+  }
+
+
+  private void switchPolicy(){
+    if(serviceType.equals("hdfs")){
+      loadPolicy();
+    }else if(serviceType.equals("hbase")|| serviceType.equals("hive")){
+      loadHbasePolicy();
+    }
   }
 
 
@@ -94,11 +102,7 @@ public class PolicyRefresher extends Thread {
     }
 
     while(true) {
-      if(serviceType.equals("hdfs")){
-        loadPolicy();
-      }else if(serviceType.equals("hbase")){
-        loadHbasePolicy();
-      }
+      switchPolicy();
 
       try {
         Thread.sleep(pollingIntervalMs);
@@ -217,7 +221,7 @@ public class PolicyRefresher extends Thread {
     ChiWenPolicyPluginVo svcPolicies = null;
 
     try {
-      svcPolicies = chiwenAdmin.getHdfsServicePoliciesIfUpdated(policyName, chiWenUUID);
+      svcPolicies = chiwenAdmin.getHdfsServicePoliciesIfUpdated(serviceType, chiWenUUID);
 
       boolean isUpdated = svcPolicies != null;
 
@@ -266,7 +270,7 @@ public class PolicyRefresher extends Thread {
     ChiWenPolicyHbaseVo svcPolicies = null;
 
     try {
-      svcPolicies = chiwenAdmin.getHbaseServicePoliciesIfUpdated(policyName, chiWenUUID);
+      svcPolicies = chiwenAdmin.getHbaseServicePoliciesIfUpdated(serviceType, chiWenUUID);
 
       boolean isUpdated = svcPolicies != null;
 
@@ -536,13 +540,16 @@ public class PolicyRefresher extends Thread {
     }
   }
 
-
-  public void startRefresher() {
+  public void switchResult(){
     if(serviceType.equals("hdfds")){
       loadPolicy();
-    }else if(serviceType.equals("hbase")){
+    }else if(serviceType.equals("hbase")||serviceType.equals("hive")){
       loadHbasePolicy();
     }
+  }
+
+  public void startRefresher() {
+    switchResult();
 
     super.start();
   }
@@ -555,7 +562,7 @@ public class PolicyRefresher extends Thread {
       super.join();
     } catch (InterruptedException excp) {
       LOG.warn(
-          "PolicyRefresher(policyName=" + policyName + "): error while waiting for thread to exit",
+          "PolicyRefresher(serviceType=" + serviceType + "): error while waiting for thread to exit",
           excp);
     }
   }

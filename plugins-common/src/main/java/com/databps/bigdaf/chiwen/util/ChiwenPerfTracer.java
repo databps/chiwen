@@ -34,7 +34,7 @@ public class ChiwenPerfTracer {
 	private final static String tagEndMarker = "(";
 
 	public static Log getPerfLogger(String name) {
-		return LogFactory.getLog("org.apache.ranger.perf." + name);
+		return LogFactory.getLog("org.apache.chiwen.perf." + name);
 	}
 
 	public static Log getPerfLogger(Class<?> cls) {

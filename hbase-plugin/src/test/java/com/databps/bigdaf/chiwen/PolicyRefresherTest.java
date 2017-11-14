@@ -102,7 +102,6 @@ public class PolicyRefresherTest {
 //        gsonBuilder.setPrettyPrinting();
 //        Gson gson1 = gsonBuilder.create();
 
-//        System.out.printf(gson1.toString());
     String jsonTest = "{\n"
         + "  pluginUid:\"jliuyhiu2313hbk12379hkjhjih\",\n"
         + "  lastVersion:\"1234567890\",\n"
@@ -179,7 +178,6 @@ public class PolicyRefresherTest {
         + "  ]\n"
         + "}]\n"
         + "}";
-    System.out.print(jsonTest);
     ChiWenPolicyHbaseVo policy = gson.fromJson(jsonTest, ChiWenPolicyHbaseVo.class);
     try {
       saveToCache.invoke(policyRefresher, policy);

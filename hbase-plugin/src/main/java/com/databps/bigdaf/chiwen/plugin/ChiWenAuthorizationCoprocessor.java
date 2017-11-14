@@ -137,9 +137,9 @@ public class ChiWenAuthorizationCoprocessor extends ChiWenAuthorizationCoprocess
         if (plugin == null) {
           plugin = new ChiWenHBasePlugin(appType);
           plugin.init();
-//          UpdateRangerPoliciesOnGrantRevoke = RangerConfiguration.getInstance()
-//              .getBoolean(RangerHadoopConstants.HBASE_UPDATE_RANGER_POLICIES_ON_GRANT_REVOKE_PROP,
-//                  RangerHadoopConstants.HBASE_UPDATE_RANGER_POLICIES_ON_GRANT_REVOKE_DEFAULT_VALUE);
+//          UpdateChiWenPoliciesOnGrantRevoke = ChiWenConfiguration.getInstance()
+//              .getBoolean(ChiWenHadoopConstants.HBASE_UPDATE_CHIWEN_POLICIES_ON_GRANT_REVOKE_PROP,
+//                  ChiWenHadoopConstants.HBASE_UPDATE_CHIWEN_POLICIES_ON_GRANT_REVOKE_DEFAULT_VALUE);
           hbasePlugin = plugin;
         }
       }
@@ -228,7 +228,7 @@ public class ChiWenAuthorizationCoprocessor extends ChiWenAuthorizationCoprocess
       remoteAddr = RpcServer.getRemoteIp();
     }
 
-    String strAddr = remoteAddr != null ? remoteAddr.getHostAddress() : null;
+    String strAddr = remoteAddr != null ? remoteAddr.getHostAddress() : "0.0.0.0";
 
     return strAddr;
   }
@@ -534,7 +534,7 @@ public class ChiWenAuthorizationCoprocessor extends ChiWenAuthorizationCoprocess
                 + "].  Checking if has partial access (of any type)...");
           }
 
-//              .resourceMatchingScope(RangerAccessRequest.ResourceMatchingScope.SELF_OR_DESCENDANTS)
+//              .resourceMatchingScope(ChiWenAccessRequest.ResourceMatchingScope.SELF_OR_DESCENDANTS)
           session.buildRequest()
               .authorize();//authorize方法是真正的校验逻辑入口方法
           auditEvent = auditHandler.getAndDiscardMostRecentEvent(); // capture it only for failure
@@ -1168,7 +1168,7 @@ public class ChiWenAuthorizationCoprocessor extends ChiWenAuthorizationCoprocess
 
     boolean isSuccess = false;
 
-    if(true) {
+    if(UpdatChiWenPoliciesOnGrantRevoke) {
       GrantRevokeRequest grData = null;
 
       try {
@@ -1312,7 +1312,7 @@ public class ChiWenAuthorizationCoprocessor extends ChiWenAuthorizationCoprocess
   @Override
   public void revoke(RpcController controller, AccessControlProtos.RevokeRequest request, RpcCallback<AccessControlProtos.RevokeResponse> done) {
     boolean isSuccess = false;
-    if(true) {
+    if(UpdatChiWenPoliciesOnGrantRevoke) {
       GrantRevokeRequest grData = null;
 
       try {

@@ -254,7 +254,6 @@ public class KerberosAuthenticator2 implements Authenticator {
 						GSSManager gssManager = GSSManager.getInstance();
 						String servicePrincipal = "HTTP/"
 								+ KerberosAuthenticator2.this.url.getHost();
-						System.out.println("====================="+servicePrincipal);
 						Oid oid = KerberosUtil
 								.getOidInstance("NT_GSS_KRB5_PRINCIPAL");
 						GSSName serviceName = gssManager.createName(

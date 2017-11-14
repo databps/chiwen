@@ -49,8 +49,8 @@ public class ChiWenLegacyConfigBuilder {
 
 		if ( legacyFileUrl  != null) {
 			legacyConfig.addResource(legacyFileUrl);
-			Configuration rangerDefaultProp =  buildRangerSecurityConf(serviceType);
-					   ret	 			    =  mapLegacyConfigToRanger(rangerDefaultProp,legacyConfig);
+			Configuration chiwenDefaultProp =  buildChiWenSecurityConf(serviceType);
+					   ret	 			    =  mapLegacyConfigToChiWen(chiwenDefaultProp,legacyConfig);
 		}
 		if(LOG.isDebugEnabled()) {
 			LOG.debug("<== getSecurityConfig() " + legacyResource + " FileName: " + legacyFileUrl);
@@ -73,37 +73,37 @@ public class ChiWenLegacyConfigBuilder {
 		return ret;
 	}
 
-   private static  Configuration mapLegacyConfigToRanger(Configuration rangerInConf, Configuration legacyConf) {
+   private static  Configuration mapLegacyConfigToChiWen(Configuration chiwenInConf, Configuration legacyConf) {
 	
-	    Configuration ret 				   = rangerInConf;
+	    Configuration ret 				   = chiwenInConf;
 	
 	    HashMap<String,String>  chgMap     = getConfigChangeMap(serviceType);
 	    if(LOG.isDebugEnabled()) {
-			LOG.debug("<== mapLegacyConfigToRanger() MAP Size:  " + chgMap.size());
+			LOG.debug("<== mapLegacyConfigToChiWen() MAP Size:  " + chgMap.size());
 		}
 		for(Map.Entry<String, String> entry : chgMap.entrySet()) {
 			String legacyKey 	 = entry.getKey();
-			String rangerKey 	 = entry.getValue();
+			String chiwenKey 	 = entry.getValue();
 			
 			String legacyConfVal = null;
 			
-			if ( rangerKey.equals(getPropertyName(ChiWenConfigConstants.RANGER_SERVICE_NAME,serviceType)) )  {
+			if ( chiwenKey.equals(getPropertyName(ChiWenConfigConstants.CHIWEN_SERVICE_NAME,serviceType)) )  {
 				//For getting the service
 				String serviceURL = legacyConf.get(getPropertyName(ChiWenConfigConstants.XASECURE_POLICYMGR_URL,serviceType));
-				legacyConfVal = fetchLegacyValue(serviceURL,rangerKey);
-			} else if  ( rangerKey.equals(getPropertyName(ChiWenConfigConstants.RANGER_PLUGIN_POLICY_REST_URL,serviceType)) ||
-					     rangerKey.equals(getPropertyName(ChiWenConfigConstants.RANGER_PLUGIN_POLICY_CACHE_DIR,serviceType)) ) {
+				legacyConfVal = fetchLegacyValue(serviceURL,chiwenKey);
+			} else if  ( chiwenKey.equals(getPropertyName(ChiWenConfigConstants.CHIWEN_PLUGIN_POLICY_REST_URL,serviceType)) ||
+					     chiwenKey.equals(getPropertyName(ChiWenConfigConstants.CHIWEN_PLUGIN_POLICY_CACHE_DIR,serviceType)) ) {
 				// For Getting Admin URL and CacheDir
-				legacyConfVal = fetchLegacyValue(legacyConf.get(legacyKey),rangerKey);
+				legacyConfVal = fetchLegacyValue(legacyConf.get(legacyKey),chiwenKey);
 			} else {
 				legacyConfVal = legacyConf.get(legacyKey);
 			}
 			
 			if(LOG.isDebugEnabled()) {
-				LOG.debug("<== mapLegacyConfigToRanger() Ranger Key: " + rangerKey + "Legacy Key:" + legacyKey +  "Legacy Value:" + legacyConfVal);
+				LOG.debug("<== mapLegacyConfigToChiWen() ChiWen Key: " + chiwenKey + "Legacy Key:" + legacyKey +  "Legacy Value:" + legacyConfVal);
 			}
 			
-			ret.set(rangerKey, legacyConfVal);	
+			ret.set(chiwenKey, legacyConfVal);	
 		}
 		return ret;
 	}
@@ -126,46 +126,46 @@ public class ChiWenLegacyConfigBuilder {
 			}
 		}
 		catch(Throwable t) {
-			LOG.error("Missing Ranger Audit configuration files...");
+			LOG.error("Missing ChiWen Audit configuration files...");
 			throw t;
 		}
 		return ret;
 	}
 
-	public static Configuration  buildRangerSecurityConf(String serviceType) {
-		Configuration rangerConf = new Configuration();
+	public static Configuration  buildChiWenSecurityConf(String serviceType) {
+		Configuration chiwenConf = new Configuration();
 
-		rangerConf.set(getPropertyName(ChiWenConfigConstants.RANGER_SERVICE_NAME,serviceType),"");
+		chiwenConf.set(getPropertyName(ChiWenConfigConstants.CHIWEN_SERVICE_NAME,serviceType),"");
 		if (EmbeddedServiceDefsUtil.EMBEDDED_SERVICEDEF_KNOX_NAME.equals(serviceType) )  {
-			rangerConf.set(getPropertyName(ChiWenConfigConstants.RANGER_PLUGIN_POLICY_SOURCE_IMPL,serviceType),ChiWenConfigConstants.RANGER_KNOX_PLUGIN_POLICY_SOURCE_IMPL_DEFAULT);
+			chiwenConf.set(getPropertyName(ChiWenConfigConstants.CHIWEN_PLUGIN_POLICY_SOURCE_IMPL,serviceType),ChiWenConfigConstants.CHIWEN_KNOX_PLUGIN_POLICY_SOURCE_IMPL_DEFAULT);
 		} else {
-			rangerConf.set(getPropertyName(ChiWenConfigConstants.RANGER_PLUGIN_POLICY_SOURCE_IMPL,serviceType),"");
+			chiwenConf.set(getPropertyName(ChiWenConfigConstants.CHIWEN_PLUGIN_POLICY_SOURCE_IMPL,serviceType),"");
 		}
-		rangerConf.set(getPropertyName(ChiWenConfigConstants.RANGER_PLUGIN_POLICY_REST_URL,serviceType),"");
-		rangerConf.set(getPropertyName(ChiWenConfigConstants.RANGER_PLUGIN_REST_SSL_CONFIG_FILE,serviceType), getPropertyName(ChiWenConfigConstants.XASECURE_POLICYMGR_SSL_FILE,serviceType));
-		rangerConf.set(getPropertyName(ChiWenConfigConstants.RANGER_PLUGIN_POLICY_POLLINVETERVALMS,serviceType), "");
-		rangerConf.set(getPropertyName(ChiWenConfigConstants.RANGER_PLUGIN_POLICY_CACHE_DIR,serviceType), "");
-		rangerConf.set(ChiWenConfigConstants.RANGER_PLUGIN_ADD_HADDOOP_AUTHORIZATION,"");
+		chiwenConf.set(getPropertyName(ChiWenConfigConstants.CHIWEN_PLUGIN_POLICY_REST_URL,serviceType),"");
+		chiwenConf.set(getPropertyName(ChiWenConfigConstants.CHIWEN_PLUGIN_REST_SSL_CONFIG_FILE,serviceType), getPropertyName(ChiWenConfigConstants.XASECURE_POLICYMGR_SSL_FILE,serviceType));
+		chiwenConf.set(getPropertyName(ChiWenConfigConstants.CHIWEN_PLUGIN_POLICY_POLLINVETERVALMS,serviceType), "");
+		chiwenConf.set(getPropertyName(ChiWenConfigConstants.CHIWEN_PLUGIN_POLICY_CACHE_DIR,serviceType), "");
+		chiwenConf.set(ChiWenConfigConstants.CHIWEN_PLUGIN_ADD_HADDOOP_AUTHORIZATION,"");
 
-		return rangerConf;
+		return chiwenConf;
 	}
 
 	public static HashMap<String, String> getConfigChangeMap(String serviceType) {
-		// ConfigMap for moving legacy Configuration to Ranger Configuration
+		// ConfigMap for moving legacy Configuration to ChiWen Configuration
 		HashMap<String, String> changeMap = new HashMap<>();
 		
 		changeMap.put(serviceType,
-					  getPropertyName(ChiWenConfigConstants.RANGER_SERVICE_NAME,serviceType));
+					  getPropertyName(ChiWenConfigConstants.CHIWEN_SERVICE_NAME,serviceType));
 		changeMap.put(getPropertyName(ChiWenConfigConstants.XASECURE_POLICYMGR_URL,serviceType),
-					  getPropertyName(ChiWenConfigConstants.RANGER_PLUGIN_POLICY_REST_URL,serviceType));
+					  getPropertyName(ChiWenConfigConstants.CHIWEN_PLUGIN_POLICY_REST_URL,serviceType));
 		changeMap.put(getPropertyName(ChiWenConfigConstants.XASECURE_POLICYMGR_GRL_RELOADINTERVALINMILLIS,serviceType),
-					  getPropertyName(ChiWenConfigConstants.RANGER_PLUGIN_POLICY_POLLINVETERVALMS,serviceType));
+					  getPropertyName(ChiWenConfigConstants.CHIWEN_PLUGIN_POLICY_POLLINVETERVALMS,serviceType));
 		changeMap.put(getPropertyName(ChiWenConfigConstants.XASECURE_POLICYMGR_URL_LASTSTOREDFILE,serviceType),
-					  getPropertyName(ChiWenConfigConstants.RANGER_PLUGIN_POLICY_CACHE_DIR,serviceType));
+					  getPropertyName(ChiWenConfigConstants.CHIWEN_PLUGIN_POLICY_CACHE_DIR,serviceType));
 		
 				if (EmbeddedServiceDefsUtil.EMBEDDED_SERVICEDEF_HDFS_NAME.equals(serviceType)) {
 			changeMap.put(ChiWenConfigConstants.XASECURE_ADD_HADDOP_AUTHORZATION,
-				      ChiWenConfigConstants.RANGER_PLUGIN_ADD_HADDOOP_AUTHORIZATION);
+				      ChiWenConfigConstants.CHIWEN_PLUGIN_ADD_HADDOOP_AUTHORIZATION);
 		}
 		
 		if (EmbeddedServiceDefsUtil.EMBEDDED_SERVICEDEF_HBASE_NAME.equals(serviceType) ||
@@ -177,8 +177,8 @@ public class ChiWenLegacyConfigBuilder {
 		if ( LOG.isDebugEnabled()) {
 			for(Map.Entry<String, String> entry : changeMap.entrySet()) {
 				String legacyKey 	 = entry.getKey();
-				String rangerKey 	 = entry.getValue();
-				LOG.debug("<== getConfigChangeMap() RangerConfig Key: " + rangerKey + " Legacy Key: " + legacyKey);
+				String chiwenKey 	 = entry.getValue();
+				LOG.debug("<== getConfigChangeMap() ChiWenConfig Key: " + chiwenKey + " Legacy Key: " + legacyKey);
 			}
 		}
 		
@@ -202,8 +202,8 @@ public class ChiWenLegacyConfigBuilder {
 		return ChiWenLegacyConfigBuilder.class.getClassLoader().getResource(fileName);
 	}
 
-	public static String getPropertyName(String rangerProp, String serviceType) {
-		return rangerProp.replace("<ServiceType>", serviceType);
+	public static String getPropertyName(String chiwenProp, String serviceType) {
+		return chiwenProp.replace("<ServiceType>", serviceType);
 	}	
 
 	public static String getPolicyMgrURL(String url) {
@@ -225,16 +225,16 @@ public class ChiWenLegacyConfigBuilder {
 		return cacheFile.substring(0,index);
 	}
 
-	public static String fetchLegacyValue(String legacyVal, String rangerKey) {
+	public static String fetchLegacyValue(String legacyVal, String chiwenKey) {
 		String ret = null;
 	
-		if ( rangerKey.equals(getPropertyName(ChiWenConfigConstants.RANGER_SERVICE_NAME,serviceType)) ) {
+		if ( chiwenKey.equals(getPropertyName(ChiWenConfigConstants.CHIWEN_SERVICE_NAME,serviceType)) ) {
 			// To Fetch ServiceName
 			ret = getServiceNameFromURL(legacyVal);
-		} else if ( rangerKey.equals(getPropertyName(ChiWenConfigConstants.RANGER_PLUGIN_POLICY_REST_URL,serviceType)) ) {
+		} else if ( chiwenKey.equals(getPropertyName(ChiWenConfigConstants.CHIWEN_PLUGIN_POLICY_REST_URL,serviceType)) ) {
 		   // To Fetch PolicyMgr URL
 		   ret = getPolicyMgrURL(legacyVal);		
-		} else if  ( rangerKey.equals(getPropertyName(ChiWenConfigConstants.RANGER_PLUGIN_POLICY_CACHE_DIR,serviceType)) ) {
+		} else if  ( chiwenKey.equals(getPropertyName(ChiWenConfigConstants.CHIWEN_PLUGIN_POLICY_CACHE_DIR,serviceType)) ) {
 			  ret = getCacheFileURL(legacyVal);
 	   }
 	
