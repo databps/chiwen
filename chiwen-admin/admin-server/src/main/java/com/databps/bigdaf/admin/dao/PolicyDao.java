@@ -62,6 +62,19 @@ public class PolicyDao {
     update.set("privileges", policy.getPrivileges());
     mongoTemplate.updateFirst(query,update,COLLECTIO_1NNAME);
   }
+  public void updateStrategy(String type,Policy policy){
+    Query query = Query.query(Criteria.where("type").is(type));
+    Update update = new Update();
+    update.set("strategy", policy.getStrategy());
+    mongoTemplate.updateFirst(query,update,COLLECTIO_1NNAME);
+  }
+
+  public Policy findStrategy(String type){
+    Query query = new Query();
+    query.addCriteria(Criteria.where("type").is(type));
+    Policy policy = mongoTemplate.findOne(query,Policy.class, COLLECTIO_1NNAME);
+    return policy;
+  }
 //  public MongoT
 // emplate getMongoTemplate() {
 //    return mongoTemplate;

@@ -38,4 +38,5 @@ public interface PrivilegeService {
 
   Map<String, String> checkName(String name,String id);
 
+
 }

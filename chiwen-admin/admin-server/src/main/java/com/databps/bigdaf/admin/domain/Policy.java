@@ -20,6 +20,8 @@ public class Policy {
 
   private String createTime;
 
+  private String strategy;
+
   public String getType() {
     return type;
   }
@@ -52,5 +54,11 @@ public class Policy {
     this.id = id;
   }
 
+  public String getStrategy() {
+    return strategy;
+  }
 
+  public void setStrategy(String strategy) {
+    this.strategy = strategy;
+  }
 }

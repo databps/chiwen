@@ -1,0 +1,73 @@
+[#include "/include/header_index.html"]
+<body style='height: 100%;'>
+[#include "/include/navbar.html"]
+<div class="app-main">
+  <!-- 内容 -->
+  <div class="yHdfsBody  jurisdiction">
+    <div class="yHeader">
+      <span class="ga">GATEWAY(Cluster1)</span>
+    </div>
+    <div class="yMain clearfix">
+      <div class="fl">
+        <ul class="nav nav-pills nav-stacked yPlugNav">
+          <li><a href="${base}/authority/gateway/list">用户管理</a></li>
+          <li><a href="${base}/character/list">角色管理</a></li>
+          <li><a href="${base}/gateway/privilege/list">权限管理</a></li>
+          <li class="active"><a href="${base}/authority/gateway/strateg/list">策略管理</a></li>
+        </ul>
+      </div>
+      <div class="fr massges">
+        <div class="panel panel-default toptitle">
+          <p class="panel-heading">策略管理</p>
+        </div>
+
+        <div class="mar30">
+          <h5 class="h5_pad">是否开启策略</h5>
+          <!--<div class="switch"><b class="on"></b>开启-->
+          <!--</div>-->
+          <div class="switch" tabindex="0" data-on="success" id="mySwitch">
+            <!--[if testMode ??]-->
+            <!--[#/if]-->
+            [#if policy.strategy == "true"]
+            <input id="notification2" type="checkbox" name="strategy" checked/>
+            [#else]
+            <input id="notification2" type="checkbox" name="strategy"/>
+            [/#if]
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- 模态框 -->
+    <!-- 模态框（Modal）添加用户 -->
+
+  </div>
+</div>
+[#include "/include/footer_index.html"]
+<!-- jQuery (v2.2.4) -->
+<!-- bootstrap3 -->
+<script type="text/javascript" src="${base}/lib/multiselect.js"></script>
+<script>
+
+
+  $('#mySwitch').on('switch-change', function (e, data) {
+    var $el = $(data.el),
+        value = data.value;
+    $.ajax({
+      url: "/authority/gateway/strategy/edit",
+      method: "post",
+      data: {
+        strategy: value
+      },
+      success: function (res) {
+
+      },
+      error: function () {
+
+      }
+    })
+  });
+</script>
+
+</body>
+</html>
