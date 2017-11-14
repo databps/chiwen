@@ -75,10 +75,10 @@
                   <td>${log.clientIPAddress}</td>
                   <td>${log.pluginIp}</td>
                   <td>${log.action}</td>
-                  <td>${log.path}</td>
+                  <td>${log.resourcePath}</td>
                   <td>${log.accessType}</td>
                   <td>[@formatDate value="${log.accessTime}"/]</td>
-                  <td>[#if log.isAllowed=='success']<span class="label label-success">success</span>[#else]<span class="label label-danger">failure</span>[/#if]</td>
+                  <td>[#if log.accessResult=='success']<span class="label label-success">success</span>[#else]<span class="label label-danger">failure</span>[/#if]</td>
                 </tr>
                 [/#list]
                 </tbody>
