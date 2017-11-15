@@ -135,7 +135,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/management/health").permitAll()
         .antMatchers("/management/**").hasAuthority(
         AuthoritiesConstants.ADMIN)
-        .antMatchers("/v2/api-docs/**").permitAll()
+        .antMatchers("/v2/**").permitAll()
         .and()
         .apply(securityConfigurerAdapter());
 

@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 
 @Controller
-@RequestMapping(value = "/api")
+@RequestMapping(value = "")
 public class ApiPolicyController extends BaseController {
 
   private static final Log LOG = LogFactory.getLog(ApiPolicyController.class);
@@ -48,7 +48,7 @@ public class ApiPolicyController extends BaseController {
   @Autowired
   private PolicyService policyService;
 
-  @RequestMapping(value = "/policy/pull/{chiWenUUID}/{agenttype}", method = RequestMethod.GET)
+  @RequestMapping(value = "/api/policy/pull/{chiWenUUID}/{agenttype}", method = RequestMethod.GET)
   @ResponseBody
   public String pullPolicy(@PathVariable(name = "chiWenUUID") String chiWenUUID,
       @PathVariable(name = "agenttype") String agenttype, HttpServletRequest httpServletRequest) {
@@ -110,7 +110,7 @@ public class ApiPolicyController extends BaseController {
 
 
 
-  @RequestMapping(value = "/policy/save", method = RequestMethod.POST)
+  @RequestMapping(value = "/api/policy/save", method = RequestMethod.POST)
   public String save(@Valid PolicyFormVo vo) {
     if (StringUtils.isBlank(vo.getId())) {
       policyService.insert(vo);
