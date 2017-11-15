@@ -118,7 +118,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/account/reset_password/init").permitAll()
         .antMatchers("/account/reset_password/finish").permitAll()
         .antMatchers("/vulnerability/**").permitAll()
-        .antMatchers("/api/**").permitAll()
+        .antMatchers("/api/v2/**").permitAll()
+        .antMatchers("/api/**").authenticated()
 //        .antMatchers("/home/**").permitAll()
 //        .antMatchers("/user/**").permitAll().antMatchers("/group/**").permitAll()
         .antMatchers("/privilege/**").permitAll()
@@ -135,7 +136,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/management/health").permitAll()
         .antMatchers("/management/**").hasAuthority(
         AuthoritiesConstants.ADMIN)
-        .antMatchers("/v2/**").permitAll()
         .and()
         .apply(securityConfigurerAdapter());
 

@@ -99,7 +99,7 @@ public class ChiWenAdminRESTClient implements ChiWenAdminClient {
           + chiWenUUID + ")");
     }
     ChiWenPolicyPluginVo ret = null;
-    String urlString = "/v2/policy/pull/hdfs?chiWenUUID="+chiWenUUID;
+    String urlString = "/api/v2/policy/pull/hdfs?chiWenUUID="+chiWenUUID;
 
     WebResource resource = restClient.getResource(urlString);
     response = resource.accept(MediaType.APPLICATION_JSON_TYPE)
@@ -154,7 +154,7 @@ public class ChiWenAdminRESTClient implements ChiWenAdminClient {
           + chiWenUUID + ")");
     }
     ChiWenPolicyHbaseVo ret = null;
-    String urlString = "/v2/policy/pull/"+serviceTye+"?chiWenUUID="+chiWenUUID;
+    String urlString = "/api/v2/policy/pull/"+serviceTye+"?chiWenUUID="+chiWenUUID;
 
     WebResource resource = restClient.getResource(urlString);
     response = resource.accept(MediaType.APPLICATION_JSON_TYPE)

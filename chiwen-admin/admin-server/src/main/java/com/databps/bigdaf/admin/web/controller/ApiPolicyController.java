@@ -74,7 +74,7 @@ public class ApiPolicyController extends BaseController {
   }
 
 
-  @RequestMapping(value = "/v2/policy/pull/hdfs", method = RequestMethod.GET)
+  @RequestMapping(value = "/api/v2/policy/pull/hdfs", method = RequestMethod.GET,produces="application/json;charset=UTF-8")
   @ResponseBody
   public ChiWenPolicyPluginVo pullPolicy2(@RequestParam(required = false)  String chiWenUUID, HttpServletRequest httpServletRequest) {
     String cmpyId = "5968802a01cbaa46738eee3d";
@@ -86,8 +86,8 @@ public class ApiPolicyController extends BaseController {
     return policyVo;
 
   }
- 
-  @RequestMapping(value = "/v2/policy/pull/hbase", method = RequestMethod.GET)
+
+  @RequestMapping(value = "/api/v2/policy/pull/hbase", method = RequestMethod.GET)
   @ResponseBody
   public HbasePolicyVo pullPolicyHbase(@RequestParam(required = false)  String chiWenUUID, HttpServletRequest httpServletRequest) {
     String cmpyId = "5968802a01cbaa46738eee3d";
@@ -98,7 +98,7 @@ public class ApiPolicyController extends BaseController {
 
   }
 
-  @RequestMapping(value = "/v2/policy/pull/hive", method = RequestMethod.GET)
+  @RequestMapping(value = "/api/v2/policy/pull/hive", method = RequestMethod.GET)
   @ResponseBody
   public HivePolicyVo pullPolicyHive(@RequestParam(required = false)  String chiWenUUID, HttpServletRequest httpServletRequest) {
     String cmpyId = "5968802a01cbaa46738eee3d";
