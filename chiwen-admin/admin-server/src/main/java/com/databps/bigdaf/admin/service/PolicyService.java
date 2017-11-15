@@ -21,7 +21,4 @@ public interface PolicyService {
 
   List<PolicyVo> findAllByName(Pageable pageable,String name);
 
-  Policy findStrategy(String type);
-
-  void editStrategy(Policy policy);
 }

@@ -108,14 +108,5 @@ public class PolicyServiceImpl implements PolicyService {
 
     return null;
   }
-  @Override
-  public Policy findStrategy(String type) {
-    Policy policy = policyDao.findStrategy(type);
-    return policy;
-  }
-  @Override
-  public void editStrategy(Policy policy) {
-    policyDao.updateStrategy("hdfs",policy);
-  }
 
 }

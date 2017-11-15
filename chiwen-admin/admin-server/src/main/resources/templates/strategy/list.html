@@ -15,7 +15,7 @@
           <li><a href="${base}/authority/user/list">用户管理</a></li>
           <li><a href="${base}/authority/group/list">组管理</a></li>
           <li><a href="${base}/authority/privilege/list">权限管理</a></li>
-          <li class="active"><a href="${base}/authority/hdfs/strateg/list">策略管理</a></li>
+          <li class="active"><a href="${base}/authority/hdfs/strategy/list">策略管理</a></li>
         </ul>
       </div>
       <div class="fr massges">
@@ -31,10 +31,10 @@
           <div class="switch" tabindex="0" data-on="success" id="mySwitch">
             <!--[if testMode ??]-->
             <!--[#/if]-->
-            [#if policy.strategy == "true"]
-            <input id="notification2" type="checkbox" name="strategy" checked/>
+            [#if vo.hdfs_strategy == "true"]
+            <input id="notification2" type="checkbox" name="hdfs_strategy" checked/>
             [#else]
-            <input id="notification2" type="checkbox" name="strategy"/>
+            <input id="notification2" type="checkbox" name="hdfs_strategy"/>
             [/#if]
           </div>
 
@@ -60,7 +60,7 @@
       url: "/authority/hdfs/strategy/edit",
       method: "post",
       data: {
-        strategy: value
+        hdfs_strategy: value
       },
       success: function (res) {
 

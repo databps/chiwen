@@ -47,4 +47,23 @@ public class ConfigDao {
         update.set("kerberos_enable",kerberos_enable);
         mongoOperations.upsert(query,update,COLLECTIO_NNAME);
     }
+
+    public Config findStrategy() {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("cmpy_id").is("5968802a01cbaa46738eee3d"));
+        Config config = mongoOperations.findOne(query,Config.class);
+        return config;
+    }
+
+    public void editStrategy(Config conf) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("cmpy_id").is("5968802a01cbaa46738eee3d"));
+
+        Update update = new Update();
+        update.set("hdfs_strategy",conf.getHdfs_strategy());
+        update.set("hbase_strategy",conf.getHbase_strategy());
+        update.set("gateway_strategy",conf.getGateway_strategy());
+        update.set("hive_strategy",conf.getHive_strategy());
+        mongoOperations.upsert(query,update,COLLECTIO_NNAME);
+    }
 }
