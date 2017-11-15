@@ -86,7 +86,7 @@ public class ApiPolicyController extends BaseController {
     return policyVo;
 
   }
-
+ 
   @RequestMapping(value = "/v2/policy/pull/hbase", method = RequestMethod.GET)
   @ResponseBody
   public HbasePolicyVo pullPolicyHbase(@RequestParam(required = false)  String chiWenUUID, HttpServletRequest httpServletRequest) {
