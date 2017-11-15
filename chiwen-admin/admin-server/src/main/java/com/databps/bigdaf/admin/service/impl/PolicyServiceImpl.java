@@ -70,7 +70,6 @@ public class PolicyServiceImpl implements PolicyService {
     ChiWenPolicy policy=policyDao.getPolicy();
     ChiWenPolicyPluginVo vo=new ChiWenPolicyPluginVo();
     vo.setServiceType("hdfs");
-    vo.setAudited(true);
     vo.setServiceId(chiWenUUID);
     Config config = configDao.findConfig("5968802a01cbaa46738eee3d");
     if(config!=null){
@@ -78,6 +77,9 @@ public class PolicyServiceImpl implements PolicyService {
         vo.setEnabled(false);
       }else{
         vo.setEnabled(true);
+      }
+      if(config.getHdfs_strategy()!=null){
+        vo.setAudited(config.getHdfs_strategy());
       }
     }
 

@@ -76,7 +76,6 @@ public class HiveServcieImpl implements HiveService {
     HivePolicyVo vo=new HivePolicyVo();
     vo.setServiceId(chiWenUUID);
     vo.setLastVersion(1L);
-    vo.setAudited(true);
     vo.setUpdateTime(DateUtils.formatDateNow());
     vo.setServiceType(agenttype);
 
@@ -103,10 +102,15 @@ public class HiveServcieImpl implements HiveService {
     vo.setRoles(rolesVo);
 
     Config config = configDao.findConfig(cmpyId);
-    if ("false".equalsIgnoreCase(config.getTestMode())) {
-      vo.setEnabled(false);
-    }else{
-      vo.setEnabled(true);
+    if(config!=null) {
+      if ("false".equalsIgnoreCase(config.getTestMode())) {
+        vo.setEnabled(false);
+      } else {
+        vo.setEnabled(true);
+      }
+      if(config.getHive_strategy()!=null){
+        vo.setAudited(config.getHive_strategy());
+      }
     }
 
     return vo;

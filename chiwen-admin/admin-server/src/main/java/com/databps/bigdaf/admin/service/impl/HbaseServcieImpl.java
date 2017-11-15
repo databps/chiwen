@@ -94,10 +94,15 @@ public class HbaseServcieImpl implements HbaseService {
     vo.setRoles(rolesVo);
 
     Config config = configDao.findConfig(cmpyId);
-    if ("false".equalsIgnoreCase(config.getTestMode())) {
-      vo.setEnabled(false);
-    }else{
-      vo.setEnabled(true);
+    if(config!=null) {
+      if ("false".equalsIgnoreCase(config.getTestMode())) {
+        vo.setEnabled(false);
+      } else {
+        vo.setEnabled(true);
+      }
+      if(config.getHbase_strategy()!=null){
+        vo.setAudited(config.getHbase_strategy());
+      }
     }
     return vo;
   }

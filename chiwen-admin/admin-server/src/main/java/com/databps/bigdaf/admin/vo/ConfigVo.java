@@ -13,10 +13,10 @@ public class ConfigVo implements Serializable {
   private int loginMaxNumber;
   private int loginIntervalTime;
   private int kerberosEnable;
-  private String hdfs_strategy;
-  private String hbase_strategy;
-  private String gateway_strategy;
-  private String hive_strategy;
+  private Boolean hdfs_strategy;
+  private Boolean hbase_strategy;
+  private Boolean gateway_strategy;
+  private Boolean hive_strategy;
 
 
   public String getCmpyId() {
@@ -59,35 +59,35 @@ public class ConfigVo implements Serializable {
     this.kerberosEnable = kerberosEnable;
   }
 
-  public String getHdfs_strategy() {
+  public Boolean getHdfs_strategy() {
     return hdfs_strategy;
   }
 
-  public void setHdfs_strategy(String hdfs_strategy) {
+  public void setHdfs_strategy(Boolean hdfs_strategy) {
     this.hdfs_strategy = hdfs_strategy;
   }
 
-  public String getHbase_strategy() {
+  public Boolean getHbase_strategy() {
     return hbase_strategy;
   }
 
-  public void setHbase_strategy(String hbase_strategy) {
+  public void setHbase_strategy(Boolean hbase_strategy) {
     this.hbase_strategy = hbase_strategy;
   }
 
-  public String getGateway_strategy() {
+  public Boolean getGateway_strategy() {
     return gateway_strategy;
   }
 
-  public void setGateway_strategy(String gateway_strategy) {
+  public void setGateway_strategy(Boolean gateway_strategy) {
     this.gateway_strategy = gateway_strategy;
   }
 
-  public String getHive_strategy() {
+  public Boolean getHive_strategy() {
     return hive_strategy;
   }
 
-  public void setHive_strategy(String hive_strategy) {
+  public void setHive_strategy(Boolean hive_strategy) {
     this.hive_strategy = hive_strategy;
   }
 }
