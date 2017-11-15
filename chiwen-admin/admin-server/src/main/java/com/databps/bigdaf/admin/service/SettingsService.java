@@ -15,4 +15,8 @@ public interface SettingsService {
   ConfigVo saveConfigVo(ConfigVo configVo);
 
   ConfigVo saveKerberosEnable(String cmpyId , int kerberosEnable);
+
+  ConfigVo findStrategy();
+
+  void editStrategy(ConfigVo configVo,String part);
 }

@@ -13,7 +13,7 @@
           <li class="active"><a href="${base}/authority/hive/user/list">用户管理</a></li>
           <li><a href="${base}/hive/role/list">角色管理</a></li>
           <li><a href="${base}/hive/privilege/list">权限管理</a></li>
-          <li class="active"><a href="${base}/authority/hive/strateg/list">策略管理</a></li>
+          <li class="active"><a href="${base}/authority/hive/strategy/list">策略管理</a></li>
         </ul>
         </ul>
       </div>
@@ -29,10 +29,10 @@
           <div class="switch" tabindex="0" data-on="success" id="mySwitch">
             <!--[if testMode ??]-->
             <!--[#/if]-->
-            [#if policy.strategy == "true"]
-            <input id="notification2" type="checkbox" name="strategy" checked/>
+            [#if vo.hive_strategy == "true"]
+            <input id="notification2" type="checkbox" name="hive_strategy" checked/>
             [#else]
-            <input id="notification2" type="checkbox" name="strategy"/>
+            <input id="notification2" type="checkbox" name="hive_strategy"/>
             [/#if]
           </div>
 
@@ -59,7 +59,7 @@
       url: "/authority/hive/strategy/edit",
       method: "post",
       data: {
-        strategy: value
+        hive_strategy: value
       },
       success: function (res) {
 

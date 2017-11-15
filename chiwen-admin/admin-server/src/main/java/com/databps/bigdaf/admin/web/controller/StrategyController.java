@@ -5,6 +5,8 @@ import com.databps.bigdaf.admin.security.AuthoritiesConstants;
 import com.databps.bigdaf.admin.service.GatewayUserService;
 import com.databps.bigdaf.admin.service.PolicyService;
 import com.databps.bigdaf.admin.service.PrivilegeService;
+import com.databps.bigdaf.admin.service.SettingsService;
+import com.databps.bigdaf.admin.vo.ConfigVo;
 import com.databps.bigdaf.admin.vo.GatewayUserVo;
 import com.databps.bigdaf.admin.web.controller.base.BaseController;
 import com.databps.bigdaf.core.message.ResponseJson;
@@ -30,27 +32,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping(value = "/authority/hdfs/strategy")
 public class StrategyController extends BaseController{
-  @Autowired
-  private GatewayUserService hdpAppUserService;
 
   @Autowired
-  private PrivilegeService privilegeService;
-
-  @Autowired
-  private PolicyService policyService;
+  private SettingsService settingsService;
 
   @RequestMapping(value = "/list")
   @Secured(AuthoritiesConstants.ADMIN)
-  public String listUser(@RequestParam(required = false) String name,Model model) {
-    Policy policy = policyService.findStrategy("hdfs");
-    model.addAttribute("policy", policy);
+  public String listUser(Model model) {
+    ConfigVo vo = settingsService.findStrategy();
+    model.addAttribute("vo", vo);
     return "strategy/list";
   }
 
   @ResponseBody
   @RequestMapping(value = "/edit", method = RequestMethod.POST)
-  public ResponseJson save(@Valid Policy policy) {
-    policyService.editStrategy(policy);
+  public ResponseJson save(@Valid ConfigVo vo) {
+    settingsService.editStrategy(vo,"hdfs");
     return responseMsg(0);
   }
 }

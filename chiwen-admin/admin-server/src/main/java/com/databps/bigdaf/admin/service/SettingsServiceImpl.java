@@ -39,4 +39,30 @@ public class SettingsServiceImpl implements SettingsService {
     Config config = configDao.findConfig(cmpyId);
     return configMapper.toVO(config);
   }
+
+  @Override
+  public ConfigVo findStrategy() {
+    Config config = configDao.findStrategy();
+    return configMapper.toVO(config);
+  }
+
+  @Override
+  public void editStrategy(ConfigVo configVo,String part) {
+    //Config config = configMapper.toEntity(configVo);
+    Config config = configDao.findStrategy();
+    ConfigVo vos = configMapper.toVO(config);
+    if(part=="hdfs"){
+      vos.setHdfs_strategy(configVo.getHdfs_strategy());
+    }
+    else if (part=="hbase"){
+      vos.setHbase_strategy(configVo.getHbase_strategy());
+    }
+    else if (part=="gateway"){
+      vos.setGateway_strategy(configVo.getGateway_strategy());
+    }
+    else if (part=="hive"){
+      vos.setHive_strategy(configVo.getHive_strategy());
+    }
+    configDao.editStrategy(configMapper.toEntity(vos));
+  }
 }
