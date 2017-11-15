@@ -17,7 +17,7 @@ public class ChiWenPolicyPluginVo implements java.io.Serializable{
   private Long lastVersion=1L;
   private String updateTime;
   private Boolean isEnabled;
-  private Boolean isAudited;
+  private Boolean isAudited=true;
 
   private List<ChiWenPrivilege> privileges=new ArrayList<>();
 

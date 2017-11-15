@@ -14,7 +14,7 @@ public class HivePolicyVo {
   private Long lastVersion=1L;
   private String updateTime;
   private Boolean isEnabled;
-  private Boolean isAudited;
+  private Boolean isAudited=true;
 
   public Boolean getAudited() {
     return isAudited;
