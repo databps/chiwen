@@ -49,7 +49,7 @@ public class HttpAuditProvider extends BaseAuditProvider {
 
     try {
       String eventStr = gson.toJson(event);
-      WebResource resource = restClient.getResource("/api/audits");
+      WebResource resource = restClient.getResource("/api/v2/audits");
 
       ClientResponse response = resource.entity(eventStr).type(MediaType.APPLICATION_JSON_TYPE)
           .post(ClientResponse.class);//queryParam只能传key-value都是string类型

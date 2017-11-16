@@ -24,26 +24,26 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping(value = "/api")
-public class AuditApiController extends BaseController{
+public class AuditApiController extends BaseController {
 
   private static final Log LOG = LogFactory.getLog(AuditApiController.class);
   @Autowired
   private AuditService auditService;
 
 
-  @RequestMapping(value = "/audits", method = RequestMethod.POST)
+  @RequestMapping(value = "/v2/audits", method = RequestMethod.POST)
   @ResponseBody
-  public ResponseJson logAudit(@RequestBody AuditVo auditVo, HttpServletRequest httpServletRequest) {
+  public ResponseJson logAudit(@RequestBody AuditVo auditVo,
+      HttpServletRequest httpServletRequest) {
 
-    String	cmpyId = "5968802a01cbaa46738eee3d";
+    String cmpyId = "5968802a01cbaa46738eee3d";
     auditVo.setCmpyId(cmpyId);
     String ip = RequestIPUtil.getRemoteIp(httpServletRequest);
     auditVo.setPluginIp(ip);
     auditService.AuditLog(auditVo);
-    LOG.info("audit log  info == "+auditVo.toString());
+    LOG.info("audit log  info == " + auditVo.toString());
     return responseMsg(0);
   }
-
 
 
 }
