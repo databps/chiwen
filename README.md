@@ -25,11 +25,11 @@ chiwen 是由《北京观数科技有限公司》开发的一款大数据生态�
  <value>com.databps.bigdaf.chiwen.plugin.ChiWenHdfsAuthorizer</value>
 </property>
 
-5)修改hadoop.env.sh
+4)修改hadoop.env.sh
 增加如下内容：
 export ADMIN_URL="https://xxx.xxx.xxx.xxx:8085”(xxx.xxx.xxx.xxx 是chiwen管理平台部署地址)
 
-6)选择配置 
+5)选择配置 
 <property>
   <name>hadoop.http.staticuser.user</name>
   <value>hdfs</value>
