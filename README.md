@@ -14,58 +14,28 @@ Big Data Application Firewall
 2）把hdfs-agent-0.1.0.jar plugins-common-0.1.0.jar 放在/hadoop-2.7.1/share/hadoop/common目录下
 3)配置hdfs-site.xml
 
-<property>
-<name>dfs.permissions.enabled</name>
-<value>true</value>
-</property>
-<property>
-   <name>dfs.namenode.inode.attributes.provider.class</name>
- <value>com.databps.bigdaf.chiwen.plugin.ChiWenHdfsAuthorizer</value>
-</property>
+dfs.permissions.enabled 设置为true
+dfs.namenode.inode.attributes.provider.class配置为
+com.databps.bigdaf.chiwen.plugin.ChiWenHdfsAuthorizer
+
 
 4)修改hadoop.env.sh
 增加如下内容：
 export ADMIN_URL="https://xxx.xxx.xxx.xxx:8085”(xxx.xxx.xxx.xxx 是chiwen管理平台部署地址)
 
-5)选择配置 
-<property>
-  <name>hadoop.http.staticuser.user</name>
-  <value>hdfs</value>
-</property>
-
-<property>
- <name>dfs.permissions.superusergroup</name>
- <value>hdfs</value>
-</property>
 
 2.hbase配置流程
 
 1)下载源代码用maven编译生成hbase-plugin-0.1.0.jar plugins-common-0.1.0.jar
 2)把hbase-plugin-0.1.0.jar plugins-common-0.1.0.jar 放在/hbase-1.2.1/lib目录里面
 3)配置hbase-site.xml
-<property>
-   <name>hbase.security.authorization</name>
-  <value>true</value>
- </property>
-<property>
-   <name>hbase.superuser</name>
-   <value>hbase</value>
-  </property>
+hbase.security.authorization设置为true
 
-<property>
-   <name>hbase.coprocessor.master.classes</name>
-   <value>com.databps.bigdaf.chiwen.plugin.ChiWenAuthorizationCoprocessor</value>
-  </property>
+hbase.coprocessor.master.classes配置为
+com.databps.bigdaf.chiwen.plugin.ChiWenAuthorizationCoprocessor
 
-  <property>
-  <name>hbase.coprocessor.region.classes</name>
-   <value>org.apache.hadoop.hbase.security.access.SecureBulkLoadEndpoint,com.databps.bigdaf.chiwen.plugin.ChiWenAuthorizationCoprocessor</value>
-  </property>
-
-  <property>
-   <name>hbase.coprocessor.regionserver.classes</name>
-   <value>com.databps.bigdaf.chiwen.plugin.ChiWenAuthorizationCoprocessor</value>
-  </property>
+hbase.coprocessor.regionserver.classes配置为
+com.databps.bigdaf.chiwen.plugin.ChiWenAuthorizationCoprocessor
 
 
 4)配置 hbase-env.sh
