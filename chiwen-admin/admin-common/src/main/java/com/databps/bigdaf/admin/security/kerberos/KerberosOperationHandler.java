@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -587,7 +588,7 @@ public abstract class KerberosOperationHandler {
 
     // Create a temporary file
     try {
-      tempFile = File.createTempFile("temp", ".dat");
+      tempFile = Files.createTempFile("temp", ".dat").toFile();
     } catch (IOException e) {
       LOG.error(String.format("Failed to create temporary keytab file: %s", e.getLocalizedMessage()), e);
     }
